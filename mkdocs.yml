@@ -1,0 +1,81 @@
+# mkdocs serve
+
+site_name: MAS Airgap Collection
+site_url: https://ibm-mas.github.io/ansible-airgap
+
+repo_name: GitHub
+repo_url: https://github.com/ibm-mas/ansible-airgap
+edit_uri: blob/master/docs/
+
+nav:
+  - 'TBD define all this': index.md
+  - 'Home': index.md
+  - 'Full Stack Playbooks':
+    - 'IBM Cloud': playbooks/fullstack-roks.md
+  - 'Lite Playbooks':
+    - 'Core only on IBM Cloud': playbooks/lite-core-roks.md
+    - 'Core only on QuickBurn': playbooks/lite-core-quickburn.md
+    - 'Health on IBM Cloud': playbooks/lite-health-roks.md
+    - 'Manage on IBM Cloud': playbooks/lite-manage-roks.md
+  - 'Other Playbooks':
+    - 'OCP Playbooks': playbooks/ocp.md
+    - 'Dependencies Playbooks': playbooks/dependencies.md
+    - 'CP4D Playbooks': playbooks/cp4d.md
+    - 'MAS Playbooks': playbooks/mas.md
+    - 'SLS Playbook': playbooks/sls.md
+    - 'BAS Playbook': playbooks/bas.md
+  - 'Roles':
+    - 'airgap_install_case': roles/airgap_install_case.md
+    - 'airgap_mirror_case': roles/airgap_mirror_case.md
+    - 'airgap_prepare_case': roles/airgap_prepare_case.md
+    - 'amqstreams': roles/amqstreams.md
+    - 'bas_install': roles/bas_install.md
+    - 'cp4d_db2wh': roles/cp4d_db2wh.md
+    - 'cp4d_db2wh_manage_hack': roles/cp4d_db2wh_manage_hack.md
+    - 'cp4d_install': roles/cp4d_install.md
+    - 'cp4d_install_services': roles/cp4d_install_services.md
+    - 'fvt_simulate_airgap': roles/fvt_simulate_airgap.md
+    - 'install_operator': roles/install_operator.md
+    - 'mongodb': roles/mongodb.md
+    - 'ocp_deprovision': roles/ocp_deprovision.md
+    - 'ocp_login': roles/ocp_login.md
+    - 'ocp_provision': roles/ocp_provision.md
+    - 'ocp_setup_github_oauth': roles/ocp_setup_github_oauth.md
+    - 'ocp_setup_mas_deps': roles/ocp_setup_mas_deps.md
+    - 'ocp_setup_ocs': roles/ocp_setup_ocs.md
+    - 'sls_install': roles/sls_install.md
+    - 'suite_app_configure': roles/suite_app_configure.md
+    - 'suite_app_install': roles/suite_app_install.md
+    - 'suite_config': roles/suite_config.md
+    - 'suite_dns': roles/suite_dns.md
+    - 'suite_install': roles/suite_install.md
+    - 'suite_verify': roles/suite_verify.md
+
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - yaml
+  prev_next_buttons_location: none
+extra_css:
+  - extra.css
+markdown_extensions:
+  - toc:
+      permalink: 
+  - admonition
+  # Add this to support expandable sections
+  #- pymdownx.details
+
+# https://squidfunk.github.io/mkdocs-material/extensions/admonition/
+# Note
+# Abstract
+# Info
+# Tip
+# Success
+# Question
+# Warning
+# Failure
+# Danger
+# Bug
+# Example
+# Quote

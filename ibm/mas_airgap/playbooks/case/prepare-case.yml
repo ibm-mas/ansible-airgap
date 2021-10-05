@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  vars:
+    debugs: "registryHosts,mirrorImageResult,configureClusterResult"
+
+  roles:
+    - ibm.mas_airgap.airgap_prepare_case
