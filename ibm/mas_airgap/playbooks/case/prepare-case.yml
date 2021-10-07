@@ -4,4 +4,4 @@
     debugs: "registryHosts,mirrorImageResult,configureClusterResult"
 
   roles:
-    - ibm.mas_airgap.airgap_prepare_case
+    - ibm.mas_airgap.case_prepare

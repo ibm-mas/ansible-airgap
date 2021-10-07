@@ -4,7 +4,7 @@
 
 # 1. Deploy & configure the cluster
 # -----------------------------------------------------------------------------
-- name: Deploy & configure quickburn cluster in IBM Cloud
+- name: Deploy & configure quickburn cluster in Fyre
   import_playbook: ocp/provision-quickburn.yml
 
 # 2. Install MongoDb
@@ -38,7 +38,34 @@
 #    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
 
 
-# 5. Install SLS
+
+# 5. Install & configure MAS
+# Temporary hack for Manage, because the operator is missing critical
+# database configuration that requires manual intervention to set up.
+#- name: Db2 configuration hack for Manage
+#  import_playbook: mas/hack-manage-db2.yml
+#  vars:
+    # Ensure these are kept in sync with the values used in cp4d/install-db2.yml
+#    cpd_meta_namespace: cpd-meta-ops
+#    db2wh_username: db2inst1
+#    db2wh_dbname: BLUDB
+    # TODO: The default that is built into the manage operator isn't following
+    # the naming conventions for MAS.  It should have been some combination of
+    # {{mas_instance_id}} {{mas_app_id}} and {{mas_workspace_id}} so that it's
+    # friendly to shared database sources in low cost environments, and easily
+    # templateable in automation such as this :(
+#    db2wh_schema: maximo
+
+
+# 6. Install & configure MAS
+# -----------------------------------------------------------------------------
+- name: Install & configure MAS
+  import_playbook: mas/install-suite.yml
+  vars:
+    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
+    airgap_install: true
+
+# 7. Install SLS
 # -----------------------------------------------------------------------------
 - name: Install SLS
   import_playbook: sls/install-sls.yml
@@ -60,32 +87,6 @@
       registration_key: "{{ lookup('env', 'SLS_REGISTRATION_KEY') | default('', true) }}"
       entitlement_file: "{{mas_config_dir}}/entitlement.lic"
 
-
-# 6. Install & configure MAS
-# Temporary hack for Manage, because the operator is missing critical
-# database configuration that requires manual intervention to set up.
-#- name: Db2 configuration hack for Manage
-#  import_playbook: mas/hack-manage-db2.yml
-#  vars:
-    # Ensure these are kept in sync with the values used in cp4d/install-db2.yml
-#    cpd_meta_namespace: cpd-meta-ops
-#    db2wh_username: db2inst1
-#    db2wh_dbname: BLUDB
-    # TODO: The default that is built into the manage operator isn't following
-    # the naming conventions for MAS.  It should have been some combination of
-    # {{mas_instance_id}} {{mas_app_id}} and {{mas_workspace_id}} so that it's
-    # friendly to shared database sources in low cost environments, and easily
-    # templateable in automation such as this :(
-#    db2wh_schema: maximo
-
-
-# 7. Install & configure MAS
-# -----------------------------------------------------------------------------
-- name: Install & configure MAS
-  import_playbook: mas/install-suite.yml
-  vars:
-    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
-    airgap_install: true
 
 # 8. Install & Configure Manage application
 # -----------------------------------------------------------------------------

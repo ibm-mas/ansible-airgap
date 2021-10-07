@@ -1,4 +1,4 @@
-# MAS Devops Ansible Collection
+# MAS Air Garp Install Ansible Collection
 
 ## Requirements
 
@@ -37,10 +37,10 @@ If you do not already have the `oc` command line tool, you can download the vers
 
 
 ## Installation
-Install the collection direct from [Ansible Galaxy](https://galaxy.ansible.com/ibm/mas_devops)
+Install the collection direct from [Ansible Galaxy](https://galaxy.ansible.com/ibm/mas_airgap)
 
 ```
-ansible-galaxy collection install ibm.mas_devops
+ansible-galaxy collection install ibm.mas_airgap
 ```
 
 ## Change Log

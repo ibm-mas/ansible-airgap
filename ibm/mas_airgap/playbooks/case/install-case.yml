@@ -12,8 +12,7 @@
     case_archive_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}/archive"
     case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
     # Airgap control parameters:
-    catalog_type: development
     debugs: "_oc_status,installOperatorResult"
 
   roles:
-    - ibm.mas_airgap.airgap_install_case
+    - ibm.mas_airgap.case_install

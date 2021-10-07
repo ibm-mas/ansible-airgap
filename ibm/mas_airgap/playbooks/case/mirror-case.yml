@@ -7,9 +7,7 @@
     username: "{{ lookup('env', 'FYRE_USERNAME') }}"
     password: "{{ lookup('env', 'FYRE_APIKEY') }}"
     # Airgap control parameters:
-    check_network: "{{ lookup('env', 'CHECK_NETWORK') | default('true', true)}}"
     target_namespace: test-airgap # used as a DNS-1123 label so it must consist of lower case alphanumeric characters or hyphens
-    catalog_type: development
     debugs: "registryHosts,mirrorImageResult,configureClusterResult"
     ignoreMirrorError: false
     cp_icr_entitlement: "{{ lookup('env', 'CP_ICR_ENTITLEMENT_KEY') }}"
@@ -20,4 +18,4 @@
         password: "{{ lookup('env', 'CP_ICR_ENTITLEMENT_KEY') }}"
 
   roles:
-    - ibm.mas_airgap.airgap_mirror_case
+    - ibm.mas_airgap.case_mirror

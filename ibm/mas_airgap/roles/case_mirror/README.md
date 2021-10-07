@@ -1,4 +1,4 @@
-airgap_mirror_case
+case_mirror
 ==================
 
 This role uses the specifed CASE bundle to mirror container images to a mirror registry and configure the cluster to pull images from this mirror.
@@ -20,6 +20,10 @@ $ tree $DEV_AIRGAP_CHANGES
                     └── image-map.yaml
 ```
 
+Requirements
+------------
+- `cloudctl` tool must be installed
+
 
 Role Variables
 --------------
@@ -33,10 +37,13 @@ Role Variables
 - `case_archive_dir` the location to store cloudctl working files, typically `./archive` under the `case_bundle_dir`
 - `case_inventory_name`:` the name of the Setup inventory within the CASE bundle
 - `target_namespace` the namespace targetted for airgap installation
-- `catalog_type` development | production
 - `cp_icr_entitlement` the entitlement key for mirroring container images from cp.icr.io
 - `registries` list of entries, each with `host`, `user` and `password`, credentials for each registry listed in the CASE bundle to allow image mirroring
-
+#### Target Registry
+- `registryPublicHost` the public hostname for the target registry (defaults to the value of the REGISTRY_PUBLIC_HOST environment variable)
+- `registryFromCluster` the hostname for the target registry as it can be reached from the cluster (defaults to the value of the REGISTRY_FROM_CLUSTER environment variable)
+- `registryUsername` the username for the target registry (defaults to the value of the REGISTRY_USERNAME environment variable)
+- `registryPassword` the password for the target registry (defaults to the value of the REGISTRY_PASSWORD environment variable)
 #### Optional facts
 - `debugs`: comma separated string of debug output to print
 - `dev_overrides` a directory containing development specific files to override the production CASE bundle
@@ -49,32 +56,35 @@ Example Playbook
 - hosts: localhost
   vars:
     # General configuration
-    cluster_name: "{{ lookup('env', 'CLUSTER_NAME') }}"
+    cluster_name: "airgap-cluster"
     cluster_type: quickburn
     username: "{{ lookup('env', 'FYRE_USERNAME') }}"
     password: "{{ lookup('env', 'FYRE_APIKEY') }}"
 
     # Case config
-    case_name: "{{ lookup('env', 'CASE_NAME') }}"
-    case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"
-    case_archive_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}/archive"
-    case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
+    case_name: "ibm-mas"
+    case_bundle_dir: "~/ibm-mas-bundle/"
+    case_archive_dir: "~/ibm-mas-bundle/archive"
+    case_inventory_name: "ibmMasSetup"
 
     # Airgap control parameters:
-    check_network: "{{ lookup('env', 'CHECK_NETWORK') | default('true', true)}}"
     target_namespace: test-airgap # used as a DNS-1123 label so it must consist of lower case alphanumeric characters or hyphens
-    catalog_type: development
     debugs: "registryHosts,mirrorImageResult,configureClusterResult"
     ignoreMirrorError: false
     cp_icr_entitlement: "{{ lookup('env', 'CP_ICR_ENTITLEMENT_KEY') }}"
-    dev_overrides: "{{ lookup('env', 'DEV_AIRGAP_CHANGES') }}"
+    dev_overrides: "~/ibm-mas-bundle-changes/"
+    # Source registries (where the images come from):
     registries:
       - host: cp.icr.io
         user: cp
         password: "{{ lookup('env', 'CP_ICR_ENTITLEMENT_KEY') }}"
-
+    # Target registry (where the images will be mirrored):
+    registryPublicHost: "docker-registry.apps.airgap-test.cp.fyre.ibm.com"
+    registryFromCluster: "docker-registry.docker-registry.svc:5000"
+    registryUsername: "registryUser"
+    registryPassword: "registryPassword"
   roles:
-    - ibm.mas_devops.airgap_mirror_case
+    - ibm.mas_airgap.case_mirror
 ```
 
 License

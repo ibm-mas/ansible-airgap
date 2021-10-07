@@ -20,17 +20,17 @@
 - name: "Fail if case_name is not provided"
   when: case_name is not defined or case_name == ""
   fail:
-    msg: "case_name property is required"
+    msg: "case_name property is required, pass the ansible variable or set CASE_NAME environment variable"
 
 - name: "Fail if case_bundle_dir is not provided"
   when: case_bundle_dir is not defined or case_bundle_dir == ""
   fail:
-    msg: "case_bundle_dir property is not required"
+    msg: "case_bundle_dir property is required, pass the ansible variable or set CASE_BUNDLE_DIR environment variable"
 
 - name: "Fail if case_inventory_name is not provided"
   when: case_inventory_name is not defined or case_inventory_name == ""
   fail:
-    msg: "case_inventory_name is required"
+    msg: "case_inventory_name is required, pass the ansible variable or set CASE_INV_NAME environment variable"
 
 - name: "Fail if Registry host name is not provided"
   when: registryPublicHost is not defined or registryPublicHost == ""
@@ -98,7 +98,7 @@
   include_tasks: "tasks/set-registry-credentials.yml"
 
 - name: Setup Internal Registry specifics
-  include_tasks: "tasks/setup_for_internal_registry.yml"
+  include_tasks: "tasks/setup-for-internal-registry.yml"
   when:
     - use_internal_registry is defined
     - use_internal_registry
@@ -130,7 +130,7 @@
         --dryRun true \
         "
   register: mirrorImageDryRunResult
-  ignore_errors: "{{ ignoreMirrorError }}"
+  ignore_errors: "{{ ignoreMirrorError | default(false, true) }}"
   # if USE_SKOPEO flag is set, the command doesn't perform a dry run
   when: lookup('env', 'USE_SKOPEO') != 'True'
 
@@ -157,7 +157,7 @@
   # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
   retries: 10
   until: mirrorImageResult['rc'] == 0 or mirrorImageResult['stdout'] is not search('504 Gateway Time', multiline=True)
-  ignore_errors: "{{ ignoreMirrorError }}"
+  ignore_errors: "{{ ignoreMirrorError | default(false, true) }}"
 
 - name: Debug
   debug:

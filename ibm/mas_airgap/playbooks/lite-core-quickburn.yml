@@ -7,22 +7,22 @@
 - name: Deploy QuickBurn cluster in Fyre
   import_playbook: ocp/provision-quickburn.yml
 
-- name: Login & configure OCP cluster
-  import_playbook: ocp/configure-ocp.yml
-  vars:
-    cluster_type: quickburn
-    username: "{{ lookup('env', 'FYRE_USERNAME') }}"
-    password: "{{ lookup('env', 'FYRE_APIKEY') }}"
-
-
 # # 2. Install MongoDb
 # # -----------------------------------------------------------------------------
-- name: Install MongoDb (Community Edition)
-  import_playbook: dependencies/install-mongodb-ce.yml
-  vars:
-    mongodb_storage_class: ocs-storagecluster-ceph-rbd
-    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
+#- name: Install MongoDb (Community Edition)
+#  import_playbook: dependencies/install-mongodb-ce.yml
+#  vars:
+#    mongodb_storage_class: ocs-storagecluster-ceph-rbd
+#    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
 
+
+# 6. Install & configure MAS
+# -----------------------------------------------------------------------------
+- name: Install & configure MAS
+  import_playbook: mas/install-suite.yml
+  vars:
+    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
+    airgap_install: true
 
 # 3. Install SLS
 # -----------------------------------------------------------------------------
@@ -30,6 +30,7 @@
   import_playbook: sls/install-sls.yml
   vars:
     sls_storage_class: ocs-storagecluster-ceph-rbd
+    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
     # Default to re-using the MAS entitlement key if we do not provide a specific one for SLS
     sls_entitlement_username: "{{ lookup('env', 'SLS_ENTITLEMENT_USERNAME') | default('cp', true) }}"
     sls_entitlement_key: "{{ lookup('env', 'SLS_ENTITLEMENT_KEY') | default(lookup('env', 'IBM_ENTITLEMENT_KEY'), true) }}"
@@ -43,22 +44,3 @@
       license_id: "{{ lookup('env', 'SLS_LICENSE_ID') | default('', true) }}"
       registration_key: "{{ lookup('env', 'SLS_REGISTRATION_KEY') | default('', true) }}"
       entitlement_file: "{{mas_config_dir}}/entitlement.lic"
-
-
-# 5. Perform Airgap Install if required
-# -----------------------------------------------------------------------------
-- name: Airgap Install
-  import_playbook: airgap/airgap-install.yml
-  vars:
-    use_internal_registry: true
-    configure_network: true
-    # don't copy images from these apps
-    excludeImages: "ibm-mas-assist,ibm-mas-hputilities,ibm-mas-iot,ibm-mas-manage,ibm-mas-monitor,ibm-mas-predict,ibm-mas-safety,ibm-mas-visualinspection,ibm-sls"
-
-
-# 6. Install & configure MAS
-# -----------------------------------------------------------------------------
-- name: Install & configure MAS
-  import_playbook: mas/install-suite.yml
-  vars:
-    mas_config_dir: "{{ lookup('env', 'MAS_CONFIG_DIR') }}"
