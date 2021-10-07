@@ -9,8 +9,8 @@ COPY env.sh ${HOME}/env.sh
 USER root
 
 # Install Ansible Collections
-COPY ibm-mas_devops.tar.gz ${HOME}/ibm-mas_devops.tar.gz
-RUN ansible-galaxy collection install ${HOME}/ibm-mas_devops.tar.gz -p /opt/app-root/lib64/python3.8/site-packages/ansible_collections --force && \
+COPY ibm-mas_airgap.tar.gz ${HOME}/ibm-mas_airgap.tar.gz
+RUN ansible-galaxy collection install ${HOME}/ibm-mas_airgap.tar.gz -p /opt/app-root/lib64/python3.8/site-packages/ansible_collections --force && \
     ansible-galaxy collection install -r ${HOME}/requirements.yml -p /opt/app-root/lib64/python3.8/site-packages/ansible_collections
 RUN chmod -R ug+rwx ${HOME}/env.sh && \
     chmod -R ug+rwx ${HOME}/.ansible
