@@ -3,11 +3,8 @@ name: mas_airgap
 version: 1.0.0
 readme: README.md
 authors:
+  - Paul Stone <stonepd@uk.ibm.com>
   - David Parker <parkerda@uk.ibm.com>
-  - Paul Stone
-  - Tom Klapiscak
-  - Caio Pereira <caiofcp@br.ibm.com>
-  - Joao Paulo Karol Nunes
 description: MAS Air Gap Install Ansible Collection
 license:
   - EPL-2.0

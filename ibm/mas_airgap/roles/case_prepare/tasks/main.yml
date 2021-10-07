@@ -97,5 +97,5 @@
   register: excludeImagesResult
   loop: "{{ excludeImages.split(',') }}"
   when:
-  - excludeImages is defined
-  - excludeImages != ""
+    - excludeImages is defined
+    - excludeImages != ""

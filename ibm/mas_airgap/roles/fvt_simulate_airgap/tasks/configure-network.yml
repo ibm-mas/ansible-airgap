@@ -52,4 +52,4 @@
 - name: Wait for Machine Configs to update
   include_tasks: "tasks/wait-machine-config-update.yml"
   when:
-  - result.changed
+    - result.changed
