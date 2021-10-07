@@ -6,7 +6,7 @@
 cd ibm/mas_airgap
 
 TBD
-ansible-galaxy collection build --force && ansible-galaxy collection install ibm-mas_airgap-4.1.5.tar.gz -p /home/david/.ansible/collections --force
+ansible-galaxy collection build --force && ansible-galaxy collection install ibm-mas_airgap-1.0.0.tar.gz -p /home/david/.ansible/collections --force
 
 ansible-playbook ../../playbook.yml
 ```

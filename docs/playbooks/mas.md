@@ -27,13 +27,12 @@ Before you use this playbook you will likely want to edit the `mas_config` varia
 
 ### Example
 ```bash
+# Cluster configuration
+export CLUSTER_NAME=xxx
+
 # Fyre credentials
 export FYRE_USERNAME=xxx
 export FYRE_APIKEY=xxx
-export FYRE_PRODUCT_ID=225
-# Cluster configuration
-export CLUSTER_NAME=xxx
-export OCP_VERSION=4.6.38
 
 # MAS configuration
 export MAS_INSTANCE_ID=xxx
