@@ -92,6 +92,7 @@ fi
 # 2. Tweak version string for pre-release builds
 # -----------------------------------------------------------------------------
 if [[ "${GITHUB_REF_TYPE}" == "branch" ]]; then
+    echo "Base version: $(cat $VERSION_FILE)"
     semver bump prerel pre.$GITHUB_REF_NAME $(cat $VERSION_FILE) > $VERSION_FILE
     echo "Pre-release build: $(cat $VERSION_FILE)"
 fi
