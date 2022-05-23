@@ -1,1 +1,0 @@
-../../ibm/mas_airgap/roles/ocp_mirror_mas_deps/README.md
