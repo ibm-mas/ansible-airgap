@@ -61,15 +61,16 @@ else
 
     PATCH_COUNT=`grep -ciF '[patch]' $GITHUB_WORKSPACE/.changelog`
     echo "Patch commits : ${PATCH_COUNT}"
+
+    if [ "$MAJOR_COUNT" -gt "0" ]; then
+      SEMVER_RELEASE_LEVEL="major"
+    elif [ "$MINOR_COUNT" -gt "0" ]; then
+      SEMVER_RELEASE_LEVEL="minor"
+    elif [ "$PATCH_COUNT" -gt "0" ]; then
+      SEMVER_RELEASE_LEVEL="patch"
+    fi
   fi
 
-  if [ "$MAJOR_COUNT" -gt "0" ]; then
-    SEMVER_RELEASE_LEVEL="major"
-  elif [ "$MINOR_COUNT" -gt "0" ]; then
-    SEMVER_RELEASE_LEVEL="minor"
-  elif [ "$PATCH_COUNT" -gt "0" ]; then
-    SEMVER_RELEASE_LEVEL="patch"
-  fi
 
   echo "RELEASE LEVEL = ${SEMVER_RELEASE_LEVEL}"
   echo "${SEMVER_RELEASE_LEVEL}" > $GITHUB_WORKSPACE/.releaselevel
