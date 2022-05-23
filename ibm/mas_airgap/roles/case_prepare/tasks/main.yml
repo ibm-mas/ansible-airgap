@@ -2,31 +2,30 @@
 
 # 1. Check for undefined properties that do not have a default
 # -----------------------------------------------------------------------------
-- name: "Fail if case_name is not provided"
-  when: case_name is not defined or case_name == ""
-  fail:
-    msg: "case_name property is required"
+- name: "Fail if required properties are not provided"
+  assert:
+    that:
+      - case_name is defined and case_name != ""
+      - case_bundle_dir is defined and case_bundle_dir != ""
+      - case_inventory_name is defined and case_inventory_name != ""
+    fail_msg: "One or more required properties are not defined"
 
-- name: "Fail if case_bundle_dir is not provided"
-  when: case_bundle_dir is not defined or case_bundle_dir == ""
-  fail:
-    msg: "case_bundle_dir property is required"
 
-- name: "Fail if case_inventory_name is not provided"
-  when: case_inventory_name is not defined or case_inventory_name == ""
-  fail:
-    msg: "case_inventory_name is required"
-
+# 2. Check for required software
+# -----------------------------------------------------------------------------
 - name: "Test if cloudctl is installed"
   shell: cloudctl version
   register: _cloudctl_version
   ignore_errors: true
 
 - name: "Fail if cloudctl is not installed"
-  when: ( _cloudctl_version['rc'] != 0 )
-  fail:
-    msg: "cloudctl tool must be installed."
+  assert:
+    that: ( _cloudctl_version['rc'] == 0 )
+    fail_msg: "cloudctl tool must be installed."
 
+
+# 3. Debug
+# -----------------------------------------------------------------------------
 - name: "CASE configuration"
   debug:
     msg:
@@ -34,48 +33,54 @@
       - "Case Bundle Directory. {{ case_bundle_dir }}"
       - "Inventory Name........ {{ case_inventory_name }}"
 
-# 1. Download and Extract CASE Archive if case_source defines an online archive
-- name: "Empty CASE Directory"
-  ansible.builtin.file:
-    path: "{{ case_dir }}"
-    state: absent
-  vars:
-    case_dir: "{{ case_bundle_dir }}/case"
+
+# 4. Prepare the case directory
+# -----------------------------------------------------------------------------
+# 4.1 Delete the case sub-directory
+- name: "Empty CASE Directory ({{ case_dir }})"
   when:
     - case_source is defined
     - case_source is match("http.*\.tgz")
+  vars:
+    case_dir: "{{ case_bundle_dir }}/case"
+  ansible.builtin.file:
+    path: "{{ case_dir }}"
+    state: absent
 
-- name: "Create CASE Directory"
+# 4.2 (Re-)Create the case sub-directory
+- name: "Create CASE Directory ({{ case_dir }})"
+  vars:
+    case_dir: "{{ case_bundle_dir }}/case"
   ansible.builtin.file:
     path: "{{ case_dir }}"
     state: directory
-  vars:
-    case_dir: "{{ case_bundle_dir }}/case"
 
-- name: "Get CASE Archive"
+# 4.3 Download the CASE Archive
+- name: "Download CASE Archive to {{ case_bundle_dir }}"
+  when:
+    - case_source is defined
+    - case_source is match("http.*\.tgz")
   get_url:
     url: "{{ case_source }}"
     validate_certs: false
     dest: "{{ case_bundle_dir }}"
   register: _case_download
+
+# 4.4 Extract the CASE Archive from the bundle
+- name: "Extract CASE Archive to {{ case_bundle_dir }}/case"
   when:
     - case_source is defined
     - case_source is match("http.*\.tgz")
-
-- name: "Extract CASE Archive"
   shell: |
     tar -xzf "{{ _case_download.dest }}" -C "{{ case_dir }}"
   vars:
     case_dir: "{{ case_bundle_dir }}/case"
   register: _case_unzip
-  when:
-    - case_source is defined
-    - case_source is match("http.*\.tgz")
 
-# 4. Process CASE to configure image mirroring
-# ---------------------------------------------
 
-- name: Save Case
+# 5. Process CASE to configure image mirroring
+# -----------------------------------------------------------------------------
+- name: "Save Case to {{ case_archive_dir }}"
   shell: >
     cloudctl case save \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
@@ -85,17 +90,20 @@
 
 # If testing a development build, we need to modify the saved reference images (change to artifactory and set the digests etc).
 - name: Configure Case for Development
-  include_tasks: "tasks/setup-development-airgap.yml"
   when:
     - dev_overrides is defined
     - not dev_overrides == ""
+  include_tasks: "tasks/setup-development-airgap.yml"
 # TBD - It would be nicer to set up case resolvers to have the same effect.
 
+
+# 6. Remove excluded images
+# -----------------------------------------------------------------------------
 # Some CASE bundles (e.g. ibm-mas) define images that we don't want to mirror, so delete the excluded image files.
 - name: Delete excluded images
-  shell: rm {{ case_archive_dir }}/{{item}}*-images.csv
-  register: excludeImagesResult
-  loop: "{{ excludeImages.split(',') }}"
   when:
     - excludeImages is defined
     - excludeImages != ""
+  shell: rm {{ case_archive_dir }}/{{item}}*-images.csv
+  register: excludeImagesResult
+  loop: "{{ excludeImages.split(',') }}"
