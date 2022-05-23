@@ -1,1 +1,0 @@
-../../ibm/mas_airgap/roles/case_prepare/README.md

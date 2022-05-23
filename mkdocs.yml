@@ -9,22 +9,8 @@ edit_uri: blob/master/docs/
 
 nav:
   - 'Home': index.md
-  - 'Full Stack Playbooks':
-    - 'IBM Cloud': playbooks/fullstack-quickburn.md
-  - 'Lite Playbooks':
-    - 'Core only on QuickBurn': playbooks/lite-core-quickburn.md
-  - 'Other Playbooks':
-    - 'CASE Bundle Playbooks': playbooks/case.md
-    - 'FVT Environment Playbook': playbooks/fvt.md
-    - 'MAS Playbook': playbooks/mas.md
-    - 'OCP Playbook': playbooks/ocp.md
-    - 'SLS Playbook': playbooks/sls.md
   - 'Roles':
-    - 'case_install': roles/case_install.md
-    - 'case_mirror': roles/case_mirror.md
-    - 'case_prepare': roles/case_prepare.md
-    - 'fvt_simulate_airgap': roles/fvt_simulate_airgap.md
-    - 'ocp_mirror_mas_deps': roles/ocp_mirror_mas_deps.md
+    - 'registry': roles/registry.md
 
 theme:
   name: readthedocs

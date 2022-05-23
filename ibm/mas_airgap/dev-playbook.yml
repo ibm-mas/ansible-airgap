@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  any_errors_fatal: true
+
+  # Add roles you want to test here ...
+  roles:
+    - registry
