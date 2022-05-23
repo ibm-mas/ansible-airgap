@@ -9,7 +9,6 @@
       - case_bundle_dir is defined and case_bundle_dir != ""
       - case_inventory_name is defined and case_inventory_name != ""
       - registry_public_host is defined and registry_public_host != ""
-      - case_name is defined and case_name != ""
       - ibm_entitlement_key is defined and ibm_entitlement_key != ""
     fail_msg: "One or more required properties are missing"
 
@@ -61,7 +60,8 @@
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
       --tolerance 1 \
-      --args "--registry {{ registry_public_host }} --inputDir {{ case_archive_dir }} --skipDelta true --dryRun true"
+      --args "--registry {{ registry_public_host }} --inputDir {{ case_archive_dir }} --skipDelta true --dryRun true" \
+    | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}-dryrun.log
   register: dryrun_result
   # if USE_SKOPEO flag is set, the command doesn't perform a dry run
   when: lookup('env', 'USE_SKOPEO') != 'True'
@@ -74,17 +74,20 @@
 # 5. Execute the Mirror
 # -----------------------------------------------------------------------------
 - name: Mirror Images
+  when: not mirror_dry_run_only
   shell: >
     cloudctl case launch --action mirror-images \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
       --tolerance 1 \
-      --args "--registry {{ registry_public_host }} --inputDir {{ case_archive_dir }} --skipDelta true"
+      --args "--registry {{ registry_public_host }} --inputDir {{ case_archive_dir }} --skipDelta true" \
+    | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
   # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
   until: mirror_result['rc'] == 0 or mirror_result['stdout'] is not search('504 Gateway Time', multiline=True)
   retries: 10
 
 - name: "Debug Mirror"
+  when: not mirror_dry_run_only
   debug:
     msg: "{{ mirror_result.stdout_lines }}"

@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  vars:
+    case_name: ibm-cp-common-services
+    case_source: https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-cp-common-services/1.9.0/ibm-cp-common-services-1.9.0.tgz?raw=true
+    case_bundle_dir: /tmp/casebundle-common-services
+    exclude_images:
+      - ibm-auditlogging
+      - ibm-cpp
+      - ibm-cs-commonui
+      - ibm-cs-healthcheck
+      - ibm-cs-iam
+      - ibm-cs-mongodb
+      - ibm-cs-monitoring
+      - ibm-events-operator
+      - ibm-management-ingress
+      - ibm-platform-api-operator
+      - ibm-zen
+    case_inventory_name: "ibmCommonServiceOperatorSetup"
+    registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
+
+    mirror_dry_run_only: false
+
+  pre_tasks:
+    # For the full set of supported environment variables refer to the playbook documentation
+    - name: Check for required environment variables
+      assert:
+        that:
+          - lookup('env', 'REGISTRY_PUBLIC_HOST') != ""
+        fail_msg: "One or more required environment variables are not defined"
+
+  roles:
+    - case_prepare
+    - case_mirror

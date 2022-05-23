@@ -31,11 +31,8 @@ Role Variables
 - `case_name` the name of the CASE bundle to be installed
 - `case_bundle_dir` the location of the CASE bundle
 - `case_archive_dir` the location to store cloudctl working files, typically `./archive` under the `case_bundle_dir`
-- `case_inventory_name`:` the name of the Setup inventory within the CASE bundle
-#### Optional facts
 - `case_source` Optional URL of the case bundle archive to download  must be .tgz format
 - `dev_overrides` a directory containing development specific files to override the production CASE bundle
-- `debugs`: comma separated string of debug output to print
 
 
 Example Playbook
@@ -44,14 +41,9 @@ Example Playbook
 ```yaml
 - hosts: localhost
   vars:
-    # Case config
     case_name: "ibm-mas"
-    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas/8.5.0/ibm-mas-8.5.0.tgz?raw=true"
-    case_bundle_dir: "~/ibm-mas-bundle/"
-    case_archive_dir: "~/ibm-mas-bundle/archive"
-    case_inventory_name: "ibmMasSetup"
-    debugs: "registryHosts,mirrorImageResult,configureClusterResult"
-    dev_overrides: "~/ibm-mas-bundle-changes/"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas/8.7.2/ibm-mas-8.7.2.tgz?raw=true"
+    case_bundle_dir: "/tmp/ibm-mas-bundle/"
 
   roles:
     - ibm.mas_airgap.case_prepare

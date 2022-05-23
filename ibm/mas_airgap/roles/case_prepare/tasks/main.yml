@@ -7,7 +7,6 @@
     that:
       - case_name is defined and case_name != ""
       - case_bundle_dir is defined and case_bundle_dir != ""
-      - case_inventory_name is defined and case_inventory_name != ""
     fail_msg: "One or more required properties are not defined"
 
 
@@ -31,7 +30,6 @@
     msg:
       - "Case Name ............ {{ case_name }}"
       - "Case Bundle Directory. {{ case_bundle_dir }}"
-      - "Inventory Name........ {{ case_inventory_name }}"
 
 
 # 4. Prepare the case directory
@@ -99,11 +97,12 @@
 
 # 6. Remove excluded images
 # -----------------------------------------------------------------------------
-# Some CASE bundles (e.g. ibm-mas) define images that we don't want to mirror, so delete the excluded image files.
+# Some CASE bundles define images that we don't want to mirror, so delete the excluded image files.
 - name: Delete excluded images
   when:
-    - excludeImages is defined
-    - excludeImages != ""
-  shell: rm {{ case_archive_dir }}/{{item}}*-images.csv
+    - exclude_images is defined
+    - exclude_images | length > 0
+  shell: rm {{ case_archive_dir }}/{{ item }}*-images.csv
   register: excludeImagesResult
-  loop: "{{ excludeImages.split(',') }}"
+  #loop: "{{ excludeImages.split(',') }}"
+  loop: "{{ exclude_images }}"
