@@ -1,0 +1,63 @@
+---
+
+- name: "Get cluster subdomain"
+  kubernetes.core.k8s_info:
+    api_version: config.openshift.io/v1
+    kind: Ingress
+    name: cluster
+  register: cluster_subdomain
+
+- name: "Create internal CA certificate issuer"
+  kubernetes.core.k8s:
+    apply: yes
+    template: 'templates/certs/ca_issuer.yml.j2'
+  register: createCaIssuer
+
+- name: "Create and wait for CA certificate"
+  kubernetes.core.k8s:
+    apply: yes
+    template: 'templates/certs/ca_certificate.yml.j2'
+    wait: yes
+    wait_timeout: 600 #10 minutes
+    wait_condition:
+      type: Ready
+      status: True
+  register: createCaCert
+
+- name: "Create certificate issuer"
+  kubernetes.core.k8s:
+    apply: yes
+    template: 'templates/certs/issuer.yml.j2'
+  register: createIssuer
+
+- name: "Create db2u certificate"
+  kubernetes.core.k8s:
+    apply: yes
+    template: 'templates/certs/certificate.yml.j2'
+  register: createCertificate
+
+
+
+# 1. Create the deployment
+# -----------------------------------------------------------------------------
+- name: "Configure storage classes"
+  include_tasks: tasks/determine-storage-classes.yml
+
+- name: "Create Namespace"
+  kubernetes.core.k8s:
+    template: 'templates/namespace.yml.j2'
+
+- name: "Create PVC"
+  kubernetes.core.k8s:
+    template: 'templates/pvc.yml.j2'
+
+- name: "Create Deployment"
+  kubernetes.core.k8s:
+    template: 'templates/deployment.yml.j2'
+
+
+# 2. Set up service
+# -----------------------------------------------------------------------------
+- name: "Create Service"
+  kubernetes.core.k8s:
+    template: "templates/service-{{ registry_service_type }}.yml.j2"
