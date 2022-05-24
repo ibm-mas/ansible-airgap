@@ -8,6 +8,6 @@ case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"
 case_archive_dir: "{{ case_bundle_dir }}/archive"
 case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
 
-ibm_entitlement_key: "{{ lookup('env', 'CPD_ENTITLEMENT_KEY') }}"
+ibm_entitlement_key: "{{ lookup('env', 'IBM_ENTITLEMENT_KEY') }}"
 
 mirror_dry_run_only: false
