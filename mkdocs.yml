@@ -11,7 +11,12 @@ nav:
   - 'Home': index.md
   - 'Changes': changes.md
   - 'Roles':
+    - 'case_mirror': roles/case_mirror.md
+    - 'case_prepare': roles/case_prepare.md
+    - 'catalogs': roles/catalogs.md
+    - 'ocp_contentsourcepolicy': roles/ocp_contentsourcepolicy.md
     - 'registry': roles/registry.md
+    - 'thirdparty_mirror': roles/thirdparty_mirror.md
 
 theme:
   name: readthedocs
