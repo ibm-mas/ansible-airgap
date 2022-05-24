@@ -30,5 +30,5 @@
         fail_msg: "One or more required environment variables are not defined"
 
   roles:
-    - case_prepare
-    - case_mirror
+    - ibm.mas_airgap.case_prepare
+    - ibm.mas_airgap.case_mirror
