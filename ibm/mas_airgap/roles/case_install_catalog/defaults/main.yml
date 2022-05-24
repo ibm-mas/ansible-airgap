@@ -8,3 +8,4 @@ case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
 case_target_namespace: "{{ lookup('env', 'CASE_TARGET_NAMESPACE') }}"
 
 registry_private_host: "{{ lookup('env', 'REGISTRY_PRIVATE_HOST') }}"
+registry_private_port: "{{ lookup('env', 'REGISTRY_PRIVATE_PORT') }}"

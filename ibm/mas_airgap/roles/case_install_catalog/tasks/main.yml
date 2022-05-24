@@ -9,7 +9,7 @@
       --inventory {{ case_inventory_name }} \
       --namespace {{ case_target_namespace }} \
       --tolerance 1 \
-      --args "--inputDir {{ case_archive_dir }} --registry {{ registry_private_host }}"
+      --args "--inputDir {{ case_archive_dir }} --registry {{ registry_private_host }}:{{ registry_private_port }}"
   register: install_catalog_result
 
 - name: Debug catalog installation
