@@ -46,6 +46,10 @@
                 <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../changes/">Changes</a>
+                </li>
+              </ul>
               <p class="caption"><span class="caption-text">Roles</span></p>
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">registry</a>
@@ -103,8 +107,9 @@
 <p>If you set up the registry with a <strong>loadbalancer</strong> service you will be able to push to the registry via the cluster's hostname, but before you can use the registry you will need to install the registry's CA certificate and restart the Docker daemon so that your client trusts the new registry:</p>
 <pre><code class="language-bash">CACERT=$(oc -n airgap-registry get secret airgap-registry-certificate -o jsonpath='{.data.ca\.crt}' | base64 -d)
 DOMAIN=$(oc get ingress.config cluster -o jsonpath='{.spec.domain}')
-echo $CACERT &gt; /etc/docker/certs.d/$DOMAIN\:32500/ca.crt
-service docker restart
+sudo mkdir -p /etc/docker/certs.d/$DOMAIN\:32500/
+sudo echo &quot;$CACERT&quot; &gt; /etc/docker/certs.d/$DOMAIN\:32500/ca.crt
+sudo service docker restart
 </code></pre>
 <p>You can now use the registry as normal:</p>
 <pre><code class="language-bash">DOMAIN=$(oc get ingress.config cluster -o jsonpath='{.spec.domain}')
@@ -121,8 +126,10 @@ docker push localhost:9000/ubi8/ubi-minimal
 </code></pre>
 <p>However, you will still need to set up Docker trust for the "local" registry:</p>
 <pre><code class="language-bash">CACERT=$(oc -n airgap-registry get secret airgap-registry-certificate -o jsonpath='{.data.ca\.crt}' | base64 -d)
-echo $CACERT &gt; /etc/docker/certs.d/localhost\:9000/ca.crt
-service docker restart
+sudo mkdir -p /etc/docker/certs.d/$DOMAIN\:32500/
+sudo mkdir /etc/docker/certs.d/localhost\:9000
+sudo echo &quot;$CACERT&quot; &gt; /etc/docker/certs.d/localhost\:9000/ca.crt
+sudo service docker restart
 </code></pre>
 <h2 id="role-variables">Role Variables<a class="headerlink" href="#role-variables" title="Permanent link"></a></h2>
 <h3 id="registry_namespace">registry_namespace<a class="headerlink" href="#registry_namespace" title="Permanent link"></a></h3>
@@ -193,7 +200,7 @@ service docker restart
         </span>
     
     
-      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../changes/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
   </span>
