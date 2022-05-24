@@ -1,0 +1,5 @@
+---
+
+- name: "Mirror Mongo CE Operator images to airgap registry"
+  shell: "skopeo copy docker://quay.io/{{ item }} docker://{{ registry_public_url }}/{{ item }}"
+  with_items: "{{ mongo_mirror_images }}"

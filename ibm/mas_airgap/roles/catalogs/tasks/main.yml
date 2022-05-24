@@ -1,0 +1,46 @@
+---
+
+# 1. Install air gap catalogs
+# -----------------------------------------------------------------------------
+- name: Install air gap catalogs
+  kubernetes.core.k8s:
+    apply: yes
+    template: 'templates/ibm-catalogs.yml.j2'
+
+# We don't need to use cloudctl for this, we can deliver a better experience
+# just setting up the catalog sources directly in ansible
+
+# 1. Install the catalog source
+# -----------------------------------------------------------------------------
+# We need namespace because this action also creates an operatorgroup inside
+# case_target_namespace
+#
+# - name: Install catalog source
+#   shell: >
+#     cloudctl case launch --action install-catalog \
+#       --case {{ case_bundle_dir }}/case/{{ case_name }} \
+#       --inventory {{ case_inventory_name }} \
+#       --namespace {{ case_target_namespace }} \
+#       --tolerance 1 \
+#       --args "--inputDir {{ case_archive_dir }} --registry {{ registry_private_host }}:{{ registry_private_port }}"
+#   register: install_catalog_result
+
+# - name: Debug catalog installation
+#   debug:
+#     msg: "{{ install_catalog_result.stdout_lines }}"
+
+# # 2. Wait for the catalog source to be ready
+# # -----------------------------------------------------------------------------
+# - name: Wait for the catalog source to be ready
+#   kubernetes.core.k8s_info:
+#     api_version: operators.coreos.com/v1alpha1
+#     kind: CatalogSource
+#     name: "{{ case_name }}-operator-catalog" # This is the naming convention but may vary
+#     namespace: openshift-marketplace
+#     wait: yes
+#     wait_sleep: 10
+#     wait_timeout: 60 # 1 min until we give up waiting for the CRD to get into the expected state
+#     #wait_condition:
+#     #  type: Admitted
+#     #  status: True
+#   register: catalogSource
