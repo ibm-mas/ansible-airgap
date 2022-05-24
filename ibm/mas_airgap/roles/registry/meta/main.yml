@@ -1,8 +1,7 @@
 galaxy_info:
   author:
-    - Paul Stone
     - David Parker
-  description: Mirror images to a local registry for AirGap installation
+  description: Used to drive an AirGap installation in your Red Hat OCP cluster
   company: IBM
 
   license: EPL-2.0
@@ -19,5 +18,6 @@ galaxy_info:
     - mas
     - devops
     - rhocp
+    - airgap
 
 dependencies: []

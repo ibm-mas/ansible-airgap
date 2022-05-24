@@ -1,0 +1,69 @@
+---
+# Configure the Cluster to pull images from the mirror
+# - Configure the Image Content Source Policy
+# - wait for nodes to restart
+
+# 1. Set up the namespace
+# -----------------------------------------------------------------------------
+- name: Create Target Installation Namespace
+  vars:
+    namespace: "{{ target_namespace }}"
+  community.kubernetes.k8s:
+    apply: yes
+    definition: "{{ lookup('template', 'templates/namespace.yml.j2') }}"
+  register: create_namespace_result
+
+
+# 2. Perform a dry-run
+# -----------------------------------------------------------------------------
+- name: Configure Cluster Nodes Dry Run
+  shell: >
+    cloudctl case launch --action configure-cluster-airgap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --namespace {{ target_namespace }} \
+      --tolerance 1 \
+      --args "--registry {{ registry_private_host }} --inputDir  {{ case_archive_dir }} --dryRun true"
+  register: configure_cluster_dryrun_result
+
+- name: Debug Dry run
+  debug:
+    msg: "{{ configure_cluster_dryrun_result.stdout_lines }}"
+
+
+# 3. Execute the real configure
+# -----------------------------------------------------------------------------
+- name: Configure Cluster Nodes
+  shell: >
+    cloudctl case launch --action configure-cluster-airgap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --namespace {{ target_namespace }} \
+      --tolerance 1 \
+      --args "--registry {{ registry_private_host }} --inputDir  {{ case_archive_dir }}"
+  register: configure_cluster_result
+
+# All this does is create this resource:
+#
+# apiVersion: operator.openshift.io/v1alpha1
+# kind: ImageContentSourcePolicy
+# metadata:
+#   name: ibm-cp-common-services
+# spec:
+#   repositoryDigestMirrors:
+#   - mirrors:
+#     - djp2205b-6f1620198115433da1cac8216c06779b-0000.us-south.containers.appdomain.cloud:32500/cpopen
+#     source: icr.io/cpopen
+#   - mirrors:
+#     - djp2205b-6f1620198115433da1cac8216c06779b-0000.us-south.containers.appdomain.cloud:32500/opencloudio
+#     source: quay.io/opencloudio
+
+- name: Debug Configure
+  debug:
+    msg: "{{ configure_cluster_result.stdout_lines }}"
+
+
+# 4. Wait until the nodes have applied the updates
+# -----------------------------------------------------------------------------
+- name: Wait for Machine Configs to update
+  include_tasks: "tasks/wait-machine-config-update.yml"
