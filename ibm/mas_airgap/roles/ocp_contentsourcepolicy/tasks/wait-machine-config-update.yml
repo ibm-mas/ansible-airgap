@@ -2,7 +2,7 @@
 # 1. Wait for node pools to start updating
 # -----------------------------------------------------------------------------
 - name: Wait for node pools to start updating
-  community.kubernetes.k8s_info:
+  kubernetes.core.k8s_info:
     api_version: machineconfiguration.openshift.io/v1
     kind: MachineConfigPool
     name: "{{ item }}"
@@ -22,7 +22,7 @@
 # 2. Wait for node pools to finish updating
 # -----------------------------------------------------------------------------
 - name: Wait for node pools to finish updating
-  community.kubernetes.k8s_info:
+  kubernetes.core.k8s_info:
     api_version: machineconfiguration.openshift.io/v1
     kind: MachineConfigPool
     name: "{{ item }}"

@@ -1,8 +1,10 @@
 ---
 # Get Registry facts from environment variables if they have not been passed to the role
 registry_private_host: "{{ lookup('env', 'REGISTRY_PRIVATE_HOST') }}"
+registry_private_port: "{{ lookup('env', 'REGISTRY_PRIVATE_PORT') }}"
+registry_private_ca_file: "{{ lookup('env', 'REGISTRY_PRIVATE_CA_FILE') }}"
 
-target_namespace: ibm-common-services
+case_target_namespace: ibm-common-services
 
 case_name: "{{ lookup('env', 'CASE_NAME') }}"
 case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"

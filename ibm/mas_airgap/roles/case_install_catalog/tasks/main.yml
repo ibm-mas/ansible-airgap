@@ -20,7 +20,7 @@
 # 2. Wait for the catalog source to be ready
 # -----------------------------------------------------------------------------
 - name: Wait for the catalog source to be ready
-  community.kubernetes.k8s_info:
+  kubernetes.core.k8s_info:
     api_version: operators.coreos.com/v1alpha1
     kind: CatalogSource
     name: "{{ case_name }}-operator-catalog" # This is the naming convention but may vary

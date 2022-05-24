@@ -3,12 +3,17 @@
 # - Configure the Image Content Source Policy
 # - wait for nodes to restart
 
+
+# 0. Configure CA trust
+# -----------------------------------------------------------------------------
+- name: Set up trust for the registry
+  include_tasks: "tasks/trust.yml"
+
+
 # 1. Set up the namespace
 # -----------------------------------------------------------------------------
 - name: Create Target Installation Namespace
-  vars:
-    namespace: "{{ target_namespace }}"
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     apply: yes
     definition: "{{ lookup('template', 'templates/namespace.yml.j2') }}"
   register: create_namespace_result
@@ -21,9 +26,9 @@
     cloudctl case launch --action configure-cluster-airgap \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
-      --namespace {{ target_namespace }} \
+      --namespace {{ case_target_namespace }} \
       --tolerance 1 \
-      --args "--registry {{ registry_private_host }} --inputDir  {{ case_archive_dir }} --dryRun true"
+      --args "--registry {{ registry_private_host }}:{{ registry_private_port }} --inputDir  {{ case_archive_dir }} --dryRun true"
   register: configure_cluster_dryrun_result
 
 - name: Debug Dry run
@@ -38,12 +43,12 @@
     cloudctl case launch --action configure-cluster-airgap \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
-      --namespace {{ target_namespace }} \
+      --namespace {{ case_target_namespace }} \
       --tolerance 1 \
-      --args "--registry {{ registry_private_host }} --inputDir  {{ case_archive_dir }}"
+      --args "--registry {{ registry_private_host }}:{{ registry_private_port }} --inputDir  {{ case_archive_dir }}"
   register: configure_cluster_result
 
-# All this does is create this resource:
+# All this does is create this resource ...
 #
 # apiVersion: operator.openshift.io/v1alpha1
 # kind: ImageContentSourcePolicy
