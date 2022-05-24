@@ -1,0 +1,13 @@
+---
+# Get Registry facts from environment variables if they have not been passed to the role
+registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
+
+# Case config
+case_name: "{{ lookup('env', 'CASE_NAME') }}"
+case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"
+case_archive_dir: "{{ case_bundle_dir }}/archive"
+case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
+
+ibm_entitlement_key: "{{ lookup('env', 'IBM_ENTITLEMENT_KEY') }}"
+
+mirror_dry_run_only: false

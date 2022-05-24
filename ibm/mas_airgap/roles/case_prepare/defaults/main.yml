@@ -1,0 +1,10 @@
+---
+# Don't copy images from these apps
+exclude_images: []
+
+# Case config
+case_name: "{{ lookup('env', 'CASE_NAME') }}"
+case_source: "{{ lookup('env', 'CASE_SOURCE') }}"
+case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"
+case_archive_dir: "{{ case_bundle_dir }}/archive"
+case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"

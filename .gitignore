@@ -4,3 +4,4 @@ site
 ibm/mas_airgap/ibm-mas_airgap-*.tar.gz
 pipelines/ibm-mas_airgap-clustertasks-*.yaml
 pipelines/dev/
+image/ansible-airgap/ibm-mas_airgap.tar.gz

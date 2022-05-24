@@ -11,8 +11,9 @@ If you set up the registry with a **loadbalancer** service you will be able to p
 ```bash
 CACERT=$(oc -n airgap-registry get secret airgap-registry-certificate -o jsonpath='{.data.ca\.crt}' | base64 -d)
 DOMAIN=$(oc get ingress.config cluster -o jsonpath='{.spec.domain}')
-echo $CACERT > /etc/docker/certs.d/$DOMAIN\:32500/ca.crt
-service docker restart
+sudo mkdir -p /etc/docker/certs.d/$DOMAIN\:32500/
+sudo echo "$CACERT" > /etc/docker/certs.d/$DOMAIN\:32500/ca.crt
+sudo service docker restart
 ```
 
 You can now use the registry as normal:
@@ -38,8 +39,10 @@ However, you will still need to set up Docker trust for the "local" registry:
 
 ```bash
 CACERT=$(oc -n airgap-registry get secret airgap-registry-certificate -o jsonpath='{.data.ca\.crt}' | base64 -d)
-echo $CACERT > /etc/docker/certs.d/localhost\:9000/ca.crt
-service docker restart
+sudo mkdir -p /etc/docker/certs.d/$DOMAIN\:32500/
+sudo mkdir /etc/docker/certs.d/localhost\:9000
+sudo echo "$CACERT" > /etc/docker/certs.d/localhost\:9000/ca.crt
+sudo service docker restart
 ```
 
 

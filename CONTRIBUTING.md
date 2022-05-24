@@ -3,18 +3,24 @@
 ## Building the collection locally
 
 ```bash
-cd ibm/mas_airgap
+# Build
+ansible-galaxy collection build --output-path image/ansible-airgap/ ibm/mas_airgap --force && mv image/ansible-airgap/ibm-mas_airgap-2.0.0.tar.gz image/ansible-airgap/ibm-mas_airgap.tar.gz
 
-TBD
-ansible-galaxy collection build --force && ansible-galaxy collection install ibm-mas_airgap-1.0.0.tar.gz -p /home/david/.ansible/collections --force
+# Install
+ansible-galaxy collection install image/ansible-airgap/ibm-mas_airgap.tar.gz --force
 
-ansible-playbook ../../playbook.yml
+# Run Ansible Playbook
+export REGISTRY_PUBLIC_HOST=xxx
+export IBM_ENTITLEMENT_KEY=xxx
+ansible-playbook ibm.mas_airgap.mirror_sls
+
+# Build docker image
+docker build -t ansible-airgap:local image/ansible-airgap
+
+# Run Ansible Container
+docker run -ti ansible-airgap:local bash
 ```
 
-```bash
-ansible-galaxy collection build --force
-ansible-galaxy collection publish ibm-mas_airgap-4.1.5.tar.gz --token=$ANSIBLE_GALAXY_TOKEN
-```
 
 ## Style Guide
 Failure to adhere to the style guide will result in a PR being rejected!
