@@ -5,10 +5,3 @@ registry_private_port: "{{ lookup('env', 'REGISTRY_PRIVATE_PORT') }}"
 registry_private_url: "{{ registry_private_host }}:{{ registry_private_port }}"
 
 registry_private_ca_file: "{{ lookup('env', 'REGISTRY_PRIVATE_CA_FILE') }}"
-
-case_target_namespace: ibm-common-services
-
-case_name: "{{ lookup('env', 'CASE_NAME') }}"
-case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"
-case_archive_dir: "{{ case_bundle_dir }}/archive"
-case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
