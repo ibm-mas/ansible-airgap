@@ -51,32 +51,11 @@
   register: configureCredsResult
 
 
-# 4. Perform a Dry Run
-# -----------------------------------------------------------------------------
-# Perform a dry run first, if it fails it will report why and nothing will be changed om the target system
-- name: "Mirror Images Dry Run ({{ case_bundle_dir }}/case/{{ case_name }})"
-  shell: >
-    cloudctl case launch --action mirror-images \
-      --case {{ case_bundle_dir }}/case/{{ case_name }} \
-      --inventory {{ case_inventory_name }} \
-      --tolerance 1 \
-      --args "--registry {{ registry_public_host }} --inputDir {{ case_archive_dir }} --skipDelta true --dryRun true" \
-    | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}-dryrun.log
-  register: dryrun_result
-  # if USE_SKOPEO flag is set, the command doesn't perform a dry run
-  when: lookup('env', 'USE_SKOPEO') != 'True'
-
-- name: "Debug Dry Run"
-  debug:
-    msg: "{{ dryrun_result.stdout_lines }}"
-
-
-# 5. Execute the Mirror
+# 4. Execute the Mirror
 # -----------------------------------------------------------------------------
 - name: Mirror Images
-  when: not mirror_dry_run_only
   shell: >
-    cloudctl case launch --action mirror-images \
+    export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
       --tolerance 1 \
@@ -88,6 +67,5 @@
   retries: 10
 
 - name: "Debug Mirror"
-  when: not mirror_dry_run_only
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
