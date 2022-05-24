@@ -2,6 +2,11 @@ case_mirror
 ===========
 This role uses the specifed CASE bundle to mirror container images to a mirror registry and configure the cluster to pull images from this mirror.
 
+When mirroring is complete, you can view the content of your registry:
+
+```bash
+curl -k https://$REGISTRY_PUBLIC_HOST/v2/_catalog | jq
+```
 
 Requirements
 ------------

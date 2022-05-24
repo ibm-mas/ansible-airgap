@@ -28,7 +28,7 @@
       --inventory {{ case_inventory_name }} \
       --namespace {{ case_target_namespace }} \
       --tolerance 1 \
-      --args "--registry {{ registry_private_host }}:{{ registry_private_port }} --inputDir  {{ case_archive_dir }} --dryRun true"
+      --args "--registry {{ registry_private_url }} --inputDir  {{ case_archive_dir }} --dryRun true"
   register: configure_cluster_dryrun_result
 
 - name: Debug Dry run
@@ -45,7 +45,7 @@
       --inventory {{ case_inventory_name }} \
       --namespace {{ case_target_namespace }} \
       --tolerance 1 \
-      --args "--registry {{ registry_private_host }}:{{ registry_private_port }} --inputDir  {{ case_archive_dir }}"
+      --args "--registry {{ registry_private_url }} --inputDir  {{ case_archive_dir }}"
   register: configure_cluster_result
 
 # All this does is create this resource ...

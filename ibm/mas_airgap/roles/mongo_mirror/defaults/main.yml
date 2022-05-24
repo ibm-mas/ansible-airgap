@@ -1,0 +1,12 @@
+---
+registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
+registry_public_port: "{{ lookup('env', 'REGISTRY_PUBLIC_PORT') }}"
+registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
+
+# These need to be kept in line with the images we actually use
+mongo_mirror_images:
+  - mongodb/mongodb-kubernetes-operator:0.7.0
+  - mongodb/mongodb-kubernetes-operator-version-upgrade-post-start-hook:1.0.2
+  - mongodb/mongodb-agent:11.0.5.6963-1
+  - mongodb/mongodb-kubernetes-readinessprobe:1.0.4
+  - ibmmas/mongo:4.2.6

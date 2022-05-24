@@ -1,0 +1,44 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: opencloud-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IBMCS Operators
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-common-service-catalog:latest
+  publisher: IBM
+  sourceType: grpc
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-mas-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IBM MAS Operators
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-mas-operator-catalog:latest
+  publisher: IBM
+  sourceType: grpc
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-sls-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IBM SLS Operators
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-sls-operator-catalog:latest
+  publisher: IBM
+  sourceType: grpc
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-truststore-mgr-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IBM Truststore Manager Operators
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-truststore-mgr-operator-catalog:latest
+  publisher: IBM
+  sourceType: grpc
