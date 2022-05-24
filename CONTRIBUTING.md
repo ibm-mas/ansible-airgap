@@ -22,6 +22,13 @@ docker run -ti ansible-airgap:local bash
 ```
 
 
+## Ultimate one-liner
+Build the collection, build the docker container, run the docker container ...
+```bash
+ansible-galaxy collection build --output-path image/ansible-airgap/ ibm/mas_airgap --force && mv image/ansible-airgap/ibm-mas_airgap-2.0.0.tar.gz image/ansible-airgap/ibm-mas_airgap.tar.gz && docker build -t ansible-airgap image/ansible-airgap && docker run -ti ansible-airgap bash
+```
+
+
 ## Style Guide
 Failure to adhere to the style guide will result in a PR being rejected!
 
