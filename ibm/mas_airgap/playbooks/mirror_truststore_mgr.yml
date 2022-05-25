@@ -6,7 +6,6 @@
     case_bundle_dir: /tmp/casebundle-truststore-mgr
     exclude_images: []
     case_inventory_name: "ibmTrustStoreMgrSetup"
-    registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
 
   pre_tasks:
     # For the full set of supported environment variables refer to the playbook documentation
@@ -14,6 +13,7 @@
       assert:
         that:
           - lookup('env', 'REGISTRY_PUBLIC_HOST') != ""
+          - lookup('env', 'REGISTRY_PUBLIC_PORT') != ""
         fail_msg: "One or more required environment variables are not defined"
 
   roles:

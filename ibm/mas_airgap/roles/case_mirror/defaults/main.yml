@@ -1,6 +1,8 @@
 ---
 # Get Registry facts from environment variables if they have not been passed to the role
 registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
+registry_public_port: "{{ lookup('env', 'REGISTRY_PUBLIC_PORT') }}"
+registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
 
 # Case config
 case_name: "{{ lookup('env', 'CASE_NAME') }}"
