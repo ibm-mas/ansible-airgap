@@ -1,0 +1,2 @@
+---
+airgap_network_exclusions: "icr.io cp.icr.io quay.io wiotp-docker-local.artifactory.swg-devops.com"
