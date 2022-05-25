@@ -73,7 +73,6 @@ The size of the PVC that will be created for data storage in the cluster.
 ### registry_service_type
 The type of service to set up in front of the registry, either `loadbalancer` or `clusterip`.  Using `loadbalancer` will allow you to access the registry from outside of your cluster via the cluster domain on port `32500`.  If you have other loadbalancers on the cluster that already claim port `32500` this role can not be usedbecause currently the loadbalancer port can not be customised.
 
-
 - Optional
 - Environment Variable: `REGISTRY_SERVICE_TYPE`
 - Default Value: `loadbalancer`

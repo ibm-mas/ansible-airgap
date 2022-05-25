@@ -26,9 +26,11 @@
   kubernetes.core.k8s:
     apply: yes
     template: 'templates/imagecontentsourcepolicy.yml.j2'
+  register: content_source_policy_result
 
 
 # 4. Wait until the nodes have applied the updates
 # -----------------------------------------------------------------------------
 - name: Wait for Machine Configs to update
+  when: content_source_policy_result.changed
   include_tasks: "tasks/wait-machine-config-update.yml"
