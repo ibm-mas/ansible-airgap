@@ -65,7 +65,7 @@
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
       --tolerance 1 \
-      --args "--registry {{ registry_public_host }} --inputDir {{ case_archive_dir }} --skipDelta true" \
+      --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }} --skipDelta true" \
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
   # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.

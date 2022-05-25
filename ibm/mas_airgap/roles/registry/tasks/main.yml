@@ -30,7 +30,7 @@
     template: 'templates/certs/issuer.yml.j2'
   register: createIssuer
 
-- name: "Create db2u certificate"
+- name: "Create registry certificate"
   kubernetes.core.k8s:
     apply: yes
     template: 'templates/certs/certificate.yml.j2'

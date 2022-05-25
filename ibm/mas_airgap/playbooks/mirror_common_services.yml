@@ -17,7 +17,6 @@
       - ibm-platform-api-operator
       - ibm-zen
     case_inventory_name: "ibmCommonServiceOperatorSetup"
-    registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
 
   pre_tasks:
     # For the full set of supported environment variables refer to the playbook documentation
@@ -25,6 +24,7 @@
       assert:
         that:
           - lookup('env', 'REGISTRY_PUBLIC_HOST') != ""
+          - lookup('env', 'REGISTRY_PUBLIC_PORT') != ""
         fail_msg: "One or more required environment variables are not defined"
 
   roles:
