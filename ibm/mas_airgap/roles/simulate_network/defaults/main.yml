@@ -1,2 +1,3 @@
 ---
-airgap_network_exclusions: "icr.io cp.icr.io quay.io wiotp-docker-local.artifactory.swg-devops.com"
+# Ideally we would add quay.io here as well, but we can't until we mirror all the images used by OCP itself
+airgap_network_exclusions: "icr.io cp.icr.io wiotp-docker-local.artifactory.swg-devops.com"
