@@ -1,0 +1,90 @@
+---
+# 1. Fail if required parameters are not set
+# -----------------------------------------------------------------------------
+- name: "Fail if mas_instance_id has not been provided"
+  assert:
+    that: mas_instance_id is defined and mas_instance_id != ""
+    fail_msg: "mas_instance_id property has not been set"
+
+
+# 2. SLS
+# -----------------------------------------------------------------------------
+- name: "Prepare the SLS case"
+  vars:
+    case_name: "ibm-sls"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-sls/3.3.1/ibm-sls-3.3.1.tgz?raw=true"
+    case_bundle_dir: /tmp/casebundle-sls
+    exclude_images: []
+    case_inventory_name: "ibmSlsSetup"
+  include_role:
+    name: ibm.mas_airgap.case_prepare
+
+- name: "Install SLS digest config maps"
+  vars:
+    digest_image_map_name: ibm-sls-image-map
+    digest_image_map_file: "/tmp/casebundle-sls/case/ibm-sls/inventory/ibmSlsSetup/files/image-map.yaml"
+    digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
+    digest_image_map_namespace: "{{ item }}"
+  kubernetes.core.k8s:
+    template: 'templates/configmap.yml.j2'
+  with_items:
+    - "{{ sls_namespace }}"
+
+
+# 3. TruststoreMgr
+# -----------------------------------------------------------------------------
+- name: "Prepare the truststore manager case"
+  vars:
+    case_name: "ibm-truststore-mgr"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-truststore-mgr/1.2.2/ibm-truststore-mgr-1.2.2.tgz?raw=true"
+    case_bundle_dir: /tmp/casebundle-truststore-mgr
+    exclude_images: []
+    case_inventory_name: "ibmTrustStoreMgrSetup"
+  include_role:
+    name: ibm.mas_airgap.case_prepare
+
+- name: "Install Truststore Manager digest config maps"
+  vars:
+    digest_image_map_name: ibm-truststore-mgr-image-map
+    digest_image_map_file: "/tmp/casebundle-truststore-mgr/case/ibm-truststore-mgr/inventory/ibmTrustStoreMgrSetup/files/image-map.yaml"
+    digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
+    digest_image_map_namespace: "{{ item }}"
+  kubernetes.core.k8s:
+    template: 'templates/configmap.yml.j2'
+  with_items:
+    - "{{ sls_namespace }}"
+    - "mas-{{ mas_instance_id }}-core"
+
+
+# 4. MAS
+# -----------------------------------------------------------------------------
+- name: "Prepare the MAS case"
+  vars:
+    case_name: "ibm-mas"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas/8.7.2/ibm-mas-8.7.2.tgz?raw=true"
+    case_bundle_dir: /tmp/casebundle-mas
+    exclude_images:
+      - ibm-mas-assist
+      - ibm-mas-hputilities
+      - ibm-mas-iot
+      - ibm-mas-manage
+      - ibm-mas-monitor
+      - ibm-mas-predict
+      - ibm-mas-safety
+      - ibm-mas-visualinspection
+      - ibm-mas-mso
+      - ibm-sls
+    case_inventory_name: "ibmMasSetup"
+  include_role:
+    name: ibm.mas_airgap.case_prepare
+
+- name: "Install MAS digest config maps"
+  vars:
+    digest_image_map_name: ibm-mas-image-map
+    digest_image_map_file: "/tmp/casebundle-mas/case/ibm-mas/inventory/ibmMasSetup/files/image-map.yaml"
+    digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
+    digest_image_map_namespace: "{{ item }}"
+  kubernetes.core.k8s:
+    template: 'templates/configmap.yml.j2'
+  with_items:
+    - "mas-{{ mas_instance_id }}-core"

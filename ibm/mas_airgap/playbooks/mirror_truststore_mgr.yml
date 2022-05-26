@@ -2,7 +2,7 @@
 - hosts: localhost
   vars:
     case_name: "ibm-truststore-mgr"
-    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-truststore-mgr/1.2.2/ibm-sls-1.2.2.tgz?raw=true"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-truststore-mgr/1.2.2/ibm-truststore-mgr-1.2.2.tgz?raw=true"
     case_bundle_dir: /tmp/casebundle-truststore-mgr
     exclude_images: []
     case_inventory_name: "ibmTrustStoreMgrSetup"
