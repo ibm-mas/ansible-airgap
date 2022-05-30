@@ -12,6 +12,14 @@
       - ibm_entitlement_key is defined and ibm_entitlement_key != ""
     fail_msg: "One or more required properties are missing"
 
+- name: "Fail if required properties are not provided (UDS)"
+  when: case_name == "ibm-uds"
+  assert:
+    that:
+      - redhat_connect_username is defined and redhat_connect_username != ""
+      - redhat_connect_password is defined and redhat_connect_password != ""
+    fail_msg: "One or more required properties are missing for UDS"
+
 
 # 2. Check for required software
 # -----------------------------------------------------------------------------
@@ -46,26 +54,61 @@
 # 5. Set up Authentication for ICR
 # -----------------------------------------------------------------------------
 # TODO: For now this is limited to unauthenticed registry (like the one set up by the "registry" role)
-
 - name: "Setup ICR Registry Credentials"
   shell: >
     cloudctl case launch --action configureCredsAirgap \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
       --tolerance 1 \
-      --args "--registry cp.icr.io --user cp --pass {{ ibm_entitlement_key }}"
+      --args '--registry cp.icr.io --user cp --pass {{ ibm_entitlement_key }}'
   register: configureCredsResult
+
+# https://access.redhat.com/RegistryAuthentication
+- name: "Setup Red Hat Connect Registry Credentials"
+  when: case_name == "ibm-uds"
+  shell: >
+    cloudctl case launch --action configureCredsAirgap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --tolerance 1 \
+      --args '--registry registry.connect.redhat.com --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
+  register: configureCredsResult
+- name: "Setup Red Hat Connect Registry Credentials"
+  when: case_name == "ibm-uds"
+  shell: >
+    cloudctl case launch --action configureCredsAirgap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --tolerance 1 \
+      --args '--registry registry.redhat.io --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
+  register: configureCredsResult
+
 
 
 # 6. Execute the Mirror
 # -----------------------------------------------------------------------------
+# UDS does not support --tolerance or --skipDelta params so we need a special case here :(
 - name: Mirror Images
+  when: case_name != "ibm-uds"
   shell: >
     export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
       --inventory {{ case_inventory_name }} \
       --tolerance 1 \
       --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }} --skipDelta true" \
+    | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
+  register: mirror_result
+  # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
+  until: mirror_result['rc'] == 0 or mirror_result['stdout'] is not search('504 Gateway Time', multiline=True)
+  retries: 10
+
+- name: Mirror Images (UDS special case)
+  when: case_name == "ibm-uds"
+  shell: >
+    export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }}" \
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
   # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
