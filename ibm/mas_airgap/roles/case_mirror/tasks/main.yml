@@ -51,37 +51,69 @@
   shell: chmod u+x {{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/*.sh
 
 
-# 5. Set up Authentication for ICR
+# 5. Set up authentication
 # -----------------------------------------------------------------------------
-# TODO: For now this is limited to unauthenticed registry (like the one set up by the "registry" role)
-- name: "Setup ICR Registry Credentials"
-  shell: >
-    cloudctl case launch --action configureCredsAirgap \
-      --case {{ case_bundle_dir }}/case/{{ case_name }} \
-      --inventory {{ case_inventory_name }} \
-      --tolerance 1 \
-      --args '--registry cp.icr.io --user cp --pass {{ ibm_entitlement_key }}'
-  register: configureCredsResult
+- name: Create auth secret (IBM)
+  vars:
+    registry_name: cp.icr.io
+    registry_auth: "{{ ibm_auth }}"
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
 
-# https://access.redhat.com/RegistryAuthentication
-- name: "Setup Red Hat Connect Registry Credentials"
-  when: case_name == "ibm-uds"
-  shell: >
-    cloudctl case launch --action configureCredsAirgap \
-      --case {{ case_bundle_dir }}/case/{{ case_name }} \
-      --inventory {{ case_inventory_name }} \
-      --tolerance 1 \
-      --args '--registry registry.connect.redhat.com --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
-  register: configureCredsResult
-- name: "Setup Red Hat Connect Registry Credentials"
-  when: case_name == "ibm-uds"
-  shell: >
-    cloudctl case launch --action configureCredsAirgap \
-      --case {{ case_bundle_dir }}/case/{{ case_name }} \
-      --inventory {{ case_inventory_name }} \
-      --tolerance 1 \
-      --args '--registry registry.redhat.io --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
-  register: configureCredsResult
+- name: Create auth secret (Red Hat 1/2)
+  when:
+    - redhat_connect_username is defined and redhat_connect_username != ""
+    - redhat_connect_password is defined and redhat_connect_password != ""
+  vars:
+    registry_name: registry.connect.redhat.com
+    registry_auth: "{{ redhat_connect_auth }}"
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
+
+- name: Create auth secret (Red Hat 2/2)
+  when:
+    - redhat_connect_username is defined and redhat_connect_username != ""
+    - redhat_connect_password is defined and redhat_connect_password != ""
+  vars:
+    registry_name: registry.redhat.io
+    registry_auth: "{{ redhat_connect_auth }}"
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
+
+# # 5. Set up Authentication for ICR
+# # -----------------------------------------------------------------------------
+# # TODO: For now this is limited to unauthenticed registry (like the one set up by the "registry" role)
+# - name: "Setup ICR Registry Credentials"
+#   shell: >
+#     cloudctl case launch --action configureCredsAirgap \
+#       --case {{ case_bundle_dir }}/case/{{ case_name }} \
+#       --inventory {{ case_inventory_name }} \
+#       --tolerance 1 \
+#       --args '--registry cp.icr.io --user cp --pass {{ ibm_entitlement_key }}'
+#   register: configureCredsResult
+
+# # https://access.redhat.com/RegistryAuthentication
+# - name: "Setup Red Hat Connect Registry Credentials"
+#   when: case_name == "ibm-uds"
+#   shell: >
+#     cloudctl case launch --action configureCredsAirgap \
+#       --case {{ case_bundle_dir }}/case/{{ case_name }} \
+#       --inventory {{ case_inventory_name }} \
+#       --tolerance 1 \
+#       --args '--registry registry.connect.redhat.com --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
+#   register: configureCredsResult
+# - name: "Setup Red Hat Connect Registry Credentials"
+#   when: case_name == "ibm-uds"
+#   shell: >
+#     cloudctl case launch --action configureCredsAirgap \
+#       --case {{ case_bundle_dir }}/case/{{ case_name }} \
+#       --inventory {{ case_inventory_name }} \
+#       --tolerance 1 \
+#       --args '--registry registry.redhat.io --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
+#   register: configureCredsResult
 
 
 
@@ -98,9 +130,11 @@
       --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }} --skipDelta true" \
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
-  # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
-  until: mirror_result['rc'] == 0 or mirror_result['stdout'] is not search('504 Gateway Time', multiline=True)
-  retries: 10
+
+- name: "Debug Mirror"
+  when: case_name != "ibm-uds"
+  debug:
+    msg: "{{ mirror_result.stdout_lines }}"
 
 - name: Mirror Images (UDS special case)
   when: case_name == "ibm-uds"
@@ -111,10 +145,8 @@
       --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }}" \
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
-  # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
-  until: mirror_result['rc'] == 0 or mirror_result['stdout'] is not search('504 Gateway Time', multiline=True)
-  retries: 10
 
 - name: "Debug Mirror"
+  when: case_name == "ibm-uds"
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
