@@ -11,6 +11,8 @@ case_archive_dir: "{{ case_bundle_dir }}/archive"
 case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
 
 ibm_entitlement_key: "{{ lookup('env', 'IBM_ENTITLEMENT_KEY') }}"
+ibm_auth: "cp:{{ ibm_entitlement_key }}"
 
 redhat_connect_username: "{{ lookup('env', 'REDHAT_CONNECT_USERNAME') }}"
 redhat_connect_password: "{{ lookup('env', 'REDHAT_CONNECT_PASSWORD') }}"
+redhat_connect_auth: "{{ redhat_connect_username }}:{{ redhat_connect_password }}"

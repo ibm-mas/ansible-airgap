@@ -51,38 +51,50 @@
   shell: chmod u+x {{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/*.sh
 
 
-# 5. Set up Authentication for ICR
+# 5. Set up authentication for the case mirroring process
 # -----------------------------------------------------------------------------
-# TODO: For now this is limited to unauthenticed registry (like the one set up by the "registry" role)
-- name: "Setup ICR Registry Credentials"
-  shell: >
-    cloudctl case launch --action configureCredsAirgap \
-      --case {{ case_bundle_dir }}/case/{{ case_name }} \
-      --inventory {{ case_inventory_name }} \
-      --tolerance 1 \
-      --args '--registry cp.icr.io --user cp --pass {{ ibm_entitlement_key }}'
-  register: configureCredsResult
+# This is the ansible equivalent of running:
+#     "cloudctl case launch --action configureCredsAirgap ..."
+# but it's faster, cleaner, and handles special characters in passwords properly
 
-# https://access.redhat.com/RegistryAuthentication
-- name: "Setup Red Hat Connect Registry Credentials"
-  when: case_name == "ibm-uds"
-  shell: >
-    cloudctl case launch --action configureCredsAirgap \
-      --case {{ case_bundle_dir }}/case/{{ case_name }} \
-      --inventory {{ case_inventory_name }} \
-      --tolerance 1 \
-      --args '--registry registry.connect.redhat.com --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
-  register: configureCredsResult
-- name: "Setup Red Hat Connect Registry Credentials"
-  when: case_name == "ibm-uds"
-  shell: >
-    cloudctl case launch --action configureCredsAirgap \
-      --case {{ case_bundle_dir }}/case/{{ case_name }} \
-      --inventory {{ case_inventory_name }} \
-      --tolerance 1 \
-      --args '--registry registry.redhat.io --user {{ redhat_connect_username }} --pass {{ redhat_connect_password }}'
-  register: configureCredsResult
+# 5.1 Prepare the directory
+- name: Creates airgap secrets directory
+  file:
+    path: "{{ ansible_env.HOME }}/.airgap/secrets"
+    state: directory
 
+# 5.2 IBM entitled content
+- name: Create auth secret for cp.icr.io
+  vars:
+    registry_name: cp.icr.io
+    registry_auth: "{{ ibm_auth }}"
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
+
+# 5.3 Red Hat Registry (1/2)
+- name: Create auth secret for registry.connect.redhat.com
+  when:
+    - redhat_connect_username is defined and redhat_connect_username != ""
+    - redhat_connect_password is defined and redhat_connect_password != ""
+  vars:
+    registry_name: registry.connect.redhat.com
+    registry_auth: "{{ redhat_connect_auth }}"
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
+
+# 5.4 Red Hat Registry (2/2)
+- name: Create auth secret for registry.redhat.io
+  when:
+    - redhat_connect_username is defined and redhat_connect_username != ""
+    - redhat_connect_password is defined and redhat_connect_password != ""
+  vars:
+    registry_name: registry.redhat.io
+    registry_auth: "{{ redhat_connect_auth }}"
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
 
 
 # 6. Execute the Mirror
@@ -98,9 +110,11 @@
       --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }} --skipDelta true" \
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
-  # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
-  until: mirror_result['rc'] == 0 or mirror_result['stdout'] is not search('504 Gateway Time', multiline=True)
-  retries: 10
+
+- name: "Debug Mirror"
+  when: case_name != "ibm-uds"
+  debug:
+    msg: "{{ mirror_result.stdout_lines }}"
 
 - name: Mirror Images (UDS special case)
   when: case_name == "ibm-uds"
@@ -111,10 +125,8 @@
       --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }}" \
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
-  # This can intermittently fail with "504 Gateway Time-out" errors, retry until sucessful.
-  until: mirror_result['rc'] == 0 or mirror_result['stdout'] is not search('504 Gateway Time', multiline=True)
-  retries: 10
 
-- name: "Debug Mirror"
+- name: "Debug Mirror (UDS special case)"
+  when: case_name == "ibm-uds"
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
