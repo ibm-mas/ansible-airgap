@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/changes/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/roles/case_mirror/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/roles/case_prepare/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/roles/catalogs/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/roles/ocp_contentsourcepolicy/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/roles/registry/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ibm-mas.github.io/ansible-airgap/roles/thirdparty_mirror/</loc>
-         <lastmod>2022-05-26</lastmod>
+         <lastmod>2022-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
