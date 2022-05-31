@@ -42,3 +42,14 @@ spec:
   image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-truststore-mgr-operator-catalog:latest
   publisher: IBM
   sourceType: grpc
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-udsoperator-catalog
+  namespace: openshift-marketplace
+spec:
+  displayName: ibm-udsoperator-catalog
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-user-data-services-catalog:2.0.7
+  publisher: IBM
+  sourceType: grpc
