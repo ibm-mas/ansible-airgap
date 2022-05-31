@@ -33,6 +33,8 @@
 
 # 3. TruststoreMgr
 # -----------------------------------------------------------------------------
+# The image map that is part of truststore manager 1.2.2 is broken, so we use a
+# custom template that installs the correct values
 - name: "Prepare the truststore manager case"
   vars:
     case_name: "ibm-truststore-mgr"
@@ -50,7 +52,7 @@
     digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
     digest_image_map_namespace: "{{ item }}"
   kubernetes.core.k8s:
-    template: 'templates/configmap.yml.j2'
+    template: 'templates/configmap-truststore-mgr-1.2.2.yml.j2'
   with_items:
     - "{{ sls_namespace }}"
     - "mas-{{ mas_instance_id }}-core"
