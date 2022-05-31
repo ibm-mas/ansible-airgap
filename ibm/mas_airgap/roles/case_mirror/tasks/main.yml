@@ -65,37 +65,49 @@
     state: directory
 
 # 5.2 IBM entitled content
-- name: Create auth secret for cp.icr.io
+- name: Create auth secret for private registry
+  when:
+    - registry_auth_username is defined and registry_auth_username != ""
+    - registry_auth_password is defined and registry_auth_password != ""
   vars:
-    registry_name: cp.icr.io
-    registry_auth: "{{ ibm_auth }}"
+    secret_registry_name: "{{ registry_public_url }}"
+    secret_registry_auth: "{{ registry_auth }}"
   ansible.builtin.template:
     src: templates/auth-secret.json.j2
-    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
-# 5.3 Red Hat Registry (1/2)
+# 5.3 IBM entitled content
+- name: Create auth secret for cp.icr.io
+  vars:
+    secret_registry_name: cp.icr.io
+    secret_registry_auth: "{{ ibm_auth }}"
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
+
+# 5.4 Red Hat Registry (1/2)
 - name: Create auth secret for registry.connect.redhat.com
   when:
     - redhat_connect_username is defined and redhat_connect_username != ""
     - redhat_connect_password is defined and redhat_connect_password != ""
   vars:
-    registry_name: registry.connect.redhat.com
-    registry_auth: "{{ redhat_connect_auth }}"
+    secret_registry_name: registry.connect.redhat.com
+    secret_registry_auth: "{{ redhat_connect_auth }}"
   ansible.builtin.template:
     src: templates/auth-secret.json.j2
-    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
-# 5.4 Red Hat Registry (2/2)
+# 5.5 Red Hat Registry (2/2)
 - name: Create auth secret for registry.redhat.io
   when:
     - redhat_connect_username is defined and redhat_connect_username != ""
     - redhat_connect_password is defined and redhat_connect_password != ""
   vars:
-    registry_name: registry.redhat.io
-    registry_auth: "{{ redhat_connect_auth }}"
+    secret_registry_name: registry.redhat.io
+    secret_registry_auth: "{{ redhat_connect_auth }}"
   ansible.builtin.template:
     src: templates/auth-secret.json.j2
-    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_name }}.json"
+    dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
 
 # 6. Execute the Mirror

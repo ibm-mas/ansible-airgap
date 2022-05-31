@@ -16,3 +16,7 @@ ibm_auth: "cp:{{ ibm_entitlement_key }}"
 redhat_connect_username: "{{ lookup('env', 'REDHAT_CONNECT_USERNAME') }}"
 redhat_connect_password: "{{ lookup('env', 'REDHAT_CONNECT_PASSWORD') }}"
 redhat_connect_auth: "{{ redhat_connect_username }}:{{ redhat_connect_password }}"
+
+registry_auth_username: "{{ lookup('env', 'REGISTRY_AUTH_USERNAME') }}"
+registry_auth_password: "{{ lookup('env', 'REGISTRY_AUTH_PASSWORD') }}"
+registry_auth: "{{ registry_auth_username }}:{{ registry_auth_password }}"

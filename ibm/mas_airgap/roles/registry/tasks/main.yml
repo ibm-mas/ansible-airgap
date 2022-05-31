@@ -1,11 +1,23 @@
 ---
 
+- name: Check that required properties have been set
+  assert:
+    that:
+      - registry_auth_username is defined and registry_auth_username != ""
+      - registry_auth_password is defined and registry_auth_password != ""
+
+# 1. Create the TLS certificates
+# -----------------------------------------------------------------------------
 - name: "Get cluster subdomain"
   kubernetes.core.k8s_info:
     api_version: config.openshift.io/v1
     kind: Ingress
     name: cluster
   register: cluster_subdomain
+
+- name: "Create Namespace"
+  kubernetes.core.k8s:
+    template: 'templates/namespace.yml.j2'
 
 - name: "Create internal CA certificate issuer"
   kubernetes.core.k8s:
@@ -37,14 +49,27 @@
   register: createCertificate
 
 
-# 1. Create the deployment
+# 2. Create the authentication secret
+# -----------------------------------------------------------------------------
+- name: Generate htpasswd
+  shell: "htpasswd -Bbn {{ registry_auth_username }} {{ registry_auth_password }}"
+  register: htpasswd_result
+
+- name: "Generated htpasswd content"
+  debug:
+    msg: "{{ htpasswd_result.stdout }}"
+
+- name: "Create authentication secret"
+  vars:
+    registry_htpasswd: "{{ htpasswd_result.stdout }}"
+  kubernetes.core.k8s:
+    template: "templates/auth-secret.yml.j2"
+
+
+# 3. Create the deployment
 # -----------------------------------------------------------------------------
 - name: "Configure storage classes"
   include_tasks: tasks/determine-storage-classes.yml
-
-- name: "Create Namespace"
-  kubernetes.core.k8s:
-    template: 'templates/namespace.yml.j2'
 
 - name: "Create PVC"
   kubernetes.core.k8s:
@@ -54,9 +79,38 @@
   kubernetes.core.k8s:
     template: 'templates/deployment.yml.j2'
 
+- name: "Lookup certificate"
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: airgap-registry-certificate
+    namespace: "{{ registry_namespace }}"
+  register: cert_secret
 
-# 2. Set up service
+- name: "Create Directory (/tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500)"
+  ansible.builtin.file:
+    path: "/tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500"
+    state: directory
+
+- name: "Write certificate to disk"
+  copy:
+    content: "{{ cert_secret.resources[0].data['ca.crt'] | b64decode }}"
+    dest: "/tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500/ca.crt"
+
+# 4. Set up service
 # -----------------------------------------------------------------------------
 - name: "Create Service"
   kubernetes.core.k8s:
     template: "templates/service-{{ registry_service_type }}.yml.j2"
+
+- name: "Connection Information"
+  debug:
+    msg:
+      - "Registry Hostname ...................... {{ cluster_subdomain.resources[0].spec.domain }}"
+      - "registry Port .......................... 32500"
+      - "Registry Username ...................... {{ registry_auth_username }}"
+      - "Registry Password ...................... {{ registry_auth_password }}"
+      - "Registry CA certificate ................ /tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500/ca.crt"
+      - "  Install the certificate:"
+      - "  mv \"/tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500\" \"/etc/docker/certs.d/{{ cluster_subdomain.resources[0].spec.domain }}:32500\""
+      - "Login Command .......................... docker login {{ cluster_subdomain.resources[0].spec.domain }}:32500"

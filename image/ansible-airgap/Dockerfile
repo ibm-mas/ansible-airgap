@@ -2,8 +2,8 @@ FROM quay.io/ibmmas/ansible-devops:10.1.0-pre.master
 
 USER root
 
-# Install skopeo & cloudctl & hostname (needed by cloudctl)
-RUN dnf install skopeo hostname -y &&\
+# Install skopeo & cloudctl & hostname (needed by cloudctl) & httpd-tools (needed for htpasswd cmd)
+RUN dnf install skopeo hostname httpd-tools -y &&\
     wget -q https://github.com/IBM/cloud-pak-cli/releases/download/v3.17.0/cloudctl-linux-amd64.tar.gz &&\
     tar -xvf cloudctl-linux-amd64.tar.gz &&\
     mv cloudctl-linux-amd64 /usr/bin/cloudctl &&\

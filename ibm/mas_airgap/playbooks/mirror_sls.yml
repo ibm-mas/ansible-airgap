@@ -8,7 +8,8 @@
     case_inventory_name: "ibmSlsSetup"
 
   pre_tasks:
-    # For the full set of supported environment variables refer to the playbook documentation
+    # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
+    # They are only needed if you have set up authentication on your private registry
     - name: Check for required environment variables
       assert:
         that:
