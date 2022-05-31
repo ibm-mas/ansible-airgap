@@ -22,6 +22,12 @@ spec:
           name: airgap-registry
           imagePullPolicy: IfNotPresent
           env:
+            - name: REGISTRY_AUTH
+              value: "htpasswd"
+            - name: REGISTRY_AUTH_HTPASSWD_REALM
+              value: "Maximo Application Suite Private Registry"
+            - name: REGISTRY_AUTH_HTPASSWD_PATH
+              value: "/auth/htpasswd"
             - name: REGISTRY_HTTP_TLS_CERTIFICATE
               value: "/certs/tls.crt"
             - name: REGISTRY_HTTP_TLS_KEY
@@ -33,6 +39,10 @@ spec:
               mountPath: /var/lib/registry
             - name: tls-vol
               mountPath: /certs
+              readOnly: true
+            - name: auth-vol
+              mountPath: "/auth"
+              readOnly: true
       # -----------------------------------------------------------------------
       volumes:
         - name: registry-vol
@@ -41,3 +51,6 @@ spec:
         - name: tls-vol
           secret:
             secretName: airgap-registry-certificate
+        - name: auth-vol
+          secret:
+            secretName: airgap-registry-auth
