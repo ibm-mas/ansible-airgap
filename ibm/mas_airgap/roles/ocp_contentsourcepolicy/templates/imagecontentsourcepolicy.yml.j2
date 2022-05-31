@@ -14,6 +14,10 @@ spec:
     - source: icr.io/ibm-truststore-mgr
       mirrors:
         - {{ registry_private_url }}/ibm-truststore-mgr
+    # IBM UDS content live in ibm-uds namespace
+    - source: icr.io/ibm-uds
+      mirrors:
+        - {{ registry_private_url }}/ibm-uds
 
     # 2. IBM Entitled Container Registry
     # -------------------------------------------------------------------------
