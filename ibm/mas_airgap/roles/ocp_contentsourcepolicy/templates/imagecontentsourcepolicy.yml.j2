@@ -28,7 +28,7 @@ spec:
 
     # 3. Red Hat Quay.io Container Registry
     # -------------------------------------------------------------------------
-    # IBM common services have some stuff under here
+    # IBM common services live here
     - source: quay.io/opencloudio
       mirrors:
         - {{ registry_private_url }}/opencloudio
@@ -40,3 +40,22 @@ spec:
     - source: quay.io/ibmmas
       mirrors:
         - {{ registry_private_url }}/ibmmas
+
+    # 4. Red Hat Container Registry
+    # -------------------------------------------------------------------------
+    # Required by UDS
+    - source: registry.connect.redhat.com/crunchydata
+      mirrors:
+        - {{ registry_private_url }}/crunchydata
+    # Required by UDS
+    - source: registry.redhat.io/ubi8
+      mirrors:
+        - {{ registry_private_url }}/ubi8
+    # Required by UDS
+    - source: registry.redhat.io/rhel8
+      mirrors:
+        - {{ registry_private_url }}/rhel8
+    # Required by UDS
+    - source: registry.redhat.io/openshift4
+      mirrors:
+        - {{ registry_private_url }}/openshift4

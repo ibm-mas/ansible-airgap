@@ -43,6 +43,7 @@
       - "Case Bundle Directory .................. {{ case_bundle_dir }}"
       - "Inventory Name ......................... {{ case_inventory_name }}"
       - "Registry Public Host ................... {{ registry_public_host }}"
+      - "Registry Public Port ................... {{ registry_public_port }}"
 
 
 # 4. Ensure *.sh files in the case bundle are executable
