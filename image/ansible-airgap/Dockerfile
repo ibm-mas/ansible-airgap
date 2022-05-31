@@ -1,4 +1,4 @@
-FROM quay.io/ibmmas/ansible-devops:10.1.0-pre.addcs
+FROM quay.io/ibmmas/ansible-devops:10.1.0-pre.master
 
 USER root
 
