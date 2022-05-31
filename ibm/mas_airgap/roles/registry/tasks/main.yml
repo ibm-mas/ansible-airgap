@@ -37,7 +37,6 @@
   register: createCertificate
 
 
-
 # 1. Create the deployment
 # -----------------------------------------------------------------------------
 - name: "Configure storage classes"
