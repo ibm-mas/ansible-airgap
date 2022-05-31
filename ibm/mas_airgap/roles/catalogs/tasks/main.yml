@@ -44,3 +44,6 @@
 #     #  type: Admitted
 #     #  status: True
 #   register: catalogSource
+
+# UDS
+# cloudctl case launch --action install-catalog  --case /tmp/casebundle-uds/case/ibm-uds --inventory ibm-uds --namespace ibm-common-services --tolerance 1 --args "--inputDir /tmp/casebundle-uds/archive --registry xxx"
