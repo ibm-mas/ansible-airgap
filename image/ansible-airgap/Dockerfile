@@ -13,4 +13,4 @@ RUN dnf install skopeo hostname httpd-tools -y &&\
 # Install Ansible Collection
 RUN ansible-galaxy collection install ${HOME}/ibm-mas_airgap.tar.gz -p $ANSIBLE_COLLECTIONS_PATH --force &&\
     rm ${HOME}/ibm-mas_airgap.tar.gz &&\
-    ln -s $ANSIBLE_COLLECTIONS_PATH/ibm/mas_devops/playbooks /opt/app-root/airgap
+    ln -s $ANSIBLE_COLLECTIONS_PATH/ibm/mas_airgap /opt/app-root/airgap
