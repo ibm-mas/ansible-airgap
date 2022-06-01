@@ -1,4 +1,4 @@
-FROM quay.io/ibmmas/ansible-devops:10.1.0-pre.master
+FROM quay.io/ibmmas/ansible-devops:10.1.0-pre.entitlementconsolidation
 
 COPY ibm-mas_airgap.tar.gz ${HOME}/ibm-mas_airgap.tar.gz
 
