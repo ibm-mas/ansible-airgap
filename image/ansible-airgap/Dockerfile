@@ -1,4 +1,4 @@
-FROM quay.io/ibmmas/ansible-devops:10.1.0-pre.master
+FROM quay.io/ibmmas/ansible-devops:10.1.0
 
 COPY ibm-mas_airgap.tar.gz ${HOME}/ibm-mas_airgap.tar.gz
 
@@ -11,6 +11,6 @@ RUN dnf install skopeo hostname httpd-tools -y &&\
     rm cloudctl-linux-amd64.tar.gz
 
 # Install Ansible Collection
-RUN ansible-galaxy collection install ${HOME}/ibm-mas_airgap.tar.gz -p $ANSIBLE_COLLECTIONS_PATH --force &&\
+RUN ansible-galaxy collection install ${HOME}/ibm-mas_airgap.tar.gz -p $ANSIBLE_COLLECTIONS_PATH --force --no-deps &&\
     rm ${HOME}/ibm-mas_airgap.tar.gz &&\
     ln -s $ANSIBLE_COLLECTIONS_PATH/ibm/mas_airgap /opt/app-root/airgap

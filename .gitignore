@@ -2,6 +2,5 @@
 *.DS_Store*
 site
 ibm/mas_airgap/ibm-mas_airgap-*.tar.gz
-pipelines/ibm-mas_airgap-clustertasks-*.yaml
-pipelines/dev/
+ibm/mas_airgap/dev-*.yml
 image/ansible-airgap/ibm-mas_airgap.tar.gz

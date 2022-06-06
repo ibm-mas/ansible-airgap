@@ -5,4 +5,7 @@
     - Add `mirror_truststore_mgr` playbook ([#12](https://github.com/ibm-mas/ansible-airgap/pull/12))
     - Support cluster configuration for air gap ([#13](https://github.com/ibm-mas/ansible-airgap/pull/13))
     - Add `simulate_network` role ([#16](https://github.com/ibm-mas/ansible-airgap/pull/16))
+    - Add playbook to mirror UDS images ([#19](https://github.com/ibm-mas/ansible-airgap/pull/19))
+    - Add role to install digest configmaps ([#18](https://github.com/ibm-mas/ansible-airgap/pull/18))
+    - Add basic auth to registry ([#22](https://github.com/ibm-mas/ansible-airgap/pull/22))
 - `1.0` Initial release ([#2](https://github.com/ibm-mas/ansible-airgap/pull/2))
