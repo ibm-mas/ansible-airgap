@@ -5,6 +5,7 @@
     case_version: "8.5.1"
     case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
     case_bundle_dir: /tmp/casebundle-mas-predict
+    exclude_images: []
     case_inventory_name: "ibmMasPredictSetup"
 
   pre_tasks:

@@ -2,9 +2,10 @@
 - hosts: localhost
   vars:
     case_name: "ibm-mas-hputilities"
-    case_version: "8.3.0"
+    case_version: "8.3.1"
     case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
     case_bundle_dir: /tmp/casebundle-mas-hputilities
+    exclude_images: []
     case_inventory_name: "ibmMasHPUtilitiesSetup"
 
   pre_tasks:

@@ -1,12 +1,12 @@
 ---
 - hosts: localhost
   vars:
-    case_name: "ibm-mas-mso"
-    case_version: "8.1.0"
+    case_name: "ibm-mas-visualinspection"
+    case_version: "8.5.0"
     case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
-    case_bundle_dir: /tmp/casebundle-mas-mso
+    case_bundle_dir: /tmp/casebundle-mas-visualinspection
     exclude_images: []
-    case_inventory_name: "ibmMasMSOSetup"
+    case_inventory_name: "ibmMasVisualInspectionSetup"
 
   pre_tasks:
     # For the full set of supported environment variables refer to the playbook documentation
