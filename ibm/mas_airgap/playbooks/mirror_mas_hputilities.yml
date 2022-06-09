@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  vars:
+    case_name: "ibm-mas-hputilities"
+    case_version: "8.3.0"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
+    case_bundle_dir: /tmp/casebundle-mas-hputilities
+    case_inventory_name: "ibmMasHPUtilitiesSetup"
+
+  pre_tasks:
+    # For the full set of supported environment variables refer to the playbook documentation
+    - name: Check for required environment variables
+      assert:
+        that:
+          - lookup('env', 'REGISTRY_PUBLIC_HOST') != ""
+          - lookup('env', 'REGISTRY_PUBLIC_PORT') != ""
+        fail_msg: "One or more required environment variables are not defined"
+
+  roles:
+    - ibm.mas_airgap.case_prepare
+    - ibm.mas_airgap.case_mirror
