@@ -29,6 +29,7 @@
   debug:
     msg:
       - "Case Name ............ {{ case_name }}"
+      - "Case Version ......... {{ case_version }}"
       - "Case Bundle Directory. {{ case_bundle_dir }}"
 
 
