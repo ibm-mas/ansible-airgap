@@ -1,7 +1,8 @@
 ## Changes
 
+- `1.2` Additional mirror playbooks ([#26](https://github.com/ibm-mas/ansible-airgap/pull/26))
 - `1.1` Multiple updates:
-    - `Add `case_prepare` and `case_mirror` roles ([#3](https://github.com/ibm-mas/ansible-airgap/pull/3))
+    - Add `case_prepare` and `case_mirror` roles ([#3](https://github.com/ibm-mas/ansible-airgap/pull/3))
     - Add `mirror_truststore_mgr` playbook ([#12](https://github.com/ibm-mas/ansible-airgap/pull/12))
     - Support cluster configuration for air gap ([#13](https://github.com/ibm-mas/ansible-airgap/pull/13))
     - Add `simulate_network` role ([#16](https://github.com/ibm-mas/ansible-airgap/pull/16))
