@@ -29,6 +29,7 @@ Role Variables
 --------------
 
 - `case_name` the name of the CASE bundle to be installed
+- `case_version` the version of the CASE bundle
 - `case_bundle_dir` the location of the CASE bundle
 - `case_archive_dir` the location to store cloudctl working files, typically `./archive` under the `case_bundle_dir`
 - `case_source` Optional URL of the case bundle archive to download  must be .tgz format
@@ -42,7 +43,8 @@ Example Playbook
 - hosts: localhost
   vars:
     case_name: "ibm-mas"
-    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas/8.7.2/ibm-mas-8.7.2.tgz?raw=true"
+    case_version: "8.7.2"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
     case_bundle_dir: "/tmp/ibm-mas-bundle/"
 
   roles:

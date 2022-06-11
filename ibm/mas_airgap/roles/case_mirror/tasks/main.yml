@@ -113,7 +113,7 @@
 # 6. Execute the Mirror
 # -----------------------------------------------------------------------------
 # UDS does not support --tolerance or --skipDelta params so we need a special case here :(
-- name: Mirror Images
+- name: Mirror Images (This may take several minutes)
   when: case_name != "ibm-uds"
   shell: >
     export USE_SKOPEO=True && cloudctl case launch --action mirror-images \

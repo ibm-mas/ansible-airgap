@@ -2,7 +2,8 @@
 - hosts: localhost
   vars:
     case_name: "ibm-sls"
-    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-sls/3.3.1/ibm-sls-3.3.1.tgz?raw=true"
+    case_version: "3.3.1"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
     case_bundle_dir: /tmp/casebundle-sls
     exclude_images: []
     case_inventory_name: "ibmSlsSetup"
