@@ -124,6 +124,7 @@ The contents of the directory specified by $DEV_AIRGAP_CHANGES are copied over t
 <h2 id="role-variables">Role Variables<a class="headerlink" href="#role-variables" title="Permanent link"></a></h2>
 <ul>
 <li><code>case_name</code> the name of the CASE bundle to be installed</li>
+<li><code>case_version</code> the version of the CASE bundle</li>
 <li><code>case_bundle_dir</code> the location of the CASE bundle</li>
 <li><code>case_archive_dir</code> the location to store cloudctl working files, typically <code>./archive</code> under the <code>case_bundle_dir</code></li>
 <li><code>case_source</code> Optional URL of the case bundle archive to download  must be .tgz format</li>
@@ -133,7 +134,8 @@ The contents of the directory specified by $DEV_AIRGAP_CHANGES are copied over t
 <pre><code class="language-yaml">- hosts: localhost
   vars:
     case_name: &quot;ibm-mas&quot;
-    case_source: &quot;https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas/8.7.2/ibm-mas-8.7.2.tgz?raw=true&quot;
+    case_version: &quot;8.7.2&quot;
+    case_source: &quot;https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true&quot;
     case_bundle_dir: &quot;/tmp/ibm-mas-bundle/&quot;
 
   roles:
