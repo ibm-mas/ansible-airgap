@@ -1,5 +1,15 @@
 ---
 
+# 1. Set up auth secret
+# -----------------------------------------------------------------------------
+- name: Creates airgap secrets directory
+  when:
+    - registry_auth_username != ""
+    - registry_auth_password != ""
+  file:
+    path: "{{ ansible_env.HOME }}/.airgap/secrets"
+    state: directory
+
 - name: Create auth secret for private registry
   when:
     - registry_auth_username != ""
@@ -11,6 +21,9 @@
     src: templates/auth-secret.json.j2
     dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
+
+# 2. Execute the mirror
+# -----------------------------------------------------------------------------
 - name: "Mirror Mongo CE Operator images to airgap registry (with auth)"
   when:
     - registry_auth_username != ""
@@ -19,11 +32,20 @@
   with_items: "{{ mongo_mirror_images }}"
   register: mirror_result
 
+- name: "Debug (with auth)"
+  when:
+    - registry_auth_username != ""
+    - registry_auth_password != ""
+  debug:
+    var: mirror_result
+
 - name: "Mirror Mongo CE Operator images to airgap registry (without auth)"
   when: registry_auth_username == "" or registry_auth_password == ""
   shell: "skopeo copy --dest-tls-verify=false --all docker://quay.io/{{ item.name }}@{{ item.digest }} docker://{{ registry_public_url }}/{{ item.name }}:{{ item.tag }}"
   with_items: "{{ mongo_mirror_images }}"
-  register: mirror_result
+  register: mirror_result_no_auth
 
-- debug:
-    var: mirror_result
+- name: "Debug (no auth)"
+  when: registry_auth_username == "" or registry_auth_password == ""
+  debug:
+    var: mirror_result_no_auth
