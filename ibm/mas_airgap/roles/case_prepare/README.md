@@ -28,23 +28,58 @@ Requirements
 Role Variables
 --------------
 
-- `case_name` the name of the CASE bundle to be installed
-- `case_version` the version of the CASE bundle
-- `case_bundle_dir` the location of the CASE bundle
-- `case_archive_dir` the location to store cloudctl working files, typically `./archive` under the `case_bundle_dir`
-- `case_source` Optional URL of the case bundle archive to download  must be .tgz format
-- `dev_overrides` a directory containing development specific files to override the production CASE bundle
+### case_name
+The name of the CASE bundle to be installed
+
+- **Required**
+- Environment Variable: `CASE_NAME`
+- Default: None
+
+### case_bundle_dir
+The location of the CASE bundle
+
+- **Required**
+- Environment Variable: `CASE_BUNDLE_DIR`
+- Default: None
+
+### case_archive_dir
+The location to store cloudctl working files.
+
+- Optional
+- Environment Variable: None
+- Default: `{{ case_bundle_dir }}/archive`
+
+### case_source
+Use this optional parameter to instruct the role to download the case bundle archive.  Download must be in `.tgz` format.
+
+- Optional
+- Environment Variable: `CASE_SOURCE`
+- Default: None
+
+### dev_overrides
+A directory containing development specific files to override the production CASE bundle
+
+- Optional
+- Environment Variable: None
+- Default: None
+
+### exclude_images
+Some CASE bundles contain child CASE bundles which can introduce unwanted images into the mirroring process.  Provide a list of cases to exclude from the mirroring process, this will result in their image manifest being removed from the working directory created by this role.
+
+- Optional
+- Environment Variable: None
+- Default: `[]`
 
 
 Example Playbook
+
 ----------------
 
 ```yaml
 - hosts: localhost
   vars:
     case_name: "ibm-mas"
-    case_version: "8.7.2"
-    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas/8.7.2/ibm-mas-8.7.2.tgz?raw=true"
     case_bundle_dir: "/tmp/ibm-mas-bundle/"
 
   roles:

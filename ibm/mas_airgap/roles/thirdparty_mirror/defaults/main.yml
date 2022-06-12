@@ -3,6 +3,10 @@ registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
 registry_public_port: "{{ lookup('env', 'REGISTRY_PUBLIC_PORT') }}"
 registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
 
+registry_auth_username: "{{ lookup('env', 'REGISTRY_AUTH_USERNAME') }}"
+registry_auth_password: "{{ lookup('env', 'REGISTRY_AUTH_PASSWORD') }}"
+registry_auth: "{{ registry_auth_username }}:{{ registry_auth_password }}"
+
 # These need to be kept in line with the images we actually use
 mongo_mirror_images:
   - name: mongodb/mongodb-kubernetes-operator
