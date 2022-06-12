@@ -64,7 +64,7 @@
     path: "{{ ansible_env.HOME }}/.airgap/secrets"
     state: directory
 
-# 5.2 IBM entitled content
+# 5.2 Private registry
 - name: Create auth secret for private registry
   when:
     - registry_auth_username is defined and registry_auth_username != ""
