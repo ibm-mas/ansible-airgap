@@ -59,8 +59,20 @@
     <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#role-variables">Role Variables</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#case_name">case_name</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#example-playbook">Example Playbook</a>
+    <li class="toctree-l3"><a class="reference internal" href="#case_bundle_dir">case_bundle_dir</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#case_archive_dir">case_archive_dir</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#case_source">case_source</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dev_overrides">dev_overrides</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#exclude_images">exclude_images</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#license">License</a>
     </li>
@@ -122,20 +134,54 @@ The contents of the directory specified by $DEV_AIRGAP_CHANGES are copied over t
 <li><code>cloudctl</code> tool must be installed</li>
 </ul>
 <h2 id="role-variables">Role Variables<a class="headerlink" href="#role-variables" title="Permanent link"></a></h2>
+<h3 id="case_name">case_name<a class="headerlink" href="#case_name" title="Permanent link"></a></h3>
+<p>The name of the CASE bundle to be installed</p>
 <ul>
-<li><code>case_name</code> the name of the CASE bundle to be installed</li>
-<li><code>case_version</code> the version of the CASE bundle</li>
-<li><code>case_bundle_dir</code> the location of the CASE bundle</li>
-<li><code>case_archive_dir</code> the location to store cloudctl working files, typically <code>./archive</code> under the <code>case_bundle_dir</code></li>
-<li><code>case_source</code> Optional URL of the case bundle archive to download  must be .tgz format</li>
-<li><code>dev_overrides</code> a directory containing development specific files to override the production CASE bundle</li>
+<li><strong>Required</strong></li>
+<li>Environment Variable: <code>CASE_NAME</code></li>
+<li>Default: None</li>
 </ul>
-<h2 id="example-playbook">Example Playbook<a class="headerlink" href="#example-playbook" title="Permanent link"></a></h2>
+<h3 id="case_bundle_dir">case_bundle_dir<a class="headerlink" href="#case_bundle_dir" title="Permanent link"></a></h3>
+<p>The location of the CASE bundle</p>
+<ul>
+<li><strong>Required</strong></li>
+<li>Environment Variable: <code>CASE_BUNDLE_DIR</code></li>
+<li>Default: None</li>
+</ul>
+<h3 id="case_archive_dir">case_archive_dir<a class="headerlink" href="#case_archive_dir" title="Permanent link"></a></h3>
+<p>The location to store cloudctl working files.</p>
+<ul>
+<li>Optional</li>
+<li>Environment Variable: None</li>
+<li>Default: <code>{{ case_bundle_dir }}/archive</code></li>
+</ul>
+<h3 id="case_source">case_source<a class="headerlink" href="#case_source" title="Permanent link"></a></h3>
+<p>Use this optional parameter to instruct the role to download the case bundle archive.  Download must be in <code>.tgz</code> format.</p>
+<ul>
+<li>Optional</li>
+<li>Environment Variable: <code>CASE_SOURCE</code></li>
+<li>Default: None</li>
+</ul>
+<h3 id="dev_overrides">dev_overrides<a class="headerlink" href="#dev_overrides" title="Permanent link"></a></h3>
+<p>A directory containing development specific files to override the production CASE bundle</p>
+<ul>
+<li>Optional</li>
+<li>Environment Variable: None</li>
+<li>Default: None</li>
+</ul>
+<h3 id="exclude_images">exclude_images<a class="headerlink" href="#exclude_images" title="Permanent link"></a></h3>
+<p>Some CASE bundles contain child CASE bundles which can introduce unwanted images into the mirroring process.  Provide a list of cases to exclude from the mirroring process, this will result in their image manifest being removed from the working directory created by this role.</p>
+<ul>
+<li>Optional</li>
+<li>Environment Variable: None</li>
+<li>Default: <code>[]</code></li>
+</ul>
+<p>Example Playbook</p>
+<hr />
 <pre><code class="language-yaml">- hosts: localhost
   vars:
     case_name: &quot;ibm-mas&quot;
-    case_version: &quot;8.7.2&quot;
-    case_source: &quot;https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true&quot;
+    case_source: &quot;https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas/8.7.2/ibm-mas-8.7.2.tgz?raw=true&quot;
     case_bundle_dir: &quot;/tmp/ibm-mas-bundle/&quot;
 
   roles:
