@@ -9,3 +9,4 @@
 
 registry_private_host: "{{ lookup('env', 'REGISTRY_PRIVATE_HOST') }}"
 registry_private_port: "{{ lookup('env', 'REGISTRY_PRIVATE_PORT') }}"
+registry_private_url: "{{ registry_private_host }}:{{ registry_private_port }}"
