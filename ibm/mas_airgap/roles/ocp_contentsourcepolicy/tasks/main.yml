@@ -22,7 +22,7 @@
 
 # 3. Create ImageContentSourcePolicy for MAS & dependencies
 # -----------------------------------------------------------------------------
-- name: Create configmap
+- name: Create ImageContentSourcePolicy
   kubernetes.core.k8s:
     apply: yes
     template: 'templates/imagecontentsourcepolicy.yml.j2'
