@@ -75,6 +75,13 @@
     case_dir: "{{ case_bundle_dir }}/case"
   register: _case_unzip
 
+# 4.5 Override prereqs files for selected apps
+- name: "Override prereqs.yaml file for selected apps"
+  when: (case_name == "ibm-mas-assist") or
+        (case_name == "ibm-mas-predict") or
+        (case_name == "ibm-mas-hputilities")
+  include_tasks: "tasks/override-prereqs.yml"
+
 
 # 5. Process CASE to configure image mirroring
 # -----------------------------------------------------------------------------
