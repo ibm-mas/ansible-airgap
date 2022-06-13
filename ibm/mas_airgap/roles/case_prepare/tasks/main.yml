@@ -82,6 +82,11 @@
         (case_name == "ibm-mas-hputilities")
   include_tasks: "tasks/override-prereqs.yml"
 
+# 4.6 Override resources and digests files for MVI
+- name: "Override resources.yaml and digests.yaml files for Visual Inspection"
+  when: case_name == "ibm-mas-visualinspection"
+  include_tasks: "tasks/override-mvi-omit-edge.yml"
+
 
 # 5. Process CASE to configure image mirroring
 # -----------------------------------------------------------------------------
