@@ -1,0 +1,25 @@
+---
+# Get Registry facts from environment variables if they have not been passed to the role
+registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
+registry_public_port: "{{ lookup('env', 'REGISTRY_PUBLIC_PORT') }}"
+registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
+
+# Release config
+openshift_operators_version: "{{ lookup('env', 'OPENSHIFT_OPERATORS_VERSION') }}"
+dir: "{{ lookup('env', 'DIR') }}"
+
+ibm_entitlement_key: "{{ lookup('env', 'IBM_ENTITLEMENT_KEY') }}"
+ibm_auth: "cp:{{ ibm_entitlement_key }}"
+
+redhat_connect_username: "{{ lookup('env', 'REDHAT_CONNECT_USERNAME') }}"
+redhat_connect_password: "{{ lookup('env', 'REDHAT_CONNECT_PASSWORD') }}"
+redhat_connect_auth: "{{ redhat_connect_username }}:{{ redhat_connect_password }}"
+
+quay_username: "{{ lookup('env', 'QUAY_USERNAME') }}"
+quay_password: "{{ lookup('env', 'QUAY_PASSWORD') }}"
+quay_auth: "{{ quay_username }}:{{ quay_password }}"
+
+registry_public_username: "{{ lookup('env', 'REGISTRY_PUBLIC_USERNAME') }}"
+registry_public_password: "{{ lookup('env', 'REGISTRY_PUBLIC_PASSWORD') }}"
+registry_auth: "{{ registry_public_username }}:{{ registry_public_password }}"
+
