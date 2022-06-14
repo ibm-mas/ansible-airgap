@@ -1,0 +1,13 @@
+---
+# Override digests.yaml and resources.yaml files to omit edge container/images for Visual Inspection
+
+- name: Remove edge resources from resources.yaml
+  copy:
+    src: "templates/mvi-resources-override.yml.j2"
+    dest: "{{ case_bundle_dir }}/case/{{ case_name }}/inventory/ibmMasVisualInspection/resources.yaml"
+
+
+- name: Remove edge resources from digests.yaml
+  copy:
+    src: "templates/mvi-digests-override.yml.j2"
+    dest: "{{ case_bundle_dir }}/case/{{ case_name }}/digests.yaml"
