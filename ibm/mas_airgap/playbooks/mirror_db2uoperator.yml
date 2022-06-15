@@ -1,12 +1,13 @@
 ---
 - hosts: localhost
+
   vars:
-    case_name: "ibm-db2wh"
-    case_version: "4.0.10"
+    case_name: "ibm-db2uoperator"
+    case_version: "4.0.11"
     case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
-    case_bundle_dir: /tmp/casebundle-db2wh
+    case_bundle_dir: /tmp/casebundle-db2uoperator
     exclude_images: []
-    case_inventory_name: "db2whOperatorSetup"
+    case_inventory_name: "db2uOperatorSetup"
 
   pre_tasks:
     # For the full set of supported environment variables refer to the playbook documentation
