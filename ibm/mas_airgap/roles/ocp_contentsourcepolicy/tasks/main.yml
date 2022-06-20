@@ -24,8 +24,8 @@
 # -----------------------------------------------------------------------------
 - name: Update default image pull secret
   when:
-    - registry_auth_username != ""
-    - registry_auth_password != ""
+    - registry_username != ""
+    - registry_password != ""
   include_tasks: "tasks/update-pull-secret.yml"
 
 

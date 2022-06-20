@@ -6,7 +6,7 @@ registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
 
 # Release config
 openshift_release_version: "{{ lookup('env', 'OPENSHIFT_RELEASE_VERSION') }}"
-dir: "{{ lookup('env', 'DIR') }}"
+log_dir: "{{ lookup('env', 'LOG_DIR') }}"
 
 ibm_entitlement_key: "{{ lookup('env', 'IBM_ENTITLEMENT_KEY') }}"
 ibm_auth: "cp:{{ ibm_entitlement_key }}"
@@ -19,7 +19,7 @@ quay_username: "{{ lookup('env', 'QUAY_USERNAME') }}"
 quay_password: "{{ lookup('env', 'QUAY_PASSWORD') }}"
 quay_auth: "{{ quay_username }}:{{ quay_password }}"
 
-registry_public_username: "{{ lookup('env', 'REGISTRY_PUBLIC_USERNAME') }}"
-registry_public_password: "{{ lookup('env', 'REGISTRY_PUBLIC_PASSWORD') }}"
-registry_auth: "{{ registry_public_username }}:{{ registry_public_password }}"
+registry_username: "{{ lookup('env', 'REGISTRY_USERNAME') }}"
+registry_password: "{{ lookup('env', 'REGISTRY_PASSWORD') }}"
+registry_auth: "{{ registry_username }}:{{ registry_password }}"
 

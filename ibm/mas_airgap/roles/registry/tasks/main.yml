@@ -3,8 +3,8 @@
 - name: Check that required properties have been set
   assert:
     that:
-      - registry_auth_username is defined and registry_auth_username != ""
-      - registry_auth_password is defined and registry_auth_password != ""
+      - registry_username is defined and registry_username != ""
+      - registry_password is defined and registry_password != ""
 
 # 1. Create the TLS certificates
 # -----------------------------------------------------------------------------
@@ -52,7 +52,7 @@
 # 2. Create the authentication secret
 # -----------------------------------------------------------------------------
 - name: Generate htpasswd
-  shell: "htpasswd -Bbn {{ registry_auth_username }} {{ registry_auth_password }}"
+  shell: "htpasswd -Bbn {{ registry_username }} {{ registry_password }}"
   register: htpasswd_result
 
 - name: "Generated htpasswd content"
@@ -109,8 +109,8 @@
     msg:
       - "Registry Hostname ...................... {{ cluster_subdomain.resources[0].spec.domain }}"
       - "registry Port .......................... 32500"
-      - "Registry Username ...................... {{ registry_auth_username }}"
-      - "Registry Password ...................... {{ registry_auth_password }}"
+      - "Registry Username ...................... {{ registry_username }}"
+      - "Registry Password ...................... {{ registry_password }}"
       - "Registry CA certificate ................ /tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500/ca.crt"
       - "  Install the certificate:"
       - "  mv \"/tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500\" \"/etc/docker/certs.d/{{ cluster_subdomain.resources[0].spec.domain }}:32500\""

@@ -6,7 +6,7 @@
   assert:
     that:
       - openshift_operators_version is defined and openshift_operators_version != ""
-      - dir is defined and dir != ""
+      - log_dir is defined and log_dir != ""
       - registry_public_host is defined and registry_public_host != ""
       - ibm_entitlement_key is defined and ibm_entitlement_key != ""
       - redhat_connect_username is defined and redhat_connect_username != ""
@@ -33,11 +33,11 @@
   debug:
     msg:
       - "OpenShift Operators Version .............. {{ openshift_operators_version }}"
-      - "Log Directory .......................... {{ dir }}"
+      - "Log Directory .......................... {{ log_dir }}"
       - "Registry Public Host ................... {{ registry_public_host }}"
       - "Registry Public Port ................... {{ registry_public_port }}"
-      - "registry_public_username ................. {{ registry_public_username }}"
-      - "registry_public_password ................. {{ registry_public_password }}"
+      - "registry_username ...................... {{ registry_username }}"
+      - "registry_password ...................... {{ registry_password }}"
       - "redhat_connect_username ................ {{ redhat_connect_username }}"
       - "redhat_connect_password ................ {{ redhat_connect_password }}"
       - "registry_name1: {{ registry_public_url }}"
@@ -83,7 +83,7 @@
 - name: Mirror RedHat Operator Images (This may take several minutes)
   shell: >
     oc adm catalog mirror -a {{ ansible_env.HOME }}/.airgap/auth/auth.json registry.redhat.io/redhat/redhat-operator-index:v{{ openshift_operators_version }} {{ registry_public_host }}:{{ registry_public_port }}/redhat --insecure=true \
-    | tee {{ dir }}/catalog-mirror-redhat-{{ openshift_operators_version }}.log
+    | tee {{ log_dir }}/catalog-mirror-redhat-{{ openshift_operators_version }}.log
   register: mirror_result
 
 - name: "Debug Mirror"
@@ -96,7 +96,7 @@
 - name: Mirror Community Operator Images (This may take several minutes)
   shell: >
     oc adm catalog mirror -a {{ ansible_env.HOME }}/.airgap/auth/auth.json registry.redhat.io/redhat/community-operator-index:v{{ openshift_operators_version }} {{ registry_public_host }}:{{ registry_public_port }}/redhat --insecure=true \
-    | tee {{ dir }}/catalog-mirror-community-{{ openshift_operators_version }}.log
+    | tee {{ log_dir }}/catalog-mirror-community-{{ openshift_operators_version }}.log
   register: mirror_result
 
 - name: "Debug Mirror"
@@ -108,7 +108,7 @@
 - name: Mirror Certified Operator Images (This may take several minutes)
   shell: >
     oc adm catalog mirror -a {{ ansible_env.HOME }}/.airgap/auth/auth.json registry.redhat.io/redhat/certified-operator-index:v{{ openshift_operators_version }} {{ registry_public_host }}:{{ registry_public_port }}/redhat --insecure=true \
-    | tee {{ dir }}/catalog-mirror-certified-{{ openshift_operators_version }}.log
+    | tee {{ log_dir }}/catalog-mirror-certified-{{ openshift_operators_version }}.log
   register: mirror_result
 
 - name: "Debug Mirror"
@@ -120,7 +120,7 @@
 - name: Mirror RedHat Marketplace Images (This may take several minutes)
   shell: >
     oc adm catalog mirror -a {{ ansible_env.HOME }}/.airgap/auth/auth.json registry.redhat.io/redhat/redhat-marketplace-index:v{{ openshift_operators_version }} {{ registry_public_host }}:{{ registry_public_port }}/redhat --insecure=true \
-    | tee {{ dir }}/catalog-mirror-marketplace-{{ openshift_operators_version }}.log
+    | tee {{ log_dir }}/catalog-mirror-marketplace-{{ openshift_operators_version }}.log
   register: mirror_result
 
 - name: "Debug Mirror"

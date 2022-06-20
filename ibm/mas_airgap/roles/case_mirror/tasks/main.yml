@@ -67,8 +67,8 @@
 # 5.2 Private registry
 - name: Create auth secret for private registry
   when:
-    - registry_auth_username is defined and registry_auth_username != ""
-    - registry_auth_password is defined and registry_auth_password != ""
+    - registry_username is defined and registry_username != ""
+    - registry_password is defined and registry_password != ""
   vars:
     secret_registry_name: "{{ registry_public_url }}"
     secret_registry_auth: "{{ registry_auth }}"
