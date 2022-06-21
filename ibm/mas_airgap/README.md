@@ -4,7 +4,9 @@
 [https://ibm-mas.github.io/ansible-airgap/](https://ibm-mas.github.io/ansible-airgap/)
 
 ## Change Log
-- `1.2` Additional mirror playbooks ([#26](https://github.com/ibm-mas/ansible-airgap/pull/26))
+- `1.2` Multiple updates:
+    - Additional mirror playbooks ([#26](https://github.com/ibm-mas/ansible-airgap/pull/26))
+    - Mirror openshift release and operators ([#36](https://github.com/ibm-mas/ansible-airgap/pull/36))
 - `1.1` Multiple updates:
     - `Add `case_prepare` and `case_mirror` roles ([#3](https://github.com/ibm-mas/ansible-airgap/pull/3))
     - Add `mirror_truststore_mgr` playbook ([#12](https://github.com/ibm-mas/ansible-airgap/pull/12))
