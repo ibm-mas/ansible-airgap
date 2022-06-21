@@ -6,6 +6,6 @@ registry_private_url: "{{ registry_private_host }}:{{ registry_private_port }}"
 
 registry_private_ca_file: "{{ lookup('env', 'REGISTRY_PRIVATE_CA_FILE') }}"
 
-registry_auth_username: "{{ lookup('env', 'REGISTRY_AUTH_USERNAME') }}"
-registry_auth_password: "{{ lookup('env', 'REGISTRY_AUTH_PASSWORD') }}"
-registry_auth: "{{ registry_auth_username }}:{{ registry_auth_password }}"
+registry_username: "{{ lookup('env', 'REGISTRY_USERNAME') }}"
+registry_password: "{{ lookup('env', 'REGISTRY_PASSWORD') }}"
+registry_auth: "{{ registry_username }}:{{ registry_password }}"

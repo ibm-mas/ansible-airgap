@@ -6,8 +6,8 @@
       assert:
         that:
           - lookup('env', 'REGISTRY_STORAGE_CLASS') != ""
-          - lookup('env', 'REGISTRY_AUTH_USERNAME') != ""
-          - lookup('env', 'REGISTRY_AUTH_PASSWORD') != ""
+          - lookup('env', 'REGISTRY_USERNAME') != ""
+          - lookup('env', 'REGISTRY_PASSWORD') != ""
         fail_msg: "One or more required environment variables are not defined"
 
   roles:
