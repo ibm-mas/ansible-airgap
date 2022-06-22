@@ -1,0 +1,166 @@
+---
+# Configure the Cluster to pull images from the mirror
+# - Configure the Image Content Source Policy
+# - wait for nodes to restart
+
+
+# 1. Param check
+# -----------------------------------------------------------------------------
+- name: "Check for required parameters"
+  assert:
+    that:
+      - registry_private_host is defined and registry_private_host != ""
+      - registry_private_port is defined and registry_private_port != ""
+      - output_dir is defined and output_dir != ""
+
+
+# 3. Debug
+# -----------------------------------------------------------------------------
+- name: "Airgap setup configuration"
+  debug:
+    msg:
+      - "Registry Private Host ................... {{ registry_private_host }}"
+      - "Registry Private Port ................... {{ registry_private_port }}"
+      - "Output Directory ....................... {{ output_dir }}"
+
+
+# 5. Create ImageContentSourcePolicies
+# -----------------------------------------------------------------------------
+- name: Config Cluster Airgap 
+  shell: "oc patch OperatorHub cluster --type json -p '[{\"op\": \"add\", \"path\": \"/spec/disableAllDefaultSources\", \"value\": true}]'"
+  ignore_errors: true
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/redhat-operators/catalogSource.yaml"
+    regexp: 'name:.*'
+    replace: 'name: redhat-operators'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/redhat-operators/catalogSource.yaml"
+  register: redhat_icsp_result
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/redhat-operators/imageContentSourcePolicy.yaml"
+    regexp: 'name:.*'
+    replace: 'name: redhat-operators'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/redhat-operators/imageContentSourcePolicy.yaml"
+  register: redhat_icsp_result
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/community-operators/catalogSource.yaml"
+    regexp: 'name:.*'
+    replace: 'name: community-operators'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/community-operators/catalogSource.yaml"
+  register: community_icsp_result
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/community-operators/imageContentSourcePolicy.yaml"
+    regexp: 'name:.*'
+    replace: 'name: community-operators'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/community-operators/imageContentSourcePolicy.yaml"
+  register: community_icsp_result
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/certified-operators/catalogSource.yaml"
+    regexp: 'name:.*'
+    replace: 'name: certified-operators'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/certified-operators/catalogSource.yaml"
+  register: certified_icsp_result
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/certified-operators/imageContentSourcePolicy.yaml"
+    regexp: 'name:.*'
+    replace: 'name: certified-operators'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/certified-operators/imageContentSourcePolicy.yaml"
+  register: certified_icsp_result
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/marketplace-operators/catalogSource.yaml"
+    regexp: 'name:.*'
+    replace: 'name: redhat-marketplace'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/marketplace-operators/catalogSource.yaml"
+  register: marketplace_icsp_result
+
+
+- name: update name
+  ansible.builtin.replace:
+    path: "{{ output_dir }}/marketplace-operators/imageContentSourcePolicy.yaml"
+    regexp: 'name:.*'
+    replace: 'name: redhat-marketplace'
+
+
+# 2. Create ImageContentSourcePolicy for MAS & dependencies
+# -----------------------------------------------------------------------------
+- name: Create ImageContentSourcePolicy
+  kubernetes.core.k8s:
+    apply: yes
+    src: "{{ output_dir }}/marketplace-operators/imageContentSourcePolicy.yaml"
+  register: marketplace_icsp_result
+
+
+# 3. Wait until the nodes have applied the updates
+# -----------------------------------------------------------------------------
+- name: Wait for Machine Configs to update
+  when: (redhat_icsp_result.changed) or (community_icsp_result.changed) or (certified_icsp_result.changed) or (marketplace_icsp_result.changed)
+  include_tasks: "tasks/wait-machine-config-update.yml"

@@ -1,13 +1,26 @@
 ---
+# Approximate runtime: 30 minutes (on a good connection)
 - hosts: localhost
   vars:
-    case_name: "ibm-sls"
-    case_namespace: "ibm-sls"
-    case_version: "3.3.1"
+    case_name: "ibm-mas"
+    mas_instance_id: "{{ lookup('env', 'MAS_INSTANCE_ID') }}"
+    case_namespace: 
+      - mas-{{ mas_instance_id }}-core
+    case_version: "8.7.2"
     case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
-    case_bundle_dir: /tmp/casebundle-sls
-    exclude_images: []
-    case_inventory_name: "ibmSlsSetup"
+    case_bundle_dir: /tmp/casebundle-mas
+    exclude_images:
+      - ibm-mas-assist
+      - ibm-mas-hputilities
+      - ibm-mas-iot
+      - ibm-mas-manage
+      - ibm-mas-monitor
+      - ibm-mas-predict
+      - ibm-mas-safety
+      - ibm-mas-visualinspection
+      - ibm-mas-mso
+      - ibm-sls
+    case_inventory_name: "ibmMasSetup"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -21,4 +34,5 @@
 
   roles:
     - ibm.mas_airgap.case_prepare
-    - ibm.mas_airgap.case_mirror
+    - ibm.mas_airgap.case_config_icsp
+    - ibm.mas_airgap.case_config_imagemap

@@ -1,13 +1,17 @@
 ---
 - hosts: localhost
   vars:
-    case_name: "ibm-sls"
-    case_namespace: "ibm-sls"
-    case_version: "3.3.1"
+    case_name: "ibm-truststore-mgr"
+    mas_instance_id: "{{ lookup('env', 'MAS_INSTANCE_ID') }}"
+    case_namespace: 
+      - ibm-sls
+      - mas-{{ mas_instance_id }}-core
+      - mas-{{ mas_instance_id }}-manage
+    case_version: "1.2.2"
     case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{case_name}}/{{case_version}}/{{case_name}}-{{case_version}}.tgz?raw=true"
-    case_bundle_dir: /tmp/casebundle-sls
+    case_bundle_dir: /tmp/casebundle-truststore-mgr
     exclude_images: []
-    case_inventory_name: "ibmSlsSetup"
+    case_inventory_name: "ibmTrustStoreMgrSetup"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -21,4 +25,5 @@
 
   roles:
     - ibm.mas_airgap.case_prepare
-    - ibm.mas_airgap.case_mirror
+    - ibm.mas_airgap.case_config_icsp
+    - ibm.mas_airgap.case_config_imagemap

@@ -31,4 +31,4 @@
 
   roles:
     - ibm.mas_airgap.case_prepare
-    - ibm.mas_airgap.case_mirror
+    - ibm.mas_airgap.case_config_icsp

@@ -1,0 +1,137 @@
+---
+
+# 1. Check for undefined properties that do not have a default
+# -----------------------------------------------------------------------------
+- name: "Fail if required properties are not provided"
+  assert:
+    that:
+      - case_name is defined and case_name != ""
+      - case_bundle_dir is defined and case_bundle_dir != ""
+      - case_inventory_name is defined and case_inventory_name != ""
+    fail_msg: "One or more required properties are missing"
+
+
+# 2. Check for required software
+# -----------------------------------------------------------------------------
+- name: "Test if cloudctl is installed"
+  shell: cloudctl version
+  register: _cloudctl_version
+  ignore_errors: true
+
+- name: "Fail if cloudctl is not installed"
+  assert:
+    that: ( _cloudctl_version['rc'] == 0 )
+    fail_msg: "cloudctl tool must be installed."
+
+
+# 3. Debug
+# -----------------------------------------------------------------------------
+- name: "Airgap setup configuration"
+  debug:
+    msg:
+      - "Case Name .............................. {{ case_name }}"
+      - "Case Namespace ......................... {{ case_namespace }}"
+      - "Case Bundle Directory .................. {{ case_bundle_dir }}"
+      - "Inventory Name ......................... {{ case_inventory_name }}"
+
+
+# 4. Ensure *.sh files in the case bundle are executable
+# -----------------------------------------------------------------------------
+- name: "Make all CASE bundle shell scripts executable"
+  shell: "chmod u+x {{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/*.sh"
+
+
+# 5. Create project for imagemap
+# -----------------------------------------------------------------------------
+- name: create namespace
+  when: ( case_namespace is defined ) and ( case_namespace is string )
+  shell: "oc create namespace {{ case_namespace }}"
+  ignore_errors: true
+
+
+# 6. Create projects for imagemap
+# -----------------------------------------------------------------------------
+- name: create namespaces in list
+  when: case_name == 'ibm-truststore-mgr'
+  shell: "oc create namespace {{ item }}"
+  loop: 
+    - "{{ case_namespace }}"
+  ignore_errors: true
+
+
+# 7. Create ibm-sls image-map ConfigMap
+# -----------------------------------------------------------------------------
+- name: create sls, truststoremgr configmap files
+  when:  case_name == "ibm-sls" or case_name == "ibm-truststore-mgr"
+  shell: "oc create configmap {{ case_name }}-image-map --dry-run=client --from-file={{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/image-map.yaml -o yaml > {{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/image-map-cm.yaml"
+
+
+# 8. Create ibm-sls image-map ConfigMap
+# -----------------------------------------------------------------------------
+- name: create sls configmap
+  when: case_name == "ibm-sls" 
+  shell: "oc apply -n {{ case_namespace }} -f \"{{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/image-map-cm.yaml\""
+
+
+# 9. Create ibm-truststore-mgr image-map ConfigMap
+# -----------------------------------------------------------------------------
+- name: create truststoremgr configmaps
+  when: case_name == "ibm-truststore-mgr" 
+  shell: "oc apply -n {{ item }} -f \"{{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/image-map-cm.yaml\""
+  loop: 
+    - "{{ case_namespace }}"
+
+
+# 10. Create image-map ConfigMap
+# -----------------------------------------------------------------------------
+- name: configure cluster configmap for mas
+  when: case_name == "ibm-mas"
+  shell: >
+    cloudctl case launch --action install-operator \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --namespace {{ case_namespace[0] }} \
+      --tolerance 1 \
+      --args "--registry localhost --inputDir {{ case_archive_dir }}" \
+    | tee {{ case_bundle_dir }}/config-configmap-{{ case_name }}-{{ case_inventory_name }}.log
+  register: config_result
+
+
+# 10. Create image-map ConfigMap
+# -----------------------------------------------------------------------------
+- name: configure cluster configmap for manage
+  when: case_name == "ibm-mas-manage"
+  shell: >
+    cloudctl case launch --action createImageConfigMap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --namespace {{ case_namespace }} \
+      --tolerance 1 \
+      --args "--registry localhost --inputDir {{ case_archive_dir }}" \
+    | tee {{ case_bundle_dir }}/config-configmap-{{ case_name }}-{{ case_inventory_name }}.log
+  register: config_result
+
+
+# 11. Create image-map ConfigMap
+# -----------------------------------------------------------------------------
+- name: configure-cluster-configmap
+  when: case_name != "ibm-sls" and case_name != "ibm-truststore-mgr" and case_name != "ibm-mas" and case_name != "ibm-mas-manage"
+  shell: >
+    cloudctl case launch --action configure-cluster-configmap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --namespace {{ case_namespace }} \
+      --tolerance 1 \
+      --args "--registry localhost --inputDir {{ case_archive_dir }}" \
+    | tee {{ case_bundle_dir }}/config-configmap-{{ case_name }}-{{ case_inventory_name }}.log
+  register: config_result
+
+
+# 11. Debug Output
+# -----------------------------------------------------------------------------
+#- name: "Debug Output"
+#  debug:
+#    msg:
+#      - "{{ config_result.stdout.split('\n') }}"
+
+

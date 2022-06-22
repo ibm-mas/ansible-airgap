@@ -5,6 +5,7 @@
 - name: "Fail if required properties are not provided"
   assert:
     that:
+      - image_destination is defined and image_destination != ""
       - case_name is defined and case_name != ""
       - case_bundle_dir is defined and case_bundle_dir != ""
       - case_inventory_name is defined and case_inventory_name != ""
@@ -138,6 +139,13 @@
       --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }}" \
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
+
+- name: Mirror common service catalog
+  when: case_name == "ibm-cp-common-services"
+  shell: >
+    skopeo copy --all --authfile "{{ ansible_env.HOME }}/.airgap/auth.json" --dest-tls-verify=false --src-tls-verify=false docker://icr.io/cpopen/ibm-common-service-catalog:latest docker://{{ registry_public_url }}/cpopen/ibm-common-service-catalog:latest
+  ignore_errors: true
+
 
 - name: "Debug Mirror (UDS special case)"
   when: case_name == "ibm-uds"

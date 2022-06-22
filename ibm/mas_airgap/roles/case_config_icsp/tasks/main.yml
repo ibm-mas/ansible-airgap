@@ -1,0 +1,87 @@
+---
+
+# 1. Check for undefined properties that do not have a default
+# -----------------------------------------------------------------------------
+- name: "Fail if required properties are not provided"
+  assert:
+    that:
+      - case_name is defined and case_name != ""
+      - case_bundle_dir is defined and case_bundle_dir != ""
+      - case_inventory_name is defined and case_inventory_name != ""
+    fail_msg: "One or more required properties are missing"
+
+
+# 2. Check for required software
+# -----------------------------------------------------------------------------
+- name: "Test if cloudctl is installed"
+  shell: cloudctl version
+  register: _cloudctl_version
+  ignore_errors: true
+
+- name: "Fail if cloudctl is not installed"
+  assert:
+    that: ( _cloudctl_version['rc'] == 0 )
+    fail_msg: "cloudctl tool must be installed."
+
+
+# 3. Debug
+# -----------------------------------------------------------------------------
+- name: "Airgap setup configuration"
+  debug:
+    msg:
+      - "Case Name .............................. {{ case_name }}"
+      - "Case Bundle Directory .................. {{ case_bundle_dir }}"
+      - "Inventory Name ......................... {{ case_inventory_name }}"
+
+
+# 4. Ensure *.sh files in the case bundle are executable
+# -----------------------------------------------------------------------------
+- name: "Make all CASE bundle shell scripts executable"
+  shell: chmod u+x {{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/*.sh
+
+
+# 5. Create ImageContentSourcePolicies
+# -----------------------------------------------------------------------------
+- name: Config Cluster Airgap 
+  when: ( case_namespace is defined ) and ( case_namespace | type_debug != "list" ) and ( case_namespace is string )
+  shell: oc create namespace {{ case_namespace }} 
+  ignore_errors: true
+
+
+# 6. Create ImageContentSourcePolicies
+# -----------------------------------------------------------------------------
+- name: Config Cluster Airgap 
+  when: ( case_namespace is defined ) and ( case_namespace | type_debug != "list" ) and ( case_namespace is string )
+  shell: >
+    cloudctl case launch --action configure-cluster-airgap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --namespace {{ case_namespace }} \
+      --tolerance 1 \
+      --args "--registry localhost --inputDir {{ case_archive_dir }}" \
+    | tee {{ case_bundle_dir }}/config-icsp-{{ case_name }}-{{ case_inventory_name }}.log
+  register: config_result
+
+
+# 7. Create ImageContentSourcePolicies
+# -----------------------------------------------------------------------------
+- name: Config Cluster Airgap 
+  when: case_namespace is undefined 
+  shell: >
+    cloudctl case launch --action configure-cluster-airgap \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --tolerance 1 \
+      --args "--inputDir {{ case_archive_dir }}" \
+    | tee {{ case_bundle_dir }}/config-icsp-{{ case_name }}-{{ case_inventory_name }}.log
+  register: config_result
+
+
+# 8. Debug Output
+# -----------------------------------------------------------------------------
+#- name: "Debug Output"
+#  debug:
+#    msg:
+#      - "{{ config_result.stdout.split('\n') }}"
+
+

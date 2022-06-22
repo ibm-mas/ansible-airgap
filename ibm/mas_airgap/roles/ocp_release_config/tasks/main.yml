@@ -17,7 +17,25 @@
 # 2. Configure CA trust
 # -----------------------------------------------------------------------------
 - name: Set up trust for the registry
+  when:
+    - registry_secure == "true"
   include_tasks: "tasks/trust.yml"
+
+
+# 2. Configure allowedregistriesforimport
+# -----------------------------------------------------------------------------
+- name: Set allowedregistriesforimport
+  when:
+    - registry_secure == "true"
+  shell: "oc patch image.config.openshift.io/cluster -p '{\"spec\":{\"allowedRegistriesForImport\":[{\"domainName\":\"{{ registry_private_host }}:{{ registry_private_port }}\",\"insecure\":false }]}}}' --type='merge'"
+
+
+# 2. Configure allowedregistriesforimport
+# -----------------------------------------------------------------------------
+- name: Set allowedregistriesforimport
+  when:
+    - registry_secure == "false"
+  shell: "oc patch image.config.openshift.io/cluster -p '{\"spec\":{\"allowedRegistriesForImport\":[{\"domainName\":\"{{ registry_private_host }}:{{ registry_private_port }}\",\"insecure\":true }], \"registrySources\":{ \"insecureRegistries\":[\"{{ registry_private_host }}:{{ registry_private_port }}\"]}}}' --type='merge'"
 
 
 # 3. Update default image pull secret

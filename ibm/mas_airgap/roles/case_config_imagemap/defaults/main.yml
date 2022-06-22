@@ -1,7 +1,4 @@
 ---
-image_destination: "{{ lookup('env', 'IMAGE_DESTINATION')  | default('registry', true) }}"
-image_directory: "{{ lookup('env', 'IMAGE_DIRECTORY') | default('/tmp', true) }}"
-
 # Get Registry facts from environment variables if they have not been passed to the role
 registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
 registry_public_port: "{{ lookup('env', 'REGISTRY_PUBLIC_PORT') }}"
@@ -23,3 +20,5 @@ redhat_connect_auth: "{{ redhat_connect_username }}:{{ redhat_connect_password }
 registry_username: "{{ lookup('env', 'REGISTRY_USERNAME') }}"
 registry_password: "{{ lookup('env', 'REGISTRY_PASSWORD') }}"
 registry_auth: "{{ registry_username }}:{{ registry_password }}"
+
+mas_instance_id: "{{ lookup('env', 'MAS_INSTANCE_ID') }}"

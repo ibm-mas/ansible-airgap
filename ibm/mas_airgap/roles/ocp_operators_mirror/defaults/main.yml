@@ -7,6 +7,7 @@ registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
 # Release config
 openshift_operators_version: "{{ lookup('env', 'OPENSHIFT_OPERATORS_VERSION') }}"
 log_dir: "{{ lookup('env', 'LOG_DIR') }}"
+output_dir: "{{ lookup('env', 'OUTPUT_DIR') }}"
 
 ibm_entitlement_key: "{{ lookup('env', 'IBM_ENTITLEMENT_KEY') }}"
 ibm_auth: "cp:{{ ibm_entitlement_key }}"

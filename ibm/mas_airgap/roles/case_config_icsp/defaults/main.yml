@@ -1,0 +1,8 @@
+---
+# Case config
+case_name: "{{ lookup('env', 'CASE_NAME') }}"
+case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"
+case_archive_dir: "{{ case_bundle_dir }}/archive"
+case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
+
+mas_instance_id: "{{ lookup('env', 'MAS_INSTANCE_ID') }}"
