@@ -1,5 +1,5 @@
-case_mirror
-===========
+ocp_operators_mirror
+====================
 This role uses the specifed Red Hat OpenShift Operator version to mirror the standard OpenShift catalog container images to a mirror registry and configure the cluster to pull images from this mirror.
 
 When mirroring is complete, you can view the content of your registry:
@@ -16,7 +16,7 @@ Requirements
 Role Variables
 --------------
 ### openshift_operators_version
-The version of standard operators to be mirrored.
+The version of the operator catalogs to be mirrored in major.minor format, e.g. `4.8`.
 
 - **Required**
 - Environment Variable: `OPENSHIFT_OPERATORS_VERSION`
@@ -64,14 +64,14 @@ The public port number for the target registry
 - Default: None
 
 ### registry_username
-The username for the target registry
+The username for the target registry, if the target registry requires authentication.
 
 - Optional
 - Environment Variable: `REGISTRY_USERNAME`
 - Default: None
 
 ### registry_password
-The password for the target registry
+The password for the target registry, if the target registry requires authentication.
 
 - Optional
 - Environment Variable: `REGISTRY_PASSWORD`
