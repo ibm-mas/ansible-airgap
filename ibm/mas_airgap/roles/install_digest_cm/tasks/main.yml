@@ -80,13 +80,32 @@
   include_role:
     name: ibm.mas_airgap.case_prepare
 
-- name: "Install MAS digest config maps"
+- name: "Install MAS digest configmap"
   vars:
     digest_image_map_name: ibm-mas-image-map
     digest_image_map_file: "/tmp/casebundle-mas/case/ibm-mas/inventory/ibmMasSetup/files/image-map.yaml"
     digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
-    digest_image_map_namespace: "{{ item }}"
+    digest_image_map_namespace: "mas-{{ mas_instance_id }}-core"
   kubernetes.core.k8s:
     template: 'templates/configmap.yml.j2'
-  with_items:
-    - "mas-{{ mas_instance_id }}-core"
+
+
+# 4. MAS - IoT
+# -----------------------------------------------------------------------------
+- name: "Prepare the MAS IoT case"
+  vars:
+    case_name: "ibm-mas-iot"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas-iot/8.4.3/ibm-mas-iot-8.4.3.tgz?raw=true"
+    case_bundle_dir: /tmp/casebundle-mas-iot
+    case_inventory_name: "ibmMasIotSetup"
+  include_role:
+    name: ibm.mas_airgap.case_prepare
+
+- name: "Install MAS IoT digest configmap"
+  vars:
+    digest_image_map_name: ibm-mas-iot-image-map
+    digest_image_map_file: "/tmp/casebundle-mas-iot/case/ibm-mas-iot/inventory/ibmMasIotSetup/files/image-map.yaml"
+    digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
+    digest_image_map_namespace: "mas-{{ mas_instance_id }}-iot"
+  kubernetes.core.k8s:
+    template: 'templates/configmap.yml.j2'
