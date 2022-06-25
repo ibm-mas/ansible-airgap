@@ -69,7 +69,7 @@
     dest: "{{ ansible_env.HOME }}/.airgap/auth/auth.json"
 
 
-# 5. Execute the Mirror
+# 5.  Mirror RedHat Operator Images
 # -----------------------------------------------------------------------------
 - name: Mirror RedHat Operator Images (This may take several minutes)
   shell: >
@@ -82,7 +82,7 @@
     msg: "{{ mirror_result.stdout_lines }}"
 
 
-# 6. Execute the Mirror
+# 6.Mirror Community Operator Images
 # -----------------------------------------------------------------------------
 - name: Mirror Community Operator Images (This may take several minutes)
   shell: >
@@ -94,7 +94,7 @@
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
 
-# 7. Execute the Mirror
+# 7. Mirror Certified Operator Images
 # -----------------------------------------------------------------------------
 - name: Mirror Certified Operator Images (This may take several minutes)
   shell: >
@@ -106,7 +106,7 @@
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
 
-# 8. Execute the Mirror
+# 8. Mirror RedHat Marketplace Images
 # -----------------------------------------------------------------------------
 - name: Mirror RedHat Marketplace Images (This may take several minutes)
   shell: >
@@ -117,4 +117,3 @@
 - name: "Debug Mirror"
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
-
