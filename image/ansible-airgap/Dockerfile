@@ -1,4 +1,4 @@
-FROM quay.io/ibmmas/ansible-devops:10.4.2-pre.master
+FROM quay.io/ibmmas/ansible-devops:10.4.2
 
 COPY ibm-mas_airgap.tar.gz ${HOME}/ibm-mas_airgap.tar.gz
 
