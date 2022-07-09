@@ -1,6 +1,6 @@
 galaxy_info:
   author:
-    - Paul Stone
+    - Rick Acree
     - David Parker
   description: Mirror images to a local registry for AirGap installation
   company: IBM

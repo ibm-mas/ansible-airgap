@@ -21,31 +21,17 @@
     src: templates/auth-secret.json.j2
     dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
+- name: Configure authentication
+  when:
+    - registry_username != ""
+    - registry_password != ""
+  set_fact:
+    auth_string: "--authfile='{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_public_url }}.json'"
+
 
 # 2. Execute the mirror
 # -----------------------------------------------------------------------------
-- name: "Mirror Mongo CE Operator images to airgap registry (with auth)"
-  when:
-    - registry_username != ""
-    - registry_password != ""
-  shell: "skopeo copy --dest-tls-verify=false --authfile='{{ ansible_env.HOME }}/.airgap/secrets/{{ registry_public_url }}.json' --all docker://quay.io/{{ item.name }}@{{ item.digest }} docker://{{ registry_public_url }}/{{ item.name }}:{{ item.tag }}"
+- name: "Mirror Mongo CE Operator images to airgap registry"
+  shell: "skopeo copy --dest-tls-verify=false {{ auth_string }} --all docker://quay.io/{{ item.name }}@{{ item.digest }} docker://{{ registry_public_url }}/{{ item.name }}:{{ item.tag }}"
   with_items: "{{ mongo_mirror_images }}"
   register: mirror_result
-
-- name: "Debug (with auth)"
-  when:
-    - registry_username != ""
-    - registry_password != ""
-  debug:
-    var: mirror_result
-
-- name: "Mirror Mongo CE Operator images to airgap registry (without auth)"
-  when: registry_username == "" or registry_password == ""
-  shell: "skopeo copy --dest-tls-verify=false --all docker://quay.io/{{ item.name }}@{{ item.digest }} docker://{{ registry_public_url }}/{{ item.name }}:{{ item.tag }}"
-  with_items: "{{ mongo_mirror_images }}"
-  register: mirror_result_no_auth
-
-- name: "Debug (no auth)"
-  when: registry_username == "" or registry_password == ""
-  debug:
-    var: mirror_result_no_auth

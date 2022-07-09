@@ -24,6 +24,17 @@ spec:
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
+  name: ibm-mas-iot-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IBM MAS Operators - IoT
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-mas-iot-operator-catalog:latest
+  publisher: IBM
+  sourceType: grpc
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
   name: ibm-sls-operators
   namespace: openshift-marketplace
 spec:
@@ -51,5 +62,16 @@ metadata:
 spec:
   displayName: ibm-udsoperator-catalog
   image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-user-data-services-catalog:2.0.7
+  publisher: IBM
+  sourceType: grpc
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-db2uoperator-catalog
+  namespace: openshift-marketplace
+spec:
+  displayName: ibm-db2uoperator-catalog
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-db2uoperator-catalog:latest
   publisher: IBM
   sourceType: grpc
