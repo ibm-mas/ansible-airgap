@@ -58,7 +58,6 @@
     - "mas-{{ mas_instance_id }}-core"
     - "mas-{{ mas_instance_id }}-iot"
 
-
 # 4. MAS
 # -----------------------------------------------------------------------------
 - name: "Prepare the MAS case"
