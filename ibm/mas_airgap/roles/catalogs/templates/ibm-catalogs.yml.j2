@@ -75,3 +75,14 @@ spec:
   image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-db2uoperator-catalog:latest
   publisher: IBM
   sourceType: grpc
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-mas-visualinspection-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IBM MAS Operators - Visual Inspection
+  image: {{ registry_private_host }}:{{ registry_private_port }}/cpopen/ibm-mas-visualinspection-operator-catalog:latest
+  publisher: IBM
+  sourceType: grpc
