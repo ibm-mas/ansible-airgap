@@ -124,7 +124,7 @@
 - name: "Install MAS Monitor digest configmap"
   vars:
     digest_image_map_name: ibm-mas-monitor-image-map
-    digest_image_map_file: "/tmp/casebundle-mas-iot/case/ibm-mas-monitor/inventory/ibmMasMonitorSetup/files/image-map.yaml"
+    digest_image_map_file: "/tmp/casebundle-mas-monitor/case/ibm-mas-monitor/inventory/ibmMasMonitorSetup/files/image-map.yaml"
     digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
     digest_image_map_namespace: "mas-{{ mas_instance_id }}-monitor"
   kubernetes.core.k8s:
