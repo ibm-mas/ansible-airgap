@@ -1,4 +1,5 @@
-FROM quay.io/ibmmas/ansible-devops:10.6.0
+# Always build from the latest available ansible-devops image
+FROM quay.io/ibmmas/ansible-devops:latest
 
 COPY ibm-mas_airgap.tar.gz ${HOME}/ibm-mas_airgap.tar.gz
 
