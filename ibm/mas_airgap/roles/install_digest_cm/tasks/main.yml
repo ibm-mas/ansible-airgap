@@ -57,6 +57,7 @@
     - "{{ sls_namespace }}"
     - "mas-{{ mas_instance_id }}-core"
     - "mas-{{ mas_instance_id }}-iot"
+    - "mas-{{ mas_instance_id }}-visualinspection"
 
 # 4. MAS
 # -----------------------------------------------------------------------------
@@ -90,7 +91,7 @@
     template: 'templates/configmap.yml.j2'
 
 
-# 4. MAS - IoT
+# 5. MAS - IoT
 # -----------------------------------------------------------------------------
 - name: "Prepare the MAS IoT case"
   vars:
@@ -107,5 +108,25 @@
     digest_image_map_file: "/tmp/casebundle-mas-iot/case/ibm-mas-iot/inventory/ibmMasIotSetup/files/image-map.yaml"
     digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
     digest_image_map_namespace: "mas-{{ mas_instance_id }}-iot"
+  kubernetes.core.k8s:
+    template: 'templates/configmap.yml.j2'
+
+# 6. MAS - Visual Inspection
+# -----------------------------------------------------------------------------
+- name: "Prepare the MAS Visual Inspection case"
+  vars:
+    case_name: "ibm-mas-visualinspection"
+    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas-visualinspection/8.5.0/ibm-mas-visualinspection-8.5.0.tgz?raw=true"
+    case_bundle_dir: /tmp/casebundle-mas-visualinspection
+    case_inventory_name: "ibmMasVisualInspectionSetup"
+  include_role:
+    name: ibm.mas_airgap.case_prepare
+
+- name: "Install MAS Visual Inspection digest configmap"
+  vars:
+    digest_image_map_name: ibm-mas-visualinspection-image-map
+    digest_image_map_file: "/tmp/casebundle-mas-visualinspection/case/ibm-mas-visualinspection/inventory/ibmMasVisualInspectionSetup/files/image-map.yaml"
+    digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
+    digest_image_map_namespace: "mas-{{ mas_instance_id }}-visualinspection"
   kubernetes.core.k8s:
     template: 'templates/configmap.yml.j2'
