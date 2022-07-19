@@ -1,3 +1,5 @@
 ---
 # Ideally we would add quay.io here as well, but we can't until we mirror all the images used by OCP itself
-airgap_network_exclusions: "icr.io cp.icr.io wiotp-docker-local.artifactory.swg-devops.com"
+# removed artifactory from blocked list while fixing tecton cert issue
+# airgap_network_exclusions: "icr.io cp.icr.io wiotp-docker-local.artifactory.swg-devops.com"
+airgap_network_exclusions: "icr.io cp.icr.io"
