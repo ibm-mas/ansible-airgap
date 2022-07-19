@@ -2,9 +2,9 @@
 
 # 1. Read the CA cert from the file
 # -----------------------------------------------------------------------------
-# - name: Read the CA cert
-#   set_fact:
-#     registry_private_ca_crt: "{{ lookup('file', registry_private_ca_file) }}"
+- name: Read the CA cert
+  set_fact:
+    registry_private_ca_crt: "{{ lookup('file', registry_private_ca_file) }}"
 
 
 # 2. Create configmap containing the CA cert of our airgap registry

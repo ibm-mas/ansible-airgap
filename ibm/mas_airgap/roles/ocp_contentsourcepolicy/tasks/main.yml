@@ -14,10 +14,10 @@
       # - registry_private_ca_file is defined and registry_private_ca_file != ""
 
 
-# 2. Configure CA trust
-# -----------------------------------------------------------------------------
-- name: Set up trust for the registry
-  include_tasks: "tasks/trust.yml"
+# # 2. Configure CA trust
+# # -----------------------------------------------------------------------------
+# - name: Set up trust for the registry
+#   include_tasks: "tasks/trust.yml"
 
 
 # 3. Update default image pull secret
