@@ -57,7 +57,7 @@
     - "{{ sls_namespace }}"
     - "mas-{{ mas_instance_id }}-core"
     - "mas-{{ mas_instance_id }}-manage"
-
+    - "mas-{{ mas_instance_id }}-iot"
 
 # 4. MAS
 # -----------------------------------------------------------------------------
