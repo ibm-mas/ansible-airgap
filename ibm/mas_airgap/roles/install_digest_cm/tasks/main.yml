@@ -56,7 +56,6 @@
   with_items:
     - "{{ sls_namespace }}"
     - "mas-{{ mas_instance_id }}-core"
-    - "mas-{{ mas_instance_id }}-manage"
     - "mas-{{ mas_instance_id }}-iot"
 
 # 4. MAS
@@ -122,7 +121,7 @@
   include_role:
     name: ibm.mas_airgap.case_prepare
 
-- name: "Install MAS IoT digest configmap"
+- name: "Install MAS Manage digest configmap"
   vars:
     digest_image_map_name: ibm-mas-manage-image-map
     digest_image_map_file: "/tmp/casebundle-mas-manage/case/ibm-mas-manage/inventory/ibmMasManageSetup/files/image-map.yaml"
