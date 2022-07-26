@@ -110,22 +110,22 @@
   kubernetes.core.k8s:
     template: 'templates/configmap.yml.j2'
 
-# 6. MAS - Manage
-# -----------------------------------------------------------------------------
-- name: "Prepare the MAS Manage case"
-  vars:
-    case_name: "ibm-mas-manage"
-    case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas-manage/8.3.2/ibm-mas-manage-8.3.2.tgz?raw=true"
-    case_bundle_dir: /tmp/casebundle-mas-manage
-    case_inventory_name: "ibmMasManageSetup"
-  include_role:
-    name: ibm.mas_airgap.case_prepare
+# # 6. MAS - Manage
+# # -----------------------------------------------------------------------------
+# - name: "Prepare the MAS Manage case"
+#   vars:
+#     case_name: "ibm-mas-manage"
+#     case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/ibm-mas-manage/8.3.2/ibm-mas-manage-8.3.2.tgz?raw=true"
+#     case_bundle_dir: /tmp/casebundle-mas-manage
+#     case_inventory_name: "ibmMasManageSetup"
+#   include_role:
+#     name: ibm.mas_airgap.case_prepare
 
-- name: "Install MAS Manage digest configmap"
-  vars:
-    digest_image_map_name: ibm-mas-manage-image-map
-    digest_image_map_file: "/tmp/casebundle-mas-manage/case/ibm-mas-manage/inventory/ibmMasManageSetup/files/image-map.yaml"
-    digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
-    digest_image_map_namespace: "mas-{{ mas_instance_id }}-manage"
-  kubernetes.core.k8s:
-    template: 'templates/configmap.yml.j2'
+# - name: "Install MAS Manage digest configmap"
+#   vars:
+#     digest_image_map_name: ibm-mas-manage-image-map
+#     digest_image_map_file: "/tmp/casebundle-mas-manage/case/ibm-mas-manage/inventory/ibmMasManageSetup/files/image-map.yaml"
+#     digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
+#     digest_image_map_namespace: "mas-{{ mas_instance_id }}-manage"
+#   kubernetes.core.k8s:
+#     template: 'templates/configmap.yml.j2'
