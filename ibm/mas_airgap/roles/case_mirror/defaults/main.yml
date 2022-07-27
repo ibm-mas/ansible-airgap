@@ -5,16 +5,17 @@ registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
 registry_public_port: "{{ lookup('env', 'REGISTRY_PUBLIC_PORT') }}"
 registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
 
-# Working directories
-# -----------------------------------------------------------------------------
-case_work_dir: "{{ lookup('env', 'CASE_WORK_DIR') | default( ansible_env.HOME ~ '/mas_airgap', True) }}"
-case_bundle_dir: "{{ case_work_dir }}/{{ case_name }}"
-case_archive_dir: "{{ case_bundle_dir }}/archive"
-
 # Case config
 # -----------------------------------------------------------------------------
 case_name: "{{ lookup('env', 'CASE_NAME') }}"
+case_version: "{{ lookup('env', 'CASE_VERSION') }}"
 case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
+
+# Working directories
+# -----------------------------------------------------------------------------
+case_work_dir: "{{ lookup('env', 'CASE_WORK_DIR') | default( ansible_env.HOME ~ '/mas_airgap', True) }}"
+case_bundle_dir: "{{ case_work_dir }}/{{ case_name }}/{{ case_version }}"
+case_archive_dir: "{{ case_bundle_dir }}/archive"
 
 # Authentication - IBM
 # -----------------------------------------------------------------------------
