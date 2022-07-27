@@ -19,8 +19,8 @@
     mirror_catalog: "{{ lookup('env', 'MIRROR_CATALOG') | default ('True', True) | bool }}"
     mirror_mongoce: "{{ lookup('env', 'MIRROR_MONGOCE') | default ('True', True) | bool }}"
     mirror_common_svcs: "{{ lookup('env', 'MIRROR_COMMON_SVCS') | default ('True', True) | bool }}"
-    mirror_uds: "{{ lookup('env', 'MIRROR_TSM') | default ('True', True) | bool }}"
-    mirror_sls: "{{ lookup('env', 'MIRROR_TSM') | default ('True', True) | bool }}"
+    mirror_uds: "{{ lookup('env', 'MIRROR_UDS') | default ('True', True) | bool }}"
+    mirror_sls: "{{ lookup('env', 'MIRROR_SLS') | default ('True', True) | bool }}"
     mirror_tsm: "{{ lookup('env', 'MIRROR_TSM') | default ('True', True) | bool }}"
     mirror_mas_core: "{{ lookup('env', 'MIRROR_MAS_CORE') | default ('True', True) | bool }}"
 
