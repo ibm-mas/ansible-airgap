@@ -17,6 +17,6 @@ spec:
       containers:
       - name: mas-ansible-airgap
         imagePullPolicy: Always
-        image: quay.io/ibmmas/ansible-airgap
+        image: quay.io/ibmmas/ansible-airgap:2.0.0-pre.curated
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]

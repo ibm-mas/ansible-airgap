@@ -1,5 +1,7 @@
 ---
 # Case bundle configuration for IBM Maximo Operator Catalog v20220727
 common_svcs_version: 1.15.1 # Operator version 3.19.1
+uds_version: 2.0.7          # Operator version ???
+sls_version: 3.4.0          # Operator version 3.4.0
 tsm_version: 1.3.0          # Operator version 1.3.0
 mas_core_version: 8.8.0     # Operator version 8.8.0

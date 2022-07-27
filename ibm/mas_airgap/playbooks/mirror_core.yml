@@ -7,6 +7,8 @@
 # 5. IBM Suite License Service
 # 6. IBM Truststore Manager
 # 7. IBM Maximo Application Suite Core
+#
+# This playbook aligns with the ibm.mas_devops.oneclick_core playbook
 
 - hosts: localhost
   any_errors_fatal: true
@@ -14,11 +16,13 @@
     catalog_tag: "20220727"
     catalog_digest: sha256:d0c3c21b8c93fbccbe0ccde7ffbe401db46d30c68329c0ad5f3e95659520608d
 
-    mirror_catalog: "{{ lookup('env', 'MIRROR_CATALOG') | default ('False', True) | bool }}"
-    mirror_mongoce: "{{ lookup('env', 'MIRROR_MONGOCE') | default ('False', True) | bool }}"
-    mirror_common_svcs: "{{ lookup('env', 'MIRROR_COMMON_SVCS') | default ('False', True) | bool }}"
-    mirror_tsm: "{{ lookup('env', 'MIRROR_TSM') | default ('False', True) | bool }}"
-    mirror_mas_core: "{{ lookup('env', 'MIRROR_MAS_CORE') | default ('False', True) | bool }}"
+    mirror_catalog: "{{ lookup('env', 'MIRROR_CATALOG') | default ('True', True) | bool }}"
+    mirror_mongoce: "{{ lookup('env', 'MIRROR_MONGOCE') | default ('True', True) | bool }}"
+    mirror_common_svcs: "{{ lookup('env', 'MIRROR_COMMON_SVCS') | default ('True', True) | bool }}"
+    mirror_uds: "{{ lookup('env', 'MIRROR_TSM') | default ('True', True) | bool }}"
+    mirror_sls: "{{ lookup('env', 'MIRROR_TSM') | default ('True', True) | bool }}"
+    mirror_tsm: "{{ lookup('env', 'MIRROR_TSM') | default ('True', True) | bool }}"
+    mirror_mas_core: "{{ lookup('env', 'MIRROR_MAS_CORE') | default ('True', True) | bool }}"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -28,6 +32,7 @@
         that:
           - lookup('env', 'REGISTRY_PUBLIC_HOST') != ""
           - lookup('env', 'REGISTRY_PUBLIC_PORT') != ""
+          - lookup('env', 'IBM_ENTITLEMENT_KEY') != ""
         fail_msg: "One or more required environment variables are not defined"
     - name: Load CASE bundle versions
       include_vars:
@@ -108,10 +113,34 @@
 
     # 4. IBM User Data Services
     # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_uds
+      vars:
+        case_name: ibm-uds
+        case_version: "{{ uds_version }}"
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_uds
+      vars:
+        case_name: ibm-uds
+        case_version: "{{ uds_version }}"
+        case_inventory_name: "operatorSetup"
 
 
     # 5. IBM Suite License Service
     # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_sls
+      vars:
+        case_name: ibm-sls
+        case_version: "{{ sls_version }}"
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_sls
+      vars:
+        case_name: ibm-sls
+        case_version: "{{ sls_version }}"
+        case_inventory_name: "ibmSlsSetup"
 
 
     # 6. IBM Truststore Manager
