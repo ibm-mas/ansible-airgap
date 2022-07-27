@@ -114,6 +114,7 @@
 
     # 4. IBM User Data Services
     # -------------------------------------------------------------------------
+    # 4.1 UDS
     - name: ibm.mas_airgap.case_prepare
       when: mirror_uds
       vars:
@@ -127,6 +128,21 @@
         case_name: ibm-uds
         case_version: "{{ uds_version }}"
         case_inventory_name: "operatorSetup"
+
+    # 4.2 IBM Events Operator (Used by UDS)
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_uds
+      vars:
+        case_name: ibm-events-operator
+        case_version: "{{ events_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_uds
+      vars:
+        case_name: ibm-events-operator
+        case_version: "{{ events_version }}"
+        case_inventory_name: "ibmEventsOperatorSetup "
 
 
     # 5. IBM Suite License Service
