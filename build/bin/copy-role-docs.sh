@@ -16,7 +16,7 @@ copyDoc catalogs
 copyDoc install_digest_cm
 copyDoc mirror_images
 copyDoc ocp_contentsourcepolicy
-copyDoc ocp_operators_catalog
+copyDoc ocp_operators_mirror
 copyDoc ocp_release_mirror
 copyDoc registry
 copyDoc simulate_network

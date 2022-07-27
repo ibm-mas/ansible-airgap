@@ -17,7 +17,7 @@ nav:
     - 'install_digest_cm': roles/install_digest_cm.md
     - 'mirror_images': roles/mirror_images.md
     - 'ocp_contentsourcepolicy': roles/ocp_contentsourcepolicy.md
-    - 'ocp_operators_catalog': roles/ocp_operators_catalog.md
+    - 'ocp_operators_mirror': roles/ocp_operators_mirror.md
     - 'ocp_release_mirror': roles/ocp_release_mirror.md
     - 'registry': roles/registry.md
     - 'simulate_network': roles/simulate_network.md
