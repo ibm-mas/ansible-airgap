@@ -118,6 +118,7 @@
       vars:
         case_name: ibm-uds
         case_version: "{{ uds_version }}"
+        exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
       when: mirror_uds
@@ -134,6 +135,7 @@
       vars:
         case_name: ibm-sls
         case_version: "{{ sls_version }}"
+        exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
       when: mirror_sls
@@ -150,6 +152,7 @@
       vars:
         case_name: ibm-truststore-mgr
         case_version: "{{ tsm_version }}"
+        exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
       when: mirror_tsm
