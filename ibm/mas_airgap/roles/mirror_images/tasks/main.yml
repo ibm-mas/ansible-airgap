@@ -1,0 +1,33 @@
+---
+
+# 1. Set up auth secret
+# -----------------------------------------------------------------------------
+- name: Creates working directory
+  when:
+    - registry_username != ""
+    - registry_password != ""
+  file:
+    path: "{{ ansible_env.HOME }}/mas_airgap"
+    state: directory
+
+- name: Create auth secret for private registry
+  when:
+    - registry_username != ""
+    - registry_password != ""
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ ansible_env.HOME }}/mas_airgap/{{ registry_public_url }}.json"
+
+- name: Configure authentication
+  when:
+    - registry_username != ""
+    - registry_password != ""
+  set_fact:
+    auth_string: "--authfile='{{ ansible_env.HOME }}/mas_airgap/{{ registry_public_url }}.json'"
+
+
+# 2. Execute the mirror
+# -----------------------------------------------------------------------------
+- name: "Mirror Images to airgap registry"
+  shell: "skopeo copy --dest-tls-verify=false {{ auth_string }} --all docker://{{ item.registry }}/{{ item.name }}@{{ item.digest }} docker://{{ registry_public_url }}/{{ item.name }}:{{ item.tag }}"
+  with_items: "{{ images_to_mirror }}"

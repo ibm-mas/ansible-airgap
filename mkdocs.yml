@@ -14,9 +14,13 @@ nav:
     - 'case_mirror': roles/case_mirror.md
     - 'case_prepare': roles/case_prepare.md
     - 'catalogs': roles/catalogs.md
+    - 'install_digest_cm': roles/install_digest_cm.md
+    - 'mirror_images': roles/mirror_images.md
     - 'ocp_contentsourcepolicy': roles/ocp_contentsourcepolicy.md
+    - 'ocp_operators_catalog': roles/ocp_operators_catalog.md
+    - 'ocp_release_mirror': roles/ocp_release_mirror.md
     - 'registry': roles/registry.md
-    - 'thirdparty_mirror': roles/thirdparty_mirror.md
+    - 'simulate_network': roles/simulate_network.md
 
 theme:
   name: readthedocs

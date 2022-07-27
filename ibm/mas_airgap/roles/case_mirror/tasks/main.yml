@@ -33,6 +33,10 @@
     that: ( _cloudctl_version['rc'] == 0 )
     fail_msg: "cloudctl tool must be installed."
 
+- name: Create working directory
+  file:
+    path: "{{ case_work_dir }}"
+    state: directory
 
 # 3. Debug
 # -----------------------------------------------------------------------------
@@ -40,6 +44,7 @@
   debug:
     msg:
       - "Case Name .............................. {{ case_name }}"
+      - "Case Version ........................... {{ case_version }}"
       - "Case Bundle Directory .................. {{ case_bundle_dir }}"
       - "Inventory Name ......................... {{ case_inventory_name }}"
       - "Registry Public Host ................... {{ registry_public_host }}"

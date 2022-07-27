@@ -28,8 +28,9 @@
 - name: "CASE configuration"
   debug:
     msg:
-      - "Case Name ............ {{ case_name }}"
-      - "Case Bundle Directory. {{ case_bundle_dir }}"
+      - "Case Name .............................. {{ case_name }}"
+      - "Case Version ........................... {{ case_version }}"
+      - "Case Bundle Directory .................. {{ case_bundle_dir }}"
 
 
 # 4. Prepare the case directory

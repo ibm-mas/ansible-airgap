@@ -1,0 +1,8 @@
+---
+registry_public_host: "{{ lookup('env', 'REGISTRY_PUBLIC_HOST') }}"
+registry_public_port: "{{ lookup('env', 'REGISTRY_PUBLIC_PORT') }}"
+registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
+
+registry_username: "{{ lookup('env', 'REGISTRY_USERNAME') }}"
+registry_password: "{{ lookup('env', 'REGISTRY_PASSWORD') }}"
+registry_auth: "{{ registry_username }}:{{ registry_password }}"
