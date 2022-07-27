@@ -31,7 +31,7 @@
         fail_msg: "One or more required environment variables are not defined"
     - name: Load CASE bundle versions
       include_vars:
-        file: "common_vars/casebundles/ibm-maximo-operator-catalog-{{ catalog_tag }}.yml"
+        file: "{{ playbook_dir }}/../common_vars/casebundles/ibm-maximo-operator-catalog-{{ catalog_tag }}.yml"
 
   roles:
     # 1. IBM Maximo Operator Catalog

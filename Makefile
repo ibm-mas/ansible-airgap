@@ -11,10 +11,10 @@ ansible-install:
 	ansible-galaxy collection install image/ansible-airgap/app-root/ibm-mas_airgap.tar.gz --force
 ansible-all: ansible-build ansible-install
 
-docker-build:
-	docker build -t ansible-airgap:local image/ansible-airgap
+docker-build: ansible-build
+	docker build -t quay.io/ibmmas/ansible-airgap:local image/ansible-airgap
 docker-run:
-	docker run -ti ansible-airgap:local
+	docker run -ti quay.io/ibmmas/ansible-airgap:local
 docker-all: docker-build docker-run
 
 clean:
