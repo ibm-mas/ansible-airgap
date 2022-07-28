@@ -2,7 +2,7 @@
 
 # 1. Check for undefined properties that do not have a default
 # -----------------------------------------------------------------------------
-- name: "Fail if required properties are not provided"
+- name: "{{ case_name }} : Fail if required properties are not provided"
   assert:
     that:
       - case_name is defined and case_name != ""
@@ -12,7 +12,7 @@
       - ibm_entitlement_key is defined and ibm_entitlement_key != ""
     fail_msg: "One or more required properties are missing"
 
-- name: "Fail if required properties are not provided (UDS)"
+- name: "{{ case_name }} : Fail if required properties are not provided (UDS)"
   when: case_name == "ibm-uds"
   assert:
     that:
@@ -23,24 +23,24 @@
 
 # 2. Check for required software
 # -----------------------------------------------------------------------------
-- name: "Test if cloudctl is installed"
+- name: "{{ case_name }} : Test if cloudctl is installed"
   shell: cloudctl version
   register: _cloudctl_version
   ignore_errors: true
 
-- name: "Fail if cloudctl is not installed"
+- name: "{{ case_name }} : Fail if cloudctl is not installed"
   assert:
     that: ( _cloudctl_version['rc'] == 0 )
     fail_msg: "cloudctl tool must be installed."
 
-- name: Create working directory
+- name: "{{ case_name }} : Create working directory"
   file:
     path: "{{ case_work_dir }}"
     state: directory
 
 # 3. Debug
 # -----------------------------------------------------------------------------
-- name: "Airgap setup configuration"
+- name: "{{ case_name }} : Airgap setup configuration"
   debug:
     msg:
       - "Case Name .............................. {{ case_name }}"
@@ -53,7 +53,7 @@
 
 # 4. Ensure *.sh files in the case bundle are executable
 # -----------------------------------------------------------------------------
-- name: "Make all CASE bundle shell scripts executable"
+- name: "{{ case_name }} : Make all CASE bundle shell scripts executable"
   shell: chmod u+x {{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ case_inventory_name }}/files/*.sh
 
 
@@ -64,13 +64,13 @@
 # but it's faster, cleaner, and handles special characters in passwords properly
 
 # 5.1 Prepare the directory
-- name: Creates airgap secrets directory
+- name: "{{ case_name }} : Creates airgap secrets directory"
   file:
     path: "{{ ansible_env.HOME }}/.airgap/secrets"
     state: directory
 
 # 5.2 Private registry
-- name: Create auth secret for private registry
+- name: "{{ case_name }} : Create auth secret for private registry"
   when:
     - registry_username is defined and registry_username != ""
     - registry_password is defined and registry_password != ""
@@ -82,7 +82,7 @@
     dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
 # 5.3 IBM entitled content
-- name: Create auth secret for cp.icr.io
+- name: "{{ case_name }} : Create auth secret for cp.icr.io"
   vars:
     secret_registry_name: cp.icr.io
     secret_registry_auth: "{{ ibm_auth }}"
@@ -91,7 +91,7 @@
     dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
 # 5.4 Red Hat Registry (1/2)
-- name: Create auth secret for registry.connect.redhat.com
+- name: "{{ case_name }} : Create auth secret for registry.connect.redhat.com"
   when:
     - redhat_connect_username is defined and redhat_connect_username != ""
     - redhat_connect_password is defined and redhat_connect_password != ""
@@ -103,7 +103,7 @@
     dest: "{{ ansible_env.HOME }}/.airgap/secrets/{{ secret_registry_name }}.json"
 
 # 5.5 Red Hat Registry (2/2)
-- name: Create auth secret for registry.redhat.io
+- name: "{{ case_name }} : Create auth secret for registry.redhat.io"
   when:
     - redhat_connect_username is defined and redhat_connect_username != ""
     - redhat_connect_password is defined and redhat_connect_password != ""
@@ -118,7 +118,7 @@
 # 6. Execute the Mirror
 # -----------------------------------------------------------------------------
 # UDS does not support --tolerance or --skipDelta params so we need a special case here :(
-- name: Mirror Images (This may take several minutes)
+- name: "{{ case_name }} : Images (This may take several minutes)"
   when: case_name != "ibm-uds"
   shell: >
     export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
@@ -129,13 +129,13 @@
     | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
   register: mirror_result
 
-- name: "Debug Mirror"
+- name: "{{ case_name }} : Debug Mirror"
   when: case_name != "ibm-uds"
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
 
-- name: Mirror Images (UDS special case)
-  when: case_name == "ibm-uds"
+- name: "{{ case_name }} : Mirror Images (special case)"
+  when: case_name == "ibm-uds" or case_name == "ibm-events-operator"
   shell: >
     export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
@@ -153,11 +153,11 @@
 # 7. Db2u operator special cases
 # -----------------------------------------------------------------------------
 # Note: We can re-use the authentication file generated by the previous tasks
-- name: "Mirror norootsquash image (Db2u special case 1/2)"
+- name: "{{ case_name }} : Mirror norootsquash image (Db2u special case 1/2)"
   when: case_name == "ibm-db2uoperator"
   shell: "skopeo copy --dest-tls-verify=false --authfile='{{ ansible_env.HOME }}/.airgap/auth.json' --all docker://cp.icr.io/cp/cpd/norootsquash@sha256:5dbe9310d15cbe452f6099017defd411eeb6eebb2fecea5d99463227e2518574 docker://{{ registry_public_url }}/cp/cpd/norootsquash:3.0-amd64"
 
-- name: "Mirror extra db2u images to airgap registry (Db2u special case 2/2)"
+- name: "{{ case_name }} : Mirror extra db2u images to airgap registry (Db2u special case 2/2)"
   when: case_name == "ibm-db2uoperator"
   shell: "skopeo copy --dest-tls-verify=false --authfile='{{ ansible_env.HOME }}/.airgap/auth.json' --all docker://icr.io/db2u/{{ item.name }}@{{ item.digest }} docker://{{ registry_public_url }}/db2u/{{ item.name }}@{{ item.digest }}"
   with_items: "{{ db2u_extra_images }}"
