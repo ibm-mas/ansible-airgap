@@ -8,7 +8,7 @@
 - hosts: localhost
   any_errors_fatal: true
   vars:
-    catalog_tag: "20220727"
+    catalog_tag: "v8-220717"
 
     mirror_db2u: "{{ lookup('env', 'MIRROR_DB2U') | default ('True', True) | bool }}"
     mirror_mas_iot: "{{ lookup('env', 'MIRROR_MAS_IOT') | default ('True', True) | bool }}"

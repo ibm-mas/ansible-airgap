@@ -13,7 +13,7 @@
 - hosts: localhost
   any_errors_fatal: true
   vars:
-    catalog_tag: "20220727"
+    catalog_tag: "v8-220717"
 
     mirror_catalog: "{{ lookup('env', 'MIRROR_CATALOG') | default ('True', True) | bool }}"
     mirror_mongoce: "{{ lookup('env', 'MIRROR_MONGOCE') | default ('True', True) | bool }}"
@@ -46,7 +46,7 @@
       when: mirror_catalog
       vars:
         images_to_mirror:
-          - name: cpopen/ibm-mas-operator-catalog
+          - name: cpopen/ibm-maximo-operator-catalog
             registry: icr.io
             tag: "{{ catalog_tag }}"
             digest: "{{ catalog_digest }}"

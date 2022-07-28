@@ -8,7 +8,7 @@ ansible-build:
 	ansible-galaxy collection build --output-path image/ansible-airgap/app-root ibm/mas_airgap --force
 	mv image/ansible-airgap/app-root/ibm-mas_airgap-2.0.0.tar.gz image/ansible-airgap/app-root/ibm-mas_airgap.tar.gz
 ansible-install:
-	ansible-galaxy collection install image/ansible-airgap/app-root/ibm-mas_airgap.tar.gz --force
+	ansible-galaxy collection install image/ansible-airgap/app-root/ibm-mas_airgap.tar.gz --force --no-deps
 ansible-all: ansible-build ansible-install
 
 docker-build: ansible-build
