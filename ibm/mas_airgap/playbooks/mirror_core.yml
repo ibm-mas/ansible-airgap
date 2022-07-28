@@ -13,14 +13,14 @@
 - hosts: localhost
   any_errors_fatal: true
   vars:
-    catalog_tag: "v8-220717"
+    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220717', True) }}"
 
     mirror_catalog: "{{ lookup('env', 'MIRROR_CATALOG') | default ('True', True) | bool }}"
     mirror_mongoce: "{{ lookup('env', 'MIRROR_MONGOCE') | default ('True', True) | bool }}"
-    mirror_common_svcs: "{{ lookup('env', 'MIRROR_COMMON_SVCS') | default ('True', True) | bool }}"
+    mirror_common_svcs: "{{ lookup('env', 'MIRROR_COMMONSERVICES') | default ('True', True) | bool }}"
     mirror_uds: "{{ lookup('env', 'MIRROR_UDS') | default ('True', True) | bool }}"
     mirror_sls: "{{ lookup('env', 'MIRROR_SLS') | default ('True', True) | bool }}"
-    mirror_tsm: "{{ lookup('env', 'MIRROR_TSM') | default ('True', True) | bool }}"
+    mirror_tsm: "{{ lookup('env', 'MIRROR_TRUSTSTOREMGR') | default ('True', True) | bool }}"
     mirror_mas_core: "{{ lookup('env', 'MIRROR_MAS_CORE') | default ('True', True) | bool }}"
 
   pre_tasks:
@@ -37,7 +37,7 @@
         fail_msg: "One or more required environment variables are not defined"
     - name: Load CASE bundle versions
       include_vars:
-        file: "{{ playbook_dir }}/../common_vars/casebundles/ibm-maximo-operator-catalog-{{ catalog_tag }}.yml"
+        file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
     # 1. IBM Maximo Operator Catalog

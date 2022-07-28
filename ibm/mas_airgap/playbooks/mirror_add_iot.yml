@@ -8,7 +8,7 @@
 - hosts: localhost
   any_errors_fatal: true
   vars:
-    catalog_tag: "v8-220717"
+    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220717', True) }}"
 
     mirror_db2u: "{{ lookup('env', 'MIRROR_DB2U') | default ('True', True) | bool }}"
     mirror_mas_iot: "{{ lookup('env', 'MIRROR_MAS_IOT') | default ('True', True) | bool }}"
@@ -25,7 +25,7 @@
         fail_msg: "One or more required environment variables are not defined"
     - name: Load CASE bundle versions
       include_vars:
-        file: "{{ playbook_dir }}/../common_vars/casebundles/ibm-maximo-operator-catalog-{{ catalog_tag }}.yml"
+        file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
     # 1. IBM Db2u
