@@ -142,7 +142,7 @@
       vars:
         case_name: ibm-events-operator
         case_version: "{{ events_version }}"
-        case_inventory_name: "ibmEventsOperatorSetup "
+        case_inventory_name: "ibmEventsOperatorSetup"
 
 
     # 5. IBM Suite License Service
