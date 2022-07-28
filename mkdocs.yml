@@ -13,7 +13,6 @@ nav:
   - 'Roles':
     - 'case_mirror': roles/case_mirror.md
     - 'case_prepare': roles/case_prepare.md
-    - 'catalogs': roles/catalogs.md
     - 'install_digest_cm': roles/install_digest_cm.md
     - 'mirror_images': roles/mirror_images.md
     - 'ocp_contentsourcepolicy': roles/ocp_contentsourcepolicy.md

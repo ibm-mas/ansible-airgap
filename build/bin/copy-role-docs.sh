@@ -12,7 +12,6 @@ function copyDoc() {
 
 copyDoc case_mirror
 copyDoc case_prepare
-copyDoc catalogs
 copyDoc install_digest_cm
 copyDoc mirror_images
 copyDoc ocp_contentsourcepolicy
