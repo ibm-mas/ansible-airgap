@@ -12,15 +12,10 @@
 
 # 2. Setup Working directories
 # -----------------------------------------------------------------------------
-- name: "Initialize facts (1/3)"
+- name: "Initialize facts (1/2)"
   set_fact:
-    case_bundle_dir: "{{ case_work_dir }}/{{ case_name }}/{{ case_version }}"
-
-- name: "Initialize facts (2/3)"
-  set_fact:
-    case_archive_dir: "{{ case_bundle_dir }}/archive"
     digest_image_map_name: "{{ case_name }}-image-map"
-    digest_image_map_file: "{{ case_bundle_dir }}/case/{{ case_name }}/inventory/{{ inventory_names[case_name] }}/files/image-map.yaml"
+    digest_image_map_file: "{{ {{ playbook_dir }}/../common_vars/digests/{{ case_name }}/{{ case_version }}.yaml"
 
 - name: "Debug Image Digest Config Map"
   debug:
@@ -32,16 +27,9 @@
       - "Digest Map Local File .............. {{ digest_image_map_file }}"
 
 
-# 3. Prepare the case bundle
+# 3. Install the Digest Image Map
 # -----------------------------------------------------------------------------
-- name: "Prepare the case"
-  include_role:
-    name: ibm.mas_airgap.case_prepare
-
-
-# 4. Install the Digest Image Map
-# -----------------------------------------------------------------------------
-- name: "Initialize facts (3/3)"
+- name: "Initialize facts (2/2)"
   set_fact:
     digest_image_map_data: "{{ lookup('file', digest_image_map_file) }}"
 

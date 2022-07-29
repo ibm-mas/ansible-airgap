@@ -199,7 +199,6 @@
           - ibm-mas-predict
           - ibm-mas-safety
           - ibm-mas-visualinspection
-          - ibm-mas-mso
           - ibm-mas-optimizer
           - ibm-sls
 
