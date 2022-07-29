@@ -119,7 +119,7 @@
 # -----------------------------------------------------------------------------
 # UDS does not support --tolerance or --skipDelta params so we need a special case here :(
 - name: "{{ case_name }} : Images (This may take several minutes)"
-  when: case_name != "ibm-uds" and case_name != "ibm-events-operator"
+  when: case_name != "ibm-uds"
   shell: >
     export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
@@ -135,7 +135,7 @@
     msg: "{{ mirror_result.stdout_lines }}"
 
 - name: "{{ case_name }} : Mirror Images (special case)"
-  when: case_name == "ibm-uds" or case_name == "ibm-events-operator"
+  when: case_name == "ibm-uds"
   shell: >
     export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
