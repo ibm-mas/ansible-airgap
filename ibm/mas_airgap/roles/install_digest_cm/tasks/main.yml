@@ -15,7 +15,7 @@
 - name: "Initialize facts (1/2)"
   set_fact:
     digest_image_map_name: "{{ case_name }}-image-map"
-    digest_image_map_file: "{{ role_dir }}/../common_vars/digests/{{ case_name }}/{{ case_version }}.yaml"
+    digest_image_map_file: "{{ role_path }}/../../common_vars/digests/{{ case_name }}/{{ case_version }}.yaml"
 
 - name: "Debug Image Digest Config Map"
   debug:
