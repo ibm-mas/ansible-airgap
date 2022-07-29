@@ -5,6 +5,7 @@ Extension to **ibm.mas_devops** providing support for air gap deployments.
 !!! important
     This collection and automation around air gap support is currently a work in progress and is incomplete!
 
+
 ## 1. Deploy private registry
 
 There are multiple options for setting up your private registry:
@@ -21,7 +22,7 @@ We have provided automation to deploy a private registry inside an OpenShift clu
 The easiest way drive the automation is to use the MAS command line container image and run `mas setup-registry` at the prompt:
 
 ```bash
-$ docker run quay.io/ibmmas/installer:1.0.0-pre.master
+$ docker run -ti --rm quay.io/ibmmas/cli
 ```
 
 ![](images/setup-airgap-registry.png)
@@ -41,7 +42,7 @@ ansible-playbook ibm.mas_airgap.run_role
 The easiest way drive the automation is to use the MAS command line container image and run `mas mirror-images` at the prompt:
 
 ```bash
-$ docker run quay.io/ibmmas/installer:1.0.0-pre.master
+$ docker run -ti --rm quay.io/ibmmas/cli mirror-images
 ```
 
 This will mirror all (or a subset) container images needed for a MAS installation to your private registry
@@ -51,18 +52,15 @@ Alternatively you can run the following Ansible playbooks directly if your local
 ```bash
 export REGISTRY_PUBLIC_HOST=xxx
 export REGISTRY_PUBLIC_PORT=xxx
-ansible-playbook ibm.mas_airgap.mirror_common_services
-ansible-playbook ibm.mas_airgap.mirror_sls
-ansible-playbook ibm.mas_airgap.mirror_truststore_mgr
-ansible-playbook ibm.mas_airgap.mirror_mas_core
-ROLE_NAME=thirdparty_mirror ansible-playbook ibm.mas_airgap.run_role
+ansible-playbook ibm.mas_airgap.mirror_core
+ansible-playbook ibm.mas_airgap.mirror_add_iot
 ```
 
 ## 3. Configure the target OCP cluster
 The easiest way drive the automation is to use the MAS command line container image and run `mas configure-airgap` at the prompt:
 
 ```bash
-$ docker run quay.io/ibmmas/installer:1.0.0-pre.master
+$ docker run -ti --rm quay.io/ibmmas/cli
 ```
 
 This will configure your target OCP cluster to use a private docker register, install the operator catalogs required by MAS from that mirror, and install the necessary configmaps to instruct a MAS instance to use image digests instead of image tags so that image mirroring works.
@@ -75,12 +73,10 @@ export REGISTRY_PRIVATE_PORT=xxx
 export REGISTRY_PRIVATE_CA_FILE=xxx
 export MAS_INSTANCE_ID=xxx
 ROLE_NAME=ocp_contentsourcepolicy ansible-playbook ibm.mas_airgap.run_role
-ROLE_NAME=catalogs ansible-playbook ibm.mas_airgap.run_role
-ROLE_NAME=install_digest_cm ansible-playbook ibm.mas_airgap.run_role
 ```
 
 
 ## 4. Install Maximo Application Suite
-`mas install` will install MAS, deploying the OpenShift Pipelines operator into your cluster & using it to launch the suite installation pipeline.
+Running `mas install` will install MAS, deploying the OpenShift Pipelines operator into your cluster & using it to launch the suite installation pipeline.
 
 Alternatively, review the [ibm.mas_devops documentation](https://ibm-mas.github.io/ansible-devops/) for full details of the options available for installing MAS using Ansible.

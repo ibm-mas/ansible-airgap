@@ -1,21 +1,14 @@
 #!/bin/bash
 
-.PHONY: ansible-build ansible-install ansible-all docker-build docker-run docker-all clean
+.PHONY: build install clean all
 
-.DEFAULT_GOAL := ansible-all
+.DEFAULT_GOAL := all
 
-ansible-build:
-	ansible-galaxy collection build --output-path image/ansible-airgap/app-root ibm/mas_airgap --force
-	mv image/ansible-airgap/app-root/ibm-mas_airgap-2.0.0.tar.gz image/ansible-airgap/app-root/ibm-mas_airgap.tar.gz
-ansible-install:
-	ansible-galaxy collection install image/ansible-airgap/app-root/ibm-mas_airgap.tar.gz --force --no-deps
-ansible-all: ansible-build ansible-install
-
-docker-build: ansible-build
-	docker build -t quay.io/ibmmas/ansible-airgap:local image/ansible-airgap
-docker-run:
-	docker run -ti quay.io/ibmmas/ansible-airgap:local
-docker-all: docker-build docker-run
-
+build: clean
+	ansible-galaxy collection build --output-path . ibm/mas_airgap --force
+install:
+	ansible-galaxy collection install ibm-mas_airgap-2.0.0.tar.gz --force --no-deps
 clean:
-	rm image/ansible-airgap/ibm-mas_airgap.tar.gz
+	rm ibm-mas_airgap-2.0.0.tar.gz
+
+all: build install
