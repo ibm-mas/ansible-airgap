@@ -55,7 +55,7 @@
         exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
-      when: mirror_mas_core
+      when: mirror_mas_iot
       vars:
         case_name: ibm-mas-iot
         case_version: "{{ mas_iot_version }}"

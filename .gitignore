@@ -1,8 +1,6 @@
 
 *.DS_Store*
 site
-ibm/mas_airgap/ibm-mas_airgap-*.tar.gz
-ibm/mas_airgap/dev-*.yml
-image/ansible-airgap/ibm-mas_airgap.tar.gz
-image/ansible-airgap/app-root/ibm-mas_airgap.tar.gz
 build/bin/downloads
+ibm/mas_airgap/dev-*.yml
+ibm-mas_airgap-*.tar.gz
