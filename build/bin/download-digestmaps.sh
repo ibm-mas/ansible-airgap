@@ -36,3 +36,7 @@ download_case ibm-mas 8.8.0 ibmMasSetup
 # MAS IoT
 # -----------------------------------------------------------------------------
 download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
+
+# MAS Manage
+# -----------------------------------------------------------------------------
+download_case ibm-mas-manage 8.4.0 ibmMasManageSetup

@@ -2,5 +2,6 @@
 *.DS_Store*
 site
 build/bin/downloads
+build/bin/digests
 ibm/mas_airgap/dev-*.yml
 ibm-mas_airgap-*.tar.gz

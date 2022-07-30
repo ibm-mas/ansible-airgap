@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
+  any_errors_fatal: true
 
   pre_tasks:
     - name: Check for required environment variables
