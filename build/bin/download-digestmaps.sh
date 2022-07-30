@@ -16,11 +16,23 @@ function download_case() {
     wget -k https://github.com/IBM/cloud-pak/blob/master/repo/case/${case_name}/${case_version}/${case_name}-${case_version}.tgz?raw=true -O downloads/${case_name}-${case_version}.tgz
   fi
 
-  mkdir -p digests/${case_name}/${case_version}
+  mkdir -p digests/${case_name}
   tar -xvf downloads/${case_name}-${case_version}.tgz -C digests/${case_name} ${case_name}/inventory/${inventory_name}/files/image-map.yaml --strip-components 4
   mv digests/${case_name}/image-map.yaml digests/${case_name}/${case_version}.yaml
 }
 
+# SLS
+# -----------------------------------------------------------------------------
 download_case ibm-sls 3.4.0 ibmSlsSetup
+
+# Truststore Manager
+# -----------------------------------------------------------------------------
 download_case ibm-truststore-mgr 1.3.0 ibmTrustStoreMgrSetup
+
+# MAS Core
+# -----------------------------------------------------------------------------
 download_case ibm-mas 8.8.0 ibmMasSetup
+
+# MAS IoT
+# -----------------------------------------------------------------------------
+download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
