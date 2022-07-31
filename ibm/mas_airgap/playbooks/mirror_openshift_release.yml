@@ -13,6 +13,8 @@
           - lookup('env', 'REGISTRY_PUBLIC_PORT') != ""
           - lookup('env', 'REDHAT_CONNECT_USERNAME') != ""
           - lookup('env', 'REDHAT_CONNECT_PASSWORD') != ""
+          - lookup('env', 'QUAY_USERNAME') != ""
+          - lookup('env', 'QUAY_PASSWORD') != ""
         fail_msg: "One or more required environment variables are not defined"
 
   roles:

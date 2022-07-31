@@ -36,20 +36,6 @@
       - "Log Directory .......................... {{ log_dir }}"
       - "Registry Public Host ................... {{ registry_public_host }}"
       - "Registry Public Port ................... {{ registry_public_port }}"
-      - "registry_username ...................... {{ registry_username }}"
-      - "registry_password ...................... {{ registry_password }}"
-      - "redhat_connect_username ................ {{ redhat_connect_username }}"
-      - "redhat_connect_password ................ {{ redhat_connect_password }}"
-      - "registry_name1: {{ registry_public_url }}"
-      - "registry_auth1: {{ registry_auth }}"
-      - "registry_name2: cp.icr.io"
-      - "registry_auth2: {{ ibm_auth }}"
-      - "registry_name3: registry.connect.redhat.com"
-      - "registry_auth3: {{ redhat_connect_auth }}"
-      - "registry_name4: registry.redhat.io"
-      - "registry_auth4: {{ redhat_connect_auth }}"
-      - "registry_name5: quay.io"
-      - "registry_auth5: {{ quay_auth }}"
 
 # 5. Set up authentication for the case mirroring process
 # -----------------------------------------------------------------------------
@@ -65,14 +51,12 @@
   vars:
     registry_name1: "{{ registry_public_url }}"
     registry_auth1: "{{ registry_auth }}"
-    registry_name2: cp.icr.io
-    registry_auth2: "{{ ibm_auth }}"
-    registry_name3: registry.connect.redhat.com
+    registry_name2: registry.connect.redhat.com
+    registry_auth2: "{{ redhat_connect_auth }}"
+    registry_name3: registry.redhat.io
     registry_auth3: "{{ redhat_connect_auth }}"
-    registry_name4: registry.redhat.io
-    registry_auth4: "{{ redhat_connect_auth }}"
-    registry_name5: quay.io
-    registry_auth5: "{{ quay_auth }}"
+    registry_name4: quay.io
+    registry_auth4: "{{ quay_auth }}"
   ansible.builtin.template:
     src: templates/auth-file.json.j2
     dest: "{{ ansible_env.HOME }}/.airgap/auth/auth.json"
