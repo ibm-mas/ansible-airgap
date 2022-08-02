@@ -66,13 +66,19 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="roles/case_prepare/">case_prepare</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="roles/catalogs/">catalogs</a>
+                  <li class="toctree-l1"><a class="reference internal" href="roles/install_digest_cm/">install_digest_cm</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="roles/mirror_images/">mirror_images</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="roles/ocp_contentsourcepolicy/">ocp_contentsourcepolicy</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="roles/ocp_operators_mirror/">ocp_operators_mirror</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="roles/ocp_release_mirror/">ocp_release_mirror</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="roles/registry/">registry</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="roles/thirdparty_mirror/">thirdparty_mirror</a>
+                  <li class="toctree-l1"><a class="reference internal" href="roles/simulate_network/">simulate_network</a>
                   </li>
               </ul>
       </div>
@@ -119,7 +125,7 @@
 </div>
 <p>We have provided automation to deploy a private registry inside an OpenShift cluster.  You can use this to set up the regsitry in the same cluster that you will deploy MAS, or in a seperate cluster.</p>
 <p>The easiest way drive the automation is to use the MAS command line container image and run <code>mas setup-registry</code> at the prompt:</p>
-<pre><code class="language-bash">$ docker run quay.io/ibmmas/installer:1.0.0-pre.master
+<pre><code class="language-bash">$ docker run -ti --rm quay.io/ibmmas/cli
 </code></pre>
 <p><img alt="" src="images/setup-airgap-registry.png" /></p>
 <p>Alternatively you can run the <strong>ibm.mas_airgap.registry</strong> Ansible role directly if your local machine meets all the required dependencies:</p>
@@ -132,21 +138,18 @@ ansible-playbook ibm.mas_airgap.run_role
 </code></pre>
 <h2 id="2-mirror-images">2. Mirror images<a class="headerlink" href="#2-mirror-images" title="Permanent link"></a></h2>
 <p>The easiest way drive the automation is to use the MAS command line container image and run <code>mas mirror-images</code> at the prompt:</p>
-<pre><code class="language-bash">$ docker run quay.io/ibmmas/installer:1.0.0-pre.master
+<pre><code class="language-bash">$ docker run -ti --rm quay.io/ibmmas/cli mirror-images
 </code></pre>
 <p>This will mirror all (or a subset) container images needed for a MAS installation to your private registry</p>
 <p>Alternatively you can run the following Ansible playbooks directly if your local machine meets all the required dependencies:</p>
 <pre><code class="language-bash">export REGISTRY_PUBLIC_HOST=xxx
 export REGISTRY_PUBLIC_PORT=xxx
-ansible-playbook ibm.mas_airgap.mirror_common_services
-ansible-playbook ibm.mas_airgap.mirror_sls
-ansible-playbook ibm.mas_airgap.mirror_truststore_mgr
-ansible-playbook ibm.mas_airgap.mirror_mas_core
-ROLE_NAME=thirdparty_mirror ansible-playbook ibm.mas_airgap.run_role
+ansible-playbook ibm.mas_airgap.mirror_core
+ansible-playbook ibm.mas_airgap.mirror_add_iot
 </code></pre>
 <h2 id="3-configure-the-target-ocp-cluster">3. Configure the target OCP cluster<a class="headerlink" href="#3-configure-the-target-ocp-cluster" title="Permanent link"></a></h2>
 <p>The easiest way drive the automation is to use the MAS command line container image and run <code>mas configure-airgap</code> at the prompt:</p>
-<pre><code class="language-bash">$ docker run quay.io/ibmmas/installer:1.0.0-pre.master
+<pre><code class="language-bash">$ docker run -ti --rm quay.io/ibmmas/cli
 </code></pre>
 <p>This will configure your target OCP cluster to use a private docker register, install the operator catalogs required by MAS from that mirror, and install the necessary configmaps to instruct a MAS instance to use image digests instead of image tags so that image mirroring works.</p>
 <p>Alternatively you can run the following Ansible playbooks directly if your local machine meets all the required dependencies:</p>
@@ -155,11 +158,9 @@ export REGISTRY_PRIVATE_PORT=xxx
 export REGISTRY_PRIVATE_CA_FILE=xxx
 export MAS_INSTANCE_ID=xxx
 ROLE_NAME=ocp_contentsourcepolicy ansible-playbook ibm.mas_airgap.run_role
-ROLE_NAME=catalogs ansible-playbook ibm.mas_airgap.run_role
-ROLE_NAME=install_digest_cm ansible-playbook ibm.mas_airgap.run_role
 </code></pre>
 <h2 id="4-install-maximo-application-suite">4. Install Maximo Application Suite<a class="headerlink" href="#4-install-maximo-application-suite" title="Permanent link"></a></h2>
-<p><code>mas install</code> will install MAS, deploying the OpenShift Pipelines operator into your cluster &amp; using it to launch the suite installation pipeline.</p>
+<p>Running <code>mas install</code> will install MAS, deploying the OpenShift Pipelines operator into your cluster &amp; using it to launch the suite installation pipeline.</p>
 <p>Alternatively, review the <a href="https://ibm-mas.github.io/ansible-devops/">ibm.mas_devops documentation</a> for full details of the options available for installing MAS using Ansible.</p>
               
             </div>
@@ -209,5 +210,5 @@ ROLE_NAME=install_digest_cm ansible-playbook ibm.mas_airgap.run_role
 
 <!--
 MkDocs version : 1.3.1
-Build Date UTC : 2022-07-19 23:16:45.110351+00:00
+Build Date UTC : 2022-08-02 18:44:59.372083+00:00
 -->
