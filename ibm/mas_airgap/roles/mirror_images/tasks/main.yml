@@ -1,0 +1,19 @@
+---
+
+# 1. Set up auth secret
+# -----------------------------------------------------------------------------
+- name: Creates working directory
+  file:
+    path: "{{ ansible_env.HOME }}/mas_airgap"
+    state: directory
+
+- name: Create auth secret
+  ansible.builtin.template:
+    src: templates/auth-secret.json.j2
+    dest: "{{ auth_file }}"
+
+# 2. Execute the mirror
+# -----------------------------------------------------------------------------
+- name: "Mirror Images to airgap registry"
+  shell: "skopeo copy --dest-tls-verify=false --authfile='{{ auth_file }}' --all docker://{{ item.registry }}/{{ item.name }}@{{ item.digest }} docker://{{ registry_public_url }}/{{ item.name }}:{{ item.tag }}"
+  with_items: "{{ images_to_mirror }}"

@@ -3,7 +3,17 @@
 exclude_images: []
 
 # Case config
+# -----------------------------------------------------------------------------
 case_name: "{{ lookup('env', 'CASE_NAME') }}"
-case_source: "{{ lookup('env', 'CASE_SOURCE') }}"
-case_bundle_dir: "{{ lookup('env', 'CASE_BUNDLE_DIR') }}"
+case_version: "{{ lookup('env', 'CASE_VERSION') }}"
+
+# Working directories
+# -----------------------------------------------------------------------------
+case_work_dir: "{{ lookup('env', 'CASE_WORK_DIR') | default( ansible_env.HOME ~ '/mas_airgap', True) }}"
+case_bundle_dir: "{{ case_work_dir }}/{{ case_name }}/{{ case_version }}"
 case_archive_dir: "{{ case_bundle_dir }}/archive"
+
+# Source
+# -----------------------------------------------------------------------------
+default_case_source: "https://github.com/IBM/cloud-pak/blob/master/repo/case/{{ case_name }}/{{ case_version }}/{{ case_name }}-{{ case_version }}.tgz?raw=true"
+case_source: "{{ lookup('env', 'CASE_SOURCE') | default(default_case_source, True) }}"

@@ -28,8 +28,9 @@
 - name: "CASE configuration"
   debug:
     msg:
-      - "Case Name ............ {{ case_name }}"
-      - "Case Bundle Directory. {{ case_bundle_dir }}"
+      - "Case Name .............................. {{ case_name }}"
+      - "Case Version ........................... {{ case_version }}"
+      - "Case Bundle Directory .................. {{ case_bundle_dir }}"
 
 
 # 4. Prepare the case directory
@@ -97,14 +98,6 @@
       --outputdir {{ case_archive_dir }} \
       --tolerance 1
   register: saveCaseResult
-
-# If testing a development build, we need to modify the saved reference images (change to artifactory and set the digests etc).
-- name: Configure Case for Development
-  when:
-    - dev_overrides is defined
-    - not dev_overrides == ""
-  include_tasks: "tasks/setup-development-airgap.yml"
-# TBD - It would be nicer to set up case resolvers to have the same effect.
 
 
 # 6. Remove excluded images
