@@ -4,6 +4,7 @@
 [https://ibm-mas.github.io/ansible-airgap/](https://ibm-mas.github.io/ansible-airgap/)
 
 ## Change Log
+- `2.0` Support for MAS 8.8 & Maximo Curated Operator Catalog ([#63](https://github.com/ibm-mas/ansible-airgap/pull/63))
 - `1.3` Support IoT application install ([#43](https://github.com/ibm-mas/ansible-airgap/pull/43))
 - `1.2` Multiple updates:
     - Additional mirror playbooks ([#26](https://github.com/ibm-mas/ansible-airgap/pull/26))
