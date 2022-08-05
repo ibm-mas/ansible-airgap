@@ -44,3 +44,7 @@ download_case ibm-mas-manage 8.4.0 ibmMasManageSetup
 # MAS Optimizer
 # -----------------------------------------------------------------------------
 download_case ibm-mas-optimizer 8.2.0 ibmMasOptimizerSetup
+
+# MAS Visual Inspection
+# -----------------------------------------------------------------------------
+download_case ibm-mas-visualinspection 8.6.0 ibmMasVisualInspectionSetup
