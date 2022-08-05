@@ -1,10 +1,9 @@
 ---
 # Mirrors the following content which is REQUIRED to add Maximo Optimizer to an existing
 # Maximo Application Suite Core Services installation:
-# 1. IBM Db2 Universal Operator
-# 2. IBM Maximo IoT
+# 1. IBM Maximo Optimizer
 #
-# This playbook aligns with the ibm.mas_devops.oneclick_add_iot playbook
+# This playbook aligns with the ibm.mas_devops.oneclick_add_optimizer playbook
 
 - hosts: localhost
   any_errors_fatal: true
@@ -12,8 +11,7 @@
   vars:
     catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220717', True) }}"
 
-    mirror_db2u: "{{ lookup('env', 'MIRROR_DB2U') | default ('True', True) | bool }}"
-    mirror_mas_iot: "{{ lookup('env', 'MIRROR_MAS_IOT') | default ('True', True) | bool }}"
+    mirror_mas_optimizer: "{{ lookup('env', 'MIRROR_MAS_OPTIMIZER') | default ('True', True) | bool }}"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -30,35 +28,18 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
-    # 1. IBM Db2u
+    # 1. IBM Maximo optimizer
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
-      when: mirror_db2u
+      when: mirror_mas_optimizer
       vars:
-        case_name: ibm-db2uoperator
-        case_version: "{{ db2u_version }}"
+        case_name: ibm-mas-optimizer
+        case_version: "{{ mas_optimizer_version }}"
         exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
-      when: mirror_db2u
+      when: mirror_mas_optimizer
       vars:
-        case_name: ibm-db2uoperator
-        case_version: "{{ db2u_version }}"
-        case_inventory_name: "db2uOperatorSetup"
-
-
-    # 2. IBM Maximo IoT
-    # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_mas_iot
-      vars:
-        case_name: ibm-mas-iot
-        case_version: "{{ mas_iot_version }}"
-        exclude_images: []
-
-    - name: ibm.mas_airgap.case_mirror
-      when: mirror_mas_iot
-      vars:
-        case_name: ibm-mas-iot
-        case_version: "{{ mas_iot_version }}"
-        case_inventory_name: "ibmMasIotSetup"
+        case_name: ibm-mas-optimizer
+        case_version: "{{ mas_optimizer_version }}"
+        case_inventory_name: "ibmMasOptimizerSetup"

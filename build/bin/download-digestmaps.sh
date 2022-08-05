@@ -40,3 +40,7 @@ download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
 # MAS Manage
 # -----------------------------------------------------------------------------
 download_case ibm-mas-manage 8.4.0 ibmMasManageSetup
+
+# MAS Optimizer
+# -----------------------------------------------------------------------------
+download_case ibm-mas-optimizer 8.2.0 ibmMasOptimizerSetup
