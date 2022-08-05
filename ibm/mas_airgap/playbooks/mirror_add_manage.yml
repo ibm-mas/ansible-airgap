@@ -1,5 +1,6 @@
 ---
-# Mirrors the following content which is REQUIRED to install Maximo Application Suite Core Services:
+# Mirrors the following content which is REQUIRED to add Maximo Optimizer to an existing
+# Maximo Application Suite Core Services installation:
 # 1. IBM Db2 Universal Operator
 # 2. IBM Maximo Manage
 #
