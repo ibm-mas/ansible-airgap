@@ -24,6 +24,7 @@ function download_case() {
 # SLS
 # -----------------------------------------------------------------------------
 download_case ibm-sls 3.4.0 ibmSlsSetup
+download_case ibm-sls 3.4.1 ibmSlsSetup
 
 # Truststore Manager
 # -----------------------------------------------------------------------------
@@ -36,6 +37,7 @@ download_case ibm-mas 8.8.0 ibmMasSetup
 # MAS IoT
 # -----------------------------------------------------------------------------
 download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
+download_case ibm-mas-iot 8.5.1 ibmMasIotSetup
 
 # MAS Manage
 # -----------------------------------------------------------------------------

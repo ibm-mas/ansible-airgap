@@ -10,7 +10,7 @@
   any_errors_fatal: true
 
   vars:
-    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220717', True) }}"
+    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
 
     mirror_db2u: "{{ lookup('env', 'MIRROR_DB2U') | default ('True', True) | bool }}"
     mirror_mas_manage: "{{ lookup('env', 'MIRROR_MAS_MANAGE') | default ('True', True) | bool }}"
