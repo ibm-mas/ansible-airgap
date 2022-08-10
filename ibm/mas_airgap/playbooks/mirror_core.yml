@@ -14,7 +14,7 @@
   any_errors_fatal: true
 
   vars:
-    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220717', True) }}"
+    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
 
     mirror_catalog: "{{ lookup('env', 'MIRROR_CATALOG') | default ('True', True) | bool }}"
     mirror_mongoce: "{{ lookup('env', 'MIRROR_MONGOCE') | default ('True', True) | bool }}"
