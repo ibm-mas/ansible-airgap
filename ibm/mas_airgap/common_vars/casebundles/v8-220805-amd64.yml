@@ -23,3 +23,4 @@ mas_iot_version: 8.5.1               # Operator version 8.5.1
 mas_manage_version: 8.4.0            # Operator version 8.4.0
 mas_optimizer_version: 8.2.0         # Operator version 8.2.0
 mas_visualinspection_version: 8.6.0  # Operator version 8.6.0 (Doesn't work because SBO removal was not completed)
+mas_monitor_version: 8.8.0           # Operator version 8.8.0
