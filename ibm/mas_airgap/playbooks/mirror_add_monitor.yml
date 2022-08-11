@@ -1,9 +1,10 @@
 ---
-# Mirrors the following content which is REQUIRED to add Maximo Optimizer to an existing
+# Mirrors the following content which is REQUIRED to add Maximo Monitor to an existing
 # Maximo Application Suite Core Services installation:
-# 1. IBM Maximo Optimizer
+# 1. IBM Maximo Assist
+# 2. IBM Maximo Monitor
 #
-# This playbook aligns with the ibm.mas_devops.oneclick_add_optimizer playbook
+# This playbook aligns with the ibm.mas_devops.oneclick_add_monitor playbook
 
 - hosts: localhost
   any_errors_fatal: true
@@ -28,7 +29,7 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
-    # 1. IBM Maximo optimizer
+    # 1. IBM Maximo Monitor
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
       when: mirror_mas_monitor
