@@ -38,6 +38,10 @@ download_case ibm-mas 8.8.0 ibmMasSetup
 # -----------------------------------------------------------------------------
 download_case ibm-mas-assist 8.4.0 ibmMasAssistSetup
 
+# MAS HP Utilities
+# -----------------------------------------------------------------------------
+download_case ibm-mas-hputilities 8.4.0 ibmMasHPUtilitiesSetup
+
 # MAS IoT
 # -----------------------------------------------------------------------------
 download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
@@ -46,6 +50,14 @@ download_case ibm-mas-iot 8.5.1 ibmMasIotSetup
 # MAS Manage
 # -----------------------------------------------------------------------------
 download_case ibm-mas-manage 8.4.0 ibmMasManageSetup
+
+# MAS Monitor
+# -----------------------------------------------------------------------------
+download_case ibm-mas-monitor 8.8.0 ibmMasMonitorSetup
+
+# MAS Predict
+# -----------------------------------------------------------------------------
+download_case ibm-mas-predict 8.6.0 ibmMasPredictSetup
 
 # MAS Optimizer
 # -----------------------------------------------------------------------------
