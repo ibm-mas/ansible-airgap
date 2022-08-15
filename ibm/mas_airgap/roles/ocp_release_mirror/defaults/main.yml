@@ -22,4 +22,3 @@ quay_auth: "{{ quay_username }}:{{ quay_password }}"
 registry_username: "{{ lookup('env', 'REGISTRY_USERNAME') }}"
 registry_password: "{{ lookup('env', 'REGISTRY_PASSWORD') }}"
 registry_auth: "{{ registry_username }}:{{ registry_password }}"
-

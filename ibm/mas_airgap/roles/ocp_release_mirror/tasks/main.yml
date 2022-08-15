@@ -74,4 +74,3 @@
 - name: "Debug Mirror"
   debug:
     msg: "{{ mirror_result.stdout_lines }}"
-
