@@ -28,5 +28,3 @@ mas_optimizer_version: 8.2.0         # Operator version 8.2.0
 mas_predict_version: 8.6.0           # Operator version 8.6.0 (Untested, we haven't got CP4D mirroring working yet)
 mas_safety_version: 8.3.0            # Operator version 8.3.0 (Doesn't work because the case bundle doesn't support image mirroring)
 mas_visualinspection_version: 8.6.0  # Operator version 8.6.0 (Doesn't work because SBO removal was not completed)
-mas_monitor_version: 8.8.0           # Operator version 8.8.0
-

@@ -1,7 +1,7 @@
 ---
 # Mirrors the following content which is REQUIRED to add Maximo Monitor to an existing
 # Maximo Application Suite Core Services installation:
-# 2. IBM Maximo Monitor
+# 1. IBM Maximo Monitor
 #
 # This playbook aligns with the ibm.mas_devops.oneclick_add_monitor playbook
 
