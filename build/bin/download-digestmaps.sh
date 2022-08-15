@@ -70,3 +70,7 @@ download_case ibm-mas-safety 8.3.0 ibmMasSafetySetup
 # MAS Visual Inspection
 # -----------------------------------------------------------------------------
 download_case ibm-mas-visualinspection 8.6.0 ibmMasVisualInspectionSetup
+
+# MAS Monitor
+# -----------------------------------------------------------------------------
+download_case ibm-mas-monitor 8.8.0 ibmMasMonitorSetup
