@@ -28,7 +28,7 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
-    # 1. IBM Maximo optimizer
+    # 1. IBM Maximo Optimizer
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
       when: mirror_mas_optimizer

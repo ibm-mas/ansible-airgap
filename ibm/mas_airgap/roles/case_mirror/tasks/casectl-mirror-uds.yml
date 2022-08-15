@@ -1,0 +1,14 @@
+---
+# UDS does not support --tolerance or --skipDelta params so we need a special case here :(
+- name: "{{ case_name }} : Mirror Images (UDS Special Case)"
+  when: case_name == "ibm-uds"
+  shell: >
+    export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
+      --case {{ case_bundle_dir }}/case/{{ case_name }} \
+      --inventory {{ case_inventory_name }} \
+      --args "--registry {{ registry_public_url }} --inputDir {{ case_archive_dir }}" \
+    | tee {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log
+  register: mirror_result
+
+- debug:
+    var: mirror_result

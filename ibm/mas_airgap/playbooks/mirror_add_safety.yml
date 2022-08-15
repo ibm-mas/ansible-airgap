@@ -1,9 +1,9 @@
 ---
-# Mirrors the following content which is REQUIRED to add Maximo Monitor to an existing
-# Maximo Application Suite Core Services installation:
-# 2. IBM Maximo Monitor
+# Mirrors the following content which is REQUIRED to add Maximo Safety to an existing
+# Maximo Application Suite Core Services with Maximo IoT installation:
+# 1. IBM Maximo Safety
 #
-# This playbook aligns with the ibm.mas_devops.oneclick_add_monitor playbook
+# This playbook aligns with the ibm.mas_devops.oneclick_add_safety playbook
 
 - hosts: localhost
   any_errors_fatal: true
@@ -11,7 +11,7 @@
   vars:
     catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
 
-    mirror_mas_monitor: "{{ lookup('env', 'MIRROR_MAS_MONITOR') | default ('True', True) | bool }}"
+    mirror_mas_safety: "{{ lookup('env', 'MIRROR_MAS_SAFETY') | default ('True', True) | bool }}"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -28,18 +28,18 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
-    # 1. IBM Maximo Monitor
+    # 1. IBM Maximo Safety
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
-      when: mirror_mas_monitor
+      when: mirror_mas_safety
       vars:
-        case_name: ibm-mas-monitor
-        case_version: "{{ mas_monitor_version }}"
+        case_name: ibm-mas-safety
+        case_version: "{{ mas_safety_version }}"
         exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
-      when: mirror_mas_monitor
+      when: mirror_mas_safety
       vars:
-        case_name: ibm-mas-monitor
-        case_version: "{{ mas_monitor_version }}"
-        case_inventory_name: "ibmMasMonitorSetup"
+        case_name: ibm-mas-safety
+        case_version: "{{ mas_safety_version }}"
+        case_inventory_name: "ibmMasSafetySetup"
