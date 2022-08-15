@@ -34,6 +34,10 @@ download_case ibm-truststore-mgr 1.3.0 ibmTrustStoreMgrSetup
 # -----------------------------------------------------------------------------
 download_case ibm-mas 8.8.0 ibmMasSetup
 
+# MAS Assist
+# -----------------------------------------------------------------------------
+download_case ibm-mas-assist 8.4.0 ibmMasAssistSetup
+
 # MAS IoT
 # -----------------------------------------------------------------------------
 download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
@@ -46,6 +50,10 @@ download_case ibm-mas-manage 8.4.0 ibmMasManageSetup
 # MAS Optimizer
 # -----------------------------------------------------------------------------
 download_case ibm-mas-optimizer 8.2.0 ibmMasOptimizerSetup
+
+# MAS Optimizer
+# -----------------------------------------------------------------------------
+download_case ibm-mas-safety 8.3.0 ibmMasSafetySetup
 
 # MAS Visual Inspection
 # -----------------------------------------------------------------------------
