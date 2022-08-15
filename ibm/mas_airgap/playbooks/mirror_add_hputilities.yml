@@ -1,9 +1,9 @@
 ---
-# Mirrors the following content which is REQUIRED to add Maximo Optimizer to an existing
+# Mirrors the following content which is REQUIRED to add Maximo Health and Predict Utilities to an existing
 # Maximo Application Suite Core Services installation:
-# 1. IBM Maximo Optimizer
+# 1. IBM Maximo Health and Predict Utilties
 #
-# This playbook aligns with the ibm.mas_devops.oneclick_add_optimizer playbook
+# This playbook aligns with the ibm.mas_devops.oneclick_add_hputilities playbook
 
 - hosts: localhost
   any_errors_fatal: true
@@ -11,7 +11,7 @@
   vars:
     catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
 
-    mirror_mas_optimizer: "{{ lookup('env', 'MIRROR_MAS_OPTIMIZER') | default ('True', True) | bool }}"
+    mirror_mas_hputilities: "{{ lookup('env', 'MIRROR_MAS_HPUTILITIES') | default ('True', True) | bool }}"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -28,18 +28,18 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
-    # 1. IBM Maximo Optimizer
+    # 1. IBM Maximo HP Utilities
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
-      when: mirror_mas_optimizer
+      when: mirror_mas_hputilities
       vars:
-        case_name: ibm-mas-optimizer
-        case_version: "{{ mas_optimizer_version }}"
+        case_name: ibm-mas-hputilities
+        case_version: "{{ mas_hputilities_version }}"
         exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
-      when: mirror_mas_optimizer
+      when: mirror_mas_hputilities
       vars:
-        case_name: ibm-mas-optimizer
-        case_version: "{{ mas_optimizer_version }}"
-        case_inventory_name: "ibmMasOptimizerSetup"
+        case_name: ibm-mas-hputilities
+        case_version: "{{ mas_hputilities_version }}"
+        case_inventory_name: "ibmMasHPUtilitiesSetup"
