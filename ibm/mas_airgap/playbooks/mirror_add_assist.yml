@@ -1,7 +1,9 @@
 ---
 # Mirrors the following content which is REQUIRED to add Maximo Assist to an existing
 # Maximo Application Suite Core Services installation:
-# 1. IBM Maximo Assist
+# 1. CP4D
+# 2. Watson Discovery
+# 3. IBM Maximo Assist
 #
 # This playbook aligns with the ibm.mas_devops.oneclick_add_assist playbook
 
@@ -28,7 +30,39 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
-    # 1. IBM Maximo Assist
+    # 1. CP4D
+    # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-cp-datacore
+        case_version: "{{ cp4d_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-cp-datacore
+        case_version: "{{ cp4d_version }}"
+        case_inventory_name: "cpdPlatformOperator"
+    
+    # 2. Watson Discovery
+    # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_wd
+      vars:
+        case_name: ibm-watson-discovery
+        case_version: "{{ wd_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_wd
+      vars:
+        case_name: ibm-watson-discovery
+        case_version: "{{ wd_version }}"
+        case_inventory_name: "discoveryOperators"
+
+    # 3. IBM Maximo Assist
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
       when: mirror_mas_assist

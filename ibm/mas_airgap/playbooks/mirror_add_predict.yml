@@ -1,7 +1,8 @@
 ---
 # Mirrors the following content which is REQUIRED to add Maximo Predict to an existing
 # Maximo Application Suite Core Services installation:
-# 1. IBM Maximo Optimizer
+# 1. CP4D
+# 2. IBM Maximo Optimizer
 #
 # This playbook aligns with the ibm.mas_devops.oneclick_add_predict playbook
 
@@ -28,6 +29,22 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
+    # 1. CP4D
+    # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-cp-datacore
+        case_version: "{{ cp4d_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-cp-datacore
+        case_version: "{{ cp4d_version }}"
+        case_inventory_name: "cpdPlatformOperator"
+
     # 1. IBM Maximo optimizer
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
