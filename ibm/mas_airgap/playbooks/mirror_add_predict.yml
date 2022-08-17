@@ -2,7 +2,7 @@
 # Mirrors the following content which is REQUIRED to add Maximo Predict to an existing
 # Maximo Application Suite Core Services installation:
 # 1. CP4D
-# 2. IBM Maximo Optimizer
+# 2. IBM Maximo Predict
 #
 # This playbook aligns with the ibm.mas_devops.oneclick_add_predict playbook
 
@@ -12,6 +12,7 @@
   vars:
     catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
 
+    mirror_cp4d: "{{ lookup('env', 'MIRROR_CP4D') | default ('True', True) | bool }}"
     mirror_mas_predict: "{{ lookup('env', 'MIRROR_MAS_PREDICT') | default ('True', True) | bool }}"
 
   pre_tasks:
@@ -45,7 +46,7 @@
         case_version: "{{ cp4d_version }}"
         case_inventory_name: "cpdPlatformOperator"
 
-    # 1. IBM Maximo optimizer
+    # 1. IBM Maximo Predict
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
       when: mirror_mas_predict

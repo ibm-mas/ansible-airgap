@@ -13,7 +13,9 @@
   vars:
     catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
 
-    mirror_mas_assist: "{{ lookup('env', 'MIRROR_MAS_ASSIST') | default ('True', True) | bool }}"
+    mirror_cp4d: "{{ lookup('env', 'MIRROR_CP4D') | default ('True', True) | bool }}"
+    mirror_mas_iot: "{{ lookup('env', 'MIRROR_MAS_IOT') | default ('True', True) | bool }}"
+    mirror_wd: "{{ lookup('env', 'MIRROR_WD') | default ('True', True) | bool }}"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
