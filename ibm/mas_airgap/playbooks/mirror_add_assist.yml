@@ -39,7 +39,7 @@
       vars:
         case_name: ibm-cp-datacore
         case_version: "{{ cp4d_version }}"
-        exclude_images: 
+        exclude_images:
           - ibm-analyticsengine
           - ibm-auditlogging
           - ibm-bigsql-case
