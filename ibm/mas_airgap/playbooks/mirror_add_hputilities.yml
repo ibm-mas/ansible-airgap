@@ -39,7 +39,52 @@
       vars:
         case_name: ibm-cp-datacore
         case_version: "{{ cp4d_version }}"
-        exclude_images: []
+        exclude_images:
+          - ibm-analyticsengine
+          - ibm-auditlogging
+          - ibm-bigsql-case
+          - ibm-ccs
+          - ibm-cde
+          - ibm-cert-manager
+          - ibm-cloud-databases-redis
+          - ibm-cp-common-services
+          - ibm-cpd-scheduling
+          - ibm-cpp
+          - ibm-crossplane-bundle
+          - ibm-cs-commonui
+          - ibm-cs-healthcheck
+          - ibm-cs-iam
+          - ibm-cs-mongodb
+          - ibm-cs-monitoring
+          - ibm-datagate-prod
+          - ibm-datarefinery
+          - ibm-datastage-enterprise
+          - ibm-db2aaservice
+          - ibm-db2uoperator
+          - ibm-db2wh
+          - ibm-dmc
+          - ibm-dods
+          - ibm-dv-case
+          - ibm-elasticsearch-operator
+          - ibm-events-operator
+          - ibm-fdb
+          - ibm-hadoop
+          - ibm-iis
+          - ibm-licensing
+          - ibm-management-ingress
+          - ibm-mdm
+          - ibm-platform-api-operator
+          - ibm-rabbitmq-operator
+          - ibm-rstudio
+          - ibm-spss
+          - ibm-watson-openscale
+          - ibm-wkc
+          - ibm-wml-accelerator
+          - ibm-wml-cpd
+          - ibm-wsl
+          - ibm-wsl-runtimes
+          - ibm-zen
+          - mantaflow
 
     - name: ibm.mas_airgap.case_mirror
       when: mirror_cp4d
