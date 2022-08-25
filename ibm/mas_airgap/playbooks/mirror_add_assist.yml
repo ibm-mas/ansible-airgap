@@ -50,7 +50,7 @@
         case_name: ibm-cp-datacore
         case_version: "{{ cp4d_version }}"
         case_inventory_name: "cpdPlatformOperator"
-    
+
     # 2. IBM Zen
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
