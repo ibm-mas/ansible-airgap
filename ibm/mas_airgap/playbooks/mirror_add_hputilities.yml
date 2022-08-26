@@ -3,8 +3,9 @@
 # Maximo Application Suite Core Services installation:
 # 1. CP4D
 # 2. IBM Zen
-# 3. App connect
-# 4. IBM Maximo Health and Predict Utilties
+# 3. Watson Studio
+# 4. App connect
+# 5. IBM Maximo Health and Predict Utilties
 #
 # This playbook aligns with the ibm.mas_devops.oneclick_add_hputilities playbook
 
@@ -42,6 +43,16 @@
         case_name: ibm-cp-datacore
         case_version: "{{ cp4d_version }}"
         exclude_images:
+          - ibm-analyticsengine
+          - ibm-db2aaservice
+          - ibm-db2uoperator
+          - ibm-db2wh
+          - ibm-watson-openscale
+          - ibm-wkc
+          - ibm-wml-accelerator
+          - ibm-wml-cpd
+          - ibm-wsl
+          - ibm-wsl-runtimes
           - ibm-zen
 
     - name: ibm.mas_airgap.case_mirror
@@ -67,7 +78,23 @@
         case_version: "{{ zen_version }}"
         case_inventory_name: "zen_deploy"
 
-    # 3. App connect
+    # 3. IBM Watson Studio
+    # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_wsl
+      vars:
+        case_name: ibm-wsl
+        case_version: "{{ wsl_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_wsl
+      vars:
+        case_name: ibm-wsl
+        case_version: "{{ wsl_version }}"
+        case_inventory_name: "wslSetup"
+
+    # 4. App connect
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
       when: mirror_appconnect
@@ -83,7 +110,7 @@
         case_version: "{{ appconnect_version }}"
         case_inventory_name: "ibmAppconnect"
 
-    # 4. IBM Maximo Health and Predict Utilties
+    # 5. IBM Maximo Health and Predict Utilties
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
       when: mirror_mas_hputilities
