@@ -19,6 +19,9 @@
     mirror_cp4d: "{{ lookup('env', 'MIRROR_CP4D') | default ('True', True) | bool }}"
     mirror_mas_predict: "{{ lookup('env', 'MIRROR_MAS_PREDICT') | default ('True', True) | bool }}"
     mirror_zen: "{{ lookup('env', 'MIRROR_ZEN') | default ('True', True) | bool }}"
+    mirror_wsl: "{{ lookup('env', 'MIRROR_WSL') | default ('True', True) | bool }}"
+    mirror_wml: "{{ lookup('env', 'MIRROR_WML') | default ('True', True) | bool }}"
+    mirror_ae: "{{ lookup('env', 'MIRROR_AE') | default ('True', True) | bool }}"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -93,7 +96,7 @@
         case_name: ibm-wsl
         case_version: "{{ wsl_version }}"
         case_inventory_name: "wslSetup"
-    
+
     # 4. IBM Watson Machine Learning
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
@@ -109,7 +112,7 @@
         case_name: ibm-wml-cpd
         case_version: "{{ wml_version }}"
         case_inventory_name: "wmlOperatorSetup"
-    
+
     # 5. Analytics Engine
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
