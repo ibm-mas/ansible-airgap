@@ -42,9 +42,6 @@
         case_name: ibm-cp-datacore
         case_version: "{{ cp4d_version }}"
         exclude_images:
-          - ibm-analyticsengine
-          - ibm-wml-cpd
-          - ibm-wsl
           - ibm-zen
 
     - name: ibm.mas_airgap.case_mirror
