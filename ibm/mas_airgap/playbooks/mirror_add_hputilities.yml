@@ -45,15 +45,8 @@
         case_version: "{{ cp4d_version }}"
         exclude_images:
           - ibm-analyticsengine
-          - ibm-db2aaservice
-          - ibm-db2uoperator
-          - ibm-db2wh
-          - ibm-watson-openscale
-          - ibm-wkc
-          - ibm-wml-accelerator
           - ibm-wml-cpd
           - ibm-wsl
-          - ibm-wsl-runtimes
           - ibm-zen
 
     - name: ibm.mas_airgap.case_mirror
