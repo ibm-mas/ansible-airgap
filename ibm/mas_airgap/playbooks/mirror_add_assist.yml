@@ -42,6 +42,30 @@
         case_name: ibm-cp-datacore
         case_version: "{{ cp4d_version }}"
         exclude_images:
+          - ibm-analyticsengine
+          - ibm-bigsql-case
+          - ibm-ccs
+          - ibm-cde
+          - ibm-cpd-scheduling
+          - ibm-datagate-prod
+          - ibm-datarefinery
+          - ibm-db2aaservice
+          - ibm-db2uoperator
+          - ibm-db2wh
+          - ibm-dmc
+          - ibm-dods
+          - ibm-dp
+          - ibm-dv-case
+          - ibm-hadoop
+          - ibm-iis
+          - ibm-mdm
+          - ibm-rstudio
+          - ibm-spss
+          - ibm-watson-openscale
+          - ibm-wkc
+          - ibm-wml-accelerator
+          - ibm-wml-cpd
+          - ibm-wsl
           - ibm-zen
 
     - name: ibm.mas_airgap.case_mirror
