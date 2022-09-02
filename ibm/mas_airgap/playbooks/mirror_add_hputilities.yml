@@ -125,7 +125,7 @@
         case_version: "{{ appconnect_version }}"
         case_inventory_name: "ibmAppconnect"
 
-    # 5. IBM Maximo Health and Predict Utilties
+    # 5. IBM Maximo Health and Predict Utilities
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.case_prepare
       when: mirror_mas_hputilities
