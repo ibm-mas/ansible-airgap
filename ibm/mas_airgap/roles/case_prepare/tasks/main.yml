@@ -83,7 +83,12 @@
         (case_name == "ibm-mas-hputilities")
   include_tasks: "tasks/override-prereqs.yml"
 
-# 4.6 Override resources and digests files for MVI
+# 4.6 Override action file for Safety
+- name: "Override actions.yaml file for Safety"
+  when: case_name == "ibm-mas-safety"
+  include_tasks: "tasks/override-safety-actions.yml"
+
+# 4.7 Override resources and digests files for MVI
 - name: "Override resources.yaml and digests.yaml files for Visual Inspection"
   when: case_name == "ibm-mas-visualinspection"
   include_tasks: "tasks/override-mvi-omit-edge.yml"

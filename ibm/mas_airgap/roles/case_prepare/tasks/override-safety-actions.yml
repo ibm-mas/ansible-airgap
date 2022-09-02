@@ -1,0 +1,7 @@
+---
+# Copy an override for safety actions.yaml file
+
+- name: Copy override actions file into case bundle
+  copy:
+    src: "templates/safety-actions-override.yml.j2"
+    dest: "{{ case_bundle_dir }}/case/{{ case_name }}/inventory/ibmMasSafetySetup/actions.yaml"
