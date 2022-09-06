@@ -9,24 +9,31 @@ catalog_digest: sha256:1222697802a54640bbfd5e5cc86716319ef5c440902da8227599c9a5f
 
 # Dependencies
 # -----------------------------------------------------------------------------
-ae_version: 4.0.9           # Operator version 1.0.9  analytics engine
+ae_version: 4.0.9           # Operator version 1.0.9  analytics engine for predict
 appconnect_version: 3.0.0   # Operator version 3.0.0
 common_svcs_version: 1.15.1 # Operator version 3.19.1
-cp4d_version: 2.0.13        # Operator version 4.0.9
+cp4d_version: 2.0.13        # Operator version 4.0.9  cpd platform operator
 db2u_version: 4.0.11        # Operator version 1.1.13
 events_version: 4.2.0       # Operator version 4.2.0
 uds_version: 2.0.8          # Operator version 2.0.8
 sls_version: 3.4.0          # Operator version 3.4.0
 tsm_version: 1.3.0          # Operator version 1.3.0
-wd_version: 4.0.9           # Operator version 4.0.9  watson discovery
-wml_version: 4.0.10         # Operator version 1.1.8  watson studio
-wsl_version: 2.0.9          # Operator version 2.0.9  watson machine learning
+wd_version: 4.0.9           # Operator version 4.0.9  watson discovery for assist
+wml_version: 4.0.10         # Operator version 1.1.8  watson studio for predict and hpu
+wsl_version: 2.0.9          # Operator version 2.0.9  watson machine learning for predict
+
+# CP4D Services
+ccs_version: 1.0.9                   # Operator version 1.0.9
+elasticsearch_version: 1.1.1042      # Operator version 1.1.1042
+minio_version: 1.0.10                # Operator version 1.0.10
+model_train_version: 1.2.0           # Operator version 1.1.2
+rabbitmq_version: 1.0.11             # Operator version 1.0.11
 zen_version: 2.9.0          # Operator version 1.5.4  ibm zen services
 
 # Maximo Application Suite
 # -----------------------------------------------------------------------------
 mas_core_version: 8.8.0              # Operator version 8.8.0
-mas_assist_version: 8.4.0            # Operator version 8.4.0 (Untested, we haven't got CP4D mirroring working yet)
+mas_assist_version: 8.5.0            # Operator version 8.5.0 (Untested, we haven't got CP4D mirroring working yet)
 mas_hputilities_version: 8.4.0       # Operator version 8.4.0 (Untested, we haven't got CP4D mirroring working yet)
 mas_iot_version: 8.5.0               # Operator version 8.5.0 (Doesn't work because 1 image can not be referenced by digest)
 mas_manage_version: 8.4.0            # Operator version 8.4.0

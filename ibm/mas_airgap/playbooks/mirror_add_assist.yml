@@ -17,7 +17,6 @@
     mirror_cp4d: "{{ lookup('env', 'MIRROR_CP4D') | default ('True', True) | bool }}"
     mirror_mas_assist: "{{ lookup('env', 'MIRROR_MAS_ASSIST') | default ('True', True) | bool }}"
     mirror_wd: "{{ lookup('env', 'MIRROR_WD') | default ('True', True) | bool }}"
-    mirror_zen: "{{ lookup('env', 'MIRROR_ZEN') | default ('True', True) | bool }}"
 
   pre_tasks:
     # Note that REGISTRY_USERNAME and REGISTRY_PASSWORD are not required.
@@ -75,21 +74,97 @@
         case_version: "{{ cp4d_version }}"
         case_inventory_name: "cpdPlatformOperator"
 
-    # 2. IBM Zen
+    # 2. CP4D Services
     # -------------------------------------------------------------------------
+    # zen
     - name: ibm.mas_airgap.case_prepare
-      when: mirror_zen
+      when: mirror_cp4d
       vars:
         case_name: ibm-zen
         case_version: "{{ zen_version }}"
         exclude_images: []
 
     - name: ibm.mas_airgap.case_mirror
-      when: mirror_zen
+      when: mirror_cp4d
       vars:
         case_name: ibm-zen
         case_version: "{{ zen_version }}"
         case_inventory_name: "zen_deploy"
+
+    # ccs
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-ccs
+        case_version: "{{ ccs_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-ccs
+        case_version: "{{ ccs_version }}"
+        case_inventory_name: "ccsSetup"
+
+    # minio
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-minio-operator
+        case_version: "{{ minio_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-minio-operator
+        case_version: "{{ minio_version }}"
+        case_inventory_name: "ibmMinioOperatorSetup"
+
+    # model train
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-model-train-operator
+        case_version: "{{ model_train_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-model-train-operator
+        case_version: "{{ model_train_version }}"
+        case_inventory_name: "modelTrainOperatorSetup"
+
+    # elastic search 
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-elasticsearch-operator
+        case_version: "{{ elasticsearch_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-elasticsearch-operator
+        case_version: "{{ elasticsearch_version }}"
+        case_inventory_name: "ibmElasticsearchOperatorSetup"
+
+    # rabbitmq
+    - name: ibm.mas_airgap.case_prepare
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-rabbitmq-operator
+        case_version: "{{ rabbitmq_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_cp4d
+      vars:
+        case_name: ibm-rabbitmq-operator
+        case_version: "{{ rabbitmq_version }}"
+        case_inventory_name: "ibmRabbitmqOperatorSetup"
 
     # 3. Watson Discovery
     # -------------------------------------------------------------------------
