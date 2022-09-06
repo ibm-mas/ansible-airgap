@@ -136,7 +136,7 @@
         case_version: "{{ model_train_version }}"
         case_inventory_name: "modelTrainOperatorSetup"
 
-    # elastic search 
+    # elastic search
     - name: ibm.mas_airgap.case_prepare
       when: mirror_cp4d
       vars:
