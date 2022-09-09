@@ -21,13 +21,6 @@ tsm_version: 1.3.0          # Operator version 1.3.0
 wd_version: 4.0.9           # Operator version 4.0.9  watson discovery for assist
 wml_version: 4.0.10         # Operator version 1.1.8  watson studio for predict and hpu
 wsl_version: 2.0.9          # Operator version 2.0.9  watson machine learning for predict
-
-# CP4D Services
-ccs_version: 1.0.9                   # Operator version 1.0.9
-elasticsearch_version: 1.1.1042      # Operator version 1.1.1042
-minio_version: 1.0.10                # Operator version 1.0.10
-model_train_version: 1.2.0           # Operator version 1.1.2
-rabbitmq_version: 1.0.11             # Operator version 1.0.11
 zen_version: 2.9.0          # Operator version 1.5.4  ibm zen services
 
 # Maximo Application Suite

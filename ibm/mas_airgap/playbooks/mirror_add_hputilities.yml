@@ -76,9 +76,8 @@
         case_version: "{{ cp4d_version }}"
         case_inventory_name: "cpdPlatformOperator"
 
-    # 2. CP4D Services
+    # 2. Zen Services
     # -------------------------------------------------------------------------
-    # zen
     - name: ibm.mas_airgap.case_prepare
       when: mirror_cp4d
       vars:
@@ -92,21 +91,6 @@
         case_name: ibm-zen
         case_version: "{{ zen_version }}"
         case_inventory_name: "zen_deploy"
-
-     # ccs
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_cp4d
-      vars:
-        case_name: ibm-ccs
-        case_version: "{{ ccs_version }}"
-        exclude_images: []
-
-    - name: ibm.mas_airgap.case_mirror
-      when: mirror_cp4d
-      vars:
-        case_name: ibm-ccs
-        case_version: "{{ ccs_version }}"
-        case_inventory_name: "ccsSetup"
 
     # 3. IBM Watson Studio
     # -------------------------------------------------------------------------
