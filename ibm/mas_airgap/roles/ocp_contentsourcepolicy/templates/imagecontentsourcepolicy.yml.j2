@@ -63,3 +63,19 @@ spec:
     - source: registry.redhat.io/openshift4
       mirrors:
         - {{ registry_private_url }}/openshift4
+
+    # 5. FVT Images
+    # -------------------------------------------------------------------------
+    # Required by FVT tasks
+    - source: wiotp-docker-local.artifactory.swg-devops.com/mas-devops
+      mirrors:
+        - {{ registry_private_url }}/mas-devops
+    # Required by Safety FVT tasks
+    - source: wiotp-docker-local.artifactory.swg-devops.com/fvt-safety
+      mirrors:
+        - {{ registry_private_url }}/fvt-safety
+    # Required by Managfe FVT tasks
+    - source: wiotp-docker-local.artifactory.swg-devops.com/fvt-manage
+      mirrors:
+        - {{ registry_private_url }}/fvt-manage
+
