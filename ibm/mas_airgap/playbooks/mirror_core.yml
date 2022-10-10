@@ -128,24 +128,21 @@
         case_version: "{{ uds_version }}"
         case_inventory_name: "operatorSetup"
 
+
     # 4.2 IBM Events Operator (Used by UDS)
-    # The CASE bundle for this operator is broken in v4.2.0, so we will manually mirror the images
-    - name: ibm.mas_airgap.mirror_images
+    - name: ibm.mas_airgap.case_prepare
       when: mirror_uds
       vars:
-        images_to_mirror:
-          - name: cpopen/cpfs/ibm-events-kafka-3.1.0
-            registry: icr.io
-            tag: 4.2.0
-            digest: sha256:359be5faff98968f1d59fc5e07fc50735003730643e81ea0f25dbc1ba6eac164
-          - name: cpopen/cpfs/ibm-events-kafka-3.2.0
-            registry: icr.io
-            tag: 4.2.0
-            digest: sha256:f960eace2e54e368516f5b17c18150ae92d6ef281c888d4c7f1c03a919e31ad2
-          - name: cpopen/ibm-events-operator
-            registry: icr.io
-            tag: 4.2.0
-            digest: sha256:f10d8161e4fae49b2c9663d3fc38087462ed519c1c96a6d7b9e2990ec38afe1b
+        case_name: ibm-events-operator
+        case_version: "{{ events_version }}"
+        exclude_images: []
+
+    - name: ibm.mas_airgap.case_mirror
+      when: mirror_uds
+      vars:
+        case_name: ibm-events-operator
+        case_version: "{{ events_version }}"
+        case_inventory_name: "ibmEventsOperatorSetup"
 
 
     # 5. IBM Suite License Service
