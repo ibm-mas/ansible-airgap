@@ -1,7 +1,6 @@
 ---
 - name: "{{ case_name }} : Mirror Images"
-  when: (case_name != "ibm-uds") and
-        (case_name != "ibm-events-operator")
+  when: case_name != "ibm-uds"
   shell: >
     export USE_SKOPEO=True && cloudctl case launch --action mirror-images \
       --case {{ case_bundle_dir }}/case/{{ case_name }} \
