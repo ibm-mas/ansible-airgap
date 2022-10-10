@@ -122,11 +122,13 @@
     msg: "Mirroring may take some time before the script returns.  See casectl log file: {{ case_bundle_dir }}/mirror-{{ case_name }}-{{ case_inventory_name }}.log"
 
 - name: "{{ case_name }} : Run casectl mirror-images"
-  when: case_name != "ibm-uds"
+  when: (case_name != "ibm-uds") and
+        (case_name != "ibm-events-operator")
   include_tasks: casectl-mirror.yml
 
 - name: "{{ case_name }} : Run casectl mirror-images (UDS)"
-  when: case_name == "ibm-uds"
+  when: (case_name == "ibm-uds") or
+        (case_name == "ibm-events-operator")
   include_tasks: casectl-mirror-uds.yml
 
 - name: "{{ case_name }} : Debug Mirror"
