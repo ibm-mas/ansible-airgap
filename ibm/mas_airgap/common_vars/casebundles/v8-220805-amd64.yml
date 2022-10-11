@@ -45,6 +45,7 @@ uds_extra_images_list:
     digest: sha256:f10d8161e4fae49b2c9663d3fc38087462ed519c1c96a6d7b9e2990ec38afe1b
 
 # Extra Images for Mongo
+# ------------------------------------------------------------------------------
 mongo_extra_images_list:
   - name: mongodb/mongodb-kubernetes-operator
     registry: quay.io
