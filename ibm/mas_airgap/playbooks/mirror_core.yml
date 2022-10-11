@@ -56,7 +56,7 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mongoce
       vars:
-        images_to_mirror: "{{mongo_extra_images_list}}"
+        images_to_mirror: "{{ mongo_extra_images_list }}"
 
 
     # 3. IBM Cloud Pak Foundation Services
@@ -65,7 +65,7 @@
       when: mirror_common_svcs
       vars:
         case_name: ibm-cp-common-services
-        case_version: "{{ common_svcs_version }}"
+        case_version: "{{ item }}"
         exclude_images:
           - ibm-auditlogging
           - ibm-cpp
@@ -78,14 +78,15 @@
           - ibm-management-ingress
           - ibm-platform-api-operator
           - ibm-zen
+      with_items: "{{ common_svcs_version }}"
 
     - name: ibm.mas_airgap.case_mirror
       when: mirror_common_svcs
       vars:
         case_name: ibm-cp-common-services
-        case_version: "{{ common_svcs_version }}"
+        case_version: "{{ item }}"
         case_inventory_name: "ibmCommonServiceOperatorSetup"
-
+      with_items: "{{ common_svcs_version }}"
 
     # 4. IBM User Data Services
     # -------------------------------------------------------------------------
