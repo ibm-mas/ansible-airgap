@@ -85,7 +85,7 @@
         case_name: ibm-cp-common-services
         case_version: "{{ common_svcs_version }}"
         case_inventory_name: "ibmCommonServiceOperatorSetup"
-    
+
     # Mirroring another version for Cloud Pak Foundation Services
     - name: ibm.mas_airgap.case_prepare
       when:
