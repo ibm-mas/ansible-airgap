@@ -19,12 +19,55 @@ tsm_version: 1.3.0          # Operator version 1.3.0
 # Maximo Application Suite
 # -----------------------------------------------------------------------------
 mas_core_version: 8.8.0              # Operator version 8.8.0
-mas_assist_version: 8.4.0            # Operator version 8.4.0 (Untested, we haven't got CP4D mirroring working yet)
+mas_assist_version: 8.5.0            # Operator version 8.5.0 (Untested, we haven't got CP4D mirroring working yet)
 mas_hputilities_version: 8.4.0       # Operator version 8.4.0 (Untested, we haven't got CP4D mirroring working yet)
 mas_iot_version: 8.5.1               # Operator version 8.5.1
 mas_manage_version: 8.4.0            # Operator version 8.4.0
 mas_monitor_version: 8.8.0           # Operator version 8.8.0 (Doesn't work because many images can not be referenced by digest)
 mas_optimizer_version: 8.2.0         # Operator version 8.2.0
 mas_predict_version: 8.6.0           # Operator version 8.6.0 (Untested, we haven't got CP4D mirroring working yet)
-mas_safety_version: 8.3.0            # Operator version 8.3.0 (Doesn't work because the case bundle doesn't support image mirroring)
 mas_visualinspection_version: 8.6.0  # Operator version 8.6.0 (Doesn't work because SBO removal was not completed)
+
+# Extra Images for UDS
+# ------------------------------------------------------------------------------
+uds_extra_images_list:
+  - name: cpopen/cpfs/ibm-events-kafka-3.1.0
+    registry: icr.io
+    tag: 4.2.0
+    digest: sha256:359be5faff98968f1d59fc5e07fc50735003730643e81ea0f25dbc1ba6eac164
+  - name: cpopen/cpfs/ibm-events-kafka-3.2.0
+    registry: icr.io
+    tag: 4.2.0
+    digest: sha256:f960eace2e54e368516f5b17c18150ae92d6ef281c888d4c7f1c03a919e31ad2
+  - name: cpopen/ibm-events-operator
+    registry: icr.io
+    tag: 4.2.0
+    digest: sha256:f10d8161e4fae49b2c9663d3fc38087462ed519c1c96a6d7b9e2990ec38afe1b
+
+# Extra Images for Mongo
+# ------------------------------------------------------------------------------
+mongo_extra_images_list:
+  - name: mongodb/mongodb-kubernetes-operator
+    registry: quay.io
+    tag: 0.7.0
+    digest: sha256:e19ae43539521f0350fb71684757dc535fc989deb75f3789cd84b782489eda80
+
+  - name: mongodb/mongodb-kubernetes-operator-version-upgrade-post-start-hook
+    registry: quay.io
+    tag: 1.0.2
+    digest: sha256:da347eb74525715a670280545e78ecee1195ec2630037b3821591c87f7a314ee
+
+  - name: mongodb/mongodb-agent
+    registry: quay.io
+    tag: 11.0.5.6963-1
+    digest: sha256:4db6e9c7df3d9421dcc09e98c5b43ba9d95952eae3c2ccbfdb83a49743b3195f
+
+  - name: mongodb/mongodb-kubernetes-readinessprobe
+    registry: quay.io
+    tag: 1.0.4
+    digest: sha256:bf5a4ffc8d2d257d6d9eb45d3e521f30b2e049a9b60ddc8e4865448e035502ca
+
+  - name: ibmmas/mongo
+    registry: quay.io
+    tag: 4.2.6
+    digest: sha256:8c48baa1571469d7f5ae6d603b92b8027ada5eb39826c009cb33a13b46864908
