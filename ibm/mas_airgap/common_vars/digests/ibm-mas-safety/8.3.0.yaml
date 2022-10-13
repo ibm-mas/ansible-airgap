@@ -1,4 +1,0 @@
-cp.icr.io/cp/safety/ibm-mas-safety-ws:8.3.0: cp.icr.io/cp/safety/ibm-mas-safety-ws@sha256:54222c9f61ac09021a12668f3713cc6cb6b9692ba69fd25d3bdd2626f9bc02d2
-cp.icr.io/cp/safety/safety-api:2.6.2: cp.icr.io/cp/safety/safety-api@sha256:6262f6b2dda840b577591c99c4be7f6957f1096fd85d941edd9d8dbcab24b8d3
-cp.icr.io/cp/safety/safety-ui:2.7.0: cp.icr.io/cp/safety/safety-ui@sha256:d681dd1c10a22c19ed9c1d12c89f81c5fd65f21ccef013b2b4674ddd81a56bb3
-cp.icr.io/cp/safety/safety-usersyncagent:1.0.42: cp.icr.io/cp/safety/safety-usersyncagent@sha256:6684e50d0bd8fc8def26985aab63c476de9bffbd006665ed217bf6897ed5ea02

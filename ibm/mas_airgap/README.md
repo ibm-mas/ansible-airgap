@@ -4,6 +4,12 @@
 [https://ibm-mas.github.io/ansible-airgap/](https://ibm-mas.github.io/ansible-airgap/)
 
 ## Change Log
+- `2.4` Add support for Sep 2022 catalog ([#76](https://github.com/ibm-mas/ansible-airgap/pull/76))
+- `2.3` Add image mirroring support for remaining applications ([#72](https://github.com/ibm-mas/ansible-airgap/pull/72))
+- `2.2` Catalog update for IoT airgap support fix ([#68](https://github.com/ibm-mas/ansible-airgap/pull/68))
+- `2.1` Multiple updates:
+    - Support Maximo Optimizer ([#66](https://github.com/ibm-mas/ansible-airgap/pull/66))
+    - Support Maximo Visual Inspection ([#67](https://github.com/ibm-mas/ansible-airgap/pull/67))
 - `2.0` Support for MAS 8.8 & Maximo Curated Operator Catalog ([#63](https://github.com/ibm-mas/ansible-airgap/pull/63))
 - `1.3` Support IoT application install ([#43](https://github.com/ibm-mas/ansible-airgap/pull/43))
 - `1.2` Multiple updates:

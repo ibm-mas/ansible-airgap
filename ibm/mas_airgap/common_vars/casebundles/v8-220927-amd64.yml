@@ -1,48 +1,45 @@
 ---
-# Case bundle configuration for IBM Maximo Operator Catalog v20220727
+# Case bundle configuration for IBM Maximo Operator Catalog v20220927
 # -----------------------------------------------------------------------------
 # In the future this won't be necessary as we'll be able to mirror from the
 # catalog itself, but not everything in the catalog supports this yet (including MAS)
 # so we need to use the CASE bundle mirror process still.
 
-catalog_digest: sha256:02db98338386f874dead37fb9a0b956fe59b851db09440e5523b634f7341e4bf
+catalog_digest: sha256:37d492a851137567bcfea0b5530fca05374a08a78b41afb712e17c2542016ae7
 
 # Dependencies
 # -----------------------------------------------------------------------------
-common_svcs_version: 1.15.1 # Operator version 3.19.1
-db2u_version: 4.0.11        # Operator version 1.1.13
-events_version: 4.2.0       # Operator version 4.2.0
-uds_version: 2.0.8          # Operator version 2.0.8
-sls_version: 3.4.0          # Operator version 3.4.0
-tsm_version: 1.3.0          # Operator version 1.3.0
+common_svcs_version: 1.15.4   # Operator version 3.19.4 (https://github.com/IBM/cloud-pak/tree/master/repo/case/ibm-cp-common-services)
+common_svcs_version_1: 1.16.1 # Operator version 3.20.1
+db2u_version: 4.5.0           # Operator version 2.0.0 (https://github.com/IBM/cloud-pak/tree/master/repo/case/ibm-db2uoperator), which is container image tag 4.5.0-4367-dev-amd64
+events_version: 4.2.1         # Operator version 4.2.1 (https://github.com/IBM/cloud-pak/tree/master/repo/case/ibm-events-operator)
+uds_version: 2.0.8            # Operator version 2.0.8
+sls_version: 3.4.1            # Operator version 3.4.1
+tsm_version: 1.3.0            # Operator version 1.3.0
 
 # Maximo Application Suite
 # -----------------------------------------------------------------------------
-mas_core_version: 8.8.0              # Operator version 8.8.0
+mas_core_version: 8.8.1              # Operator version 8.8.1
 mas_assist_version: 8.5.0            # Operator version 8.5.0 (Untested, we haven't got CP4D mirroring working yet)
 mas_hputilities_version: 8.4.0       # Operator version 8.4.0 (Untested, we haven't got CP4D mirroring working yet)
-mas_iot_version: 8.5.0               # Operator version 8.5.0 (Doesn't work because 1 image can not be referenced by digest)
-mas_manage_version: 8.4.0            # Operator version 8.4.0
-mas_monitor_version: 8.8.0           # Operator version 8.8.0 (Doesn't work because many images can not be referenced by digest)
-mas_optimizer_version: 8.2.0         # Operator version 8.2.0
-mas_predict_version: 8.6.0           # Operator version 8.6.0 (Untested, we haven't got CP4D mirroring working yet)
-mas_visualinspection_version: 8.6.0  # Operator version 8.6.0 (Doesn't work because SBO removal was not completed)
+mas_iot_version: 8.5.1               # Operator version 8.5.1
+mas_manage_version: 8.4.1            # Operator version 8.4.1
+mas_monitor_version: 8.8.1           # Operator version 8.8.1 (Untested)
+mas_optimizer_version: 8.2.1         # Operator version 8.2.1
+mas_predict_version: 8.6.1           # Operator version 8.6.1 (Untested, we haven't got CP4D mirroring working yet)
+mas_visualinspection_version: 8.6.1  # Operator version 8.6.1 (Untested)
 
 # Extra Images for UDS
 # ------------------------------------------------------------------------------
 uds_extra_images_list:
-  - name: cpopen/cpfs/ibm-events-kafka-3.1.0
-    registry: icr.io
-    tag: 4.2.0
-    digest: sha256:359be5faff98968f1d59fc5e07fc50735003730643e81ea0f25dbc1ba6eac164
   - name: cpopen/cpfs/ibm-events-kafka-3.2.0
     registry: icr.io
-    tag: 4.2.0
-    digest: sha256:f960eace2e54e368516f5b17c18150ae92d6ef281c888d4c7f1c03a919e31ad2
+    tag: 4.2.1
+    digest: sha256:6eab4c8aecb7d5d6a391d8ed9b79405d9199ded12474a18f76e8eb16426ea2ef
   - name: cpopen/ibm-events-operator
     registry: icr.io
-    tag: 4.2.0
-    digest: sha256:f10d8161e4fae49b2c9663d3fc38087462ed519c1c96a6d7b9e2990ec38afe1b
+    tag: 4.2.1
+    digest: sha256:1ac2659319076b49cc7f659110f739224eedde45ceb3e61ad2ea97a63cc45225
 
 # Extra Images for Mongo
 # ------------------------------------------------------------------------------

@@ -87,6 +87,11 @@
     name: airgap-registry-certificate
     namespace: "{{ registry_namespace }}"
   register: cert_secret
+  retries: 60 # ~approx 5 minutes before we give up
+  delay: 5 # seconds
+  until:
+    - cert_secret.resources is defined
+    - cert_secret.resources | length > 0
 
 - name: "Create Directory (/tmp/{{ cluster_subdomain.resources[0].spec.domain }}:32500)"
   ansible.builtin.file:
