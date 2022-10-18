@@ -136,7 +136,7 @@
       - "{{ mirror_result.stderr_lines }}"
 
 - name: "{{ case_name }} : Debug Mirror Failure"
-  when: mirror_result.stderr_lines | length > 0
+  when: (mirror_result.stderr_lines | length == 1 and mirror_result.stderr_lines[0] is not regex('.* Unable to create a REST API connection to the cluster due to the following error.* Unable to get cluster auth tokens due to the following error.* no such file or directory .*')) or (mirror_result.stderr_lines | length > 1)
   fail:
     msg: "Image mirroring (cloudctl case launch --action mirror-images) failed"
 
