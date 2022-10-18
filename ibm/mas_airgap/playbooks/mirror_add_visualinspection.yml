@@ -10,6 +10,7 @@
 
   vars:
     catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220927-amd64', True) }}"
+    mirror_mode: "{{ lookup('env', 'MIRROR_MODE') | default ('direct', True) }}"
 
     mirror_mas_visualinspection: "{{ lookup('env', 'MIRROR_MAS_VISUALINSPECTION') | default ('True', True) | bool }}"
 
@@ -28,18 +29,16 @@
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
 
   roles:
-    # 1. IBM Maximo optimizer
+    # 1. IBM Maximo Visual Inspection
     # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
+    - name: ibm.mas_airgap.mirror_case_prepare
       when: mirror_mas_visualinspection
       vars:
         case_name: ibm-mas-visualinspection
         case_version: "{{ mas_visualinspection_version }}"
         exclude_images: []
 
-    - name: ibm.mas_airgap.case_mirror
+    - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_visualinspection
       vars:
-        case_name: ibm-mas-visualinspection
-        case_version: "{{ mas_visualinspection_version }}"
-        case_inventory_name: "ibmMasVisualInspectionSetup"
+        manifest_name: "ibm-mas-visualinspection_{{ mas_visualinspection_version }}"
