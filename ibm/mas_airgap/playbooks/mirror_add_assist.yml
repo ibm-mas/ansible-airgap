@@ -10,7 +10,7 @@
 
   vars:
     catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220927-amd64', True) }}"
-
+    mirror_mode: "{{ lookup('env', 'MIRROR_MODE') | default ('direct', True) }}"
     mirror_mas_assist: "{{ lookup('env', 'MIRROR_MAS_ASSIST') | default ('True', True) | bool }}"
 
   pre_tasks:
@@ -30,16 +30,14 @@
   roles:
     # 1. IBM Maximo Assist
     # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
+    - name: ibm.mas_airgap.mirror_case_prepare
       when: mirror_mas_assist
       vars:
         case_name: ibm-mas-assist
         case_version: "{{ mas_assist_version }}"
         exclude_images: []
 
-    - name: ibm.mas_airgap.case_mirror
+    - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_assist
       vars:
-        case_name: ibm-mas-assist
-        case_version: "{{ mas_assist_version }}"
-        case_inventory_name: "ibmMasAssistSetup"
+        manifest_name: "ibm-mas-assist_{{ mas_assist_version }}"
