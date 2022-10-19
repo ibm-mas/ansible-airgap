@@ -41,5 +41,5 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_hputilities
       vars:
-        manifest_name: "ibm-mas-hputilities_{{ mas_hputilities_version }}"
-
+        manifest_name: ibm-mas-hputilities
+        manifest_version: "{{ mas_hputilities_version }}"

@@ -41,4 +41,5 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_visualinspection
       vars:
-        manifest_name: "ibm-mas-visualinspection_{{ mas_visualinspection_version }}"
+        manifest_name: ibm-mas-visualinspection
+        manifest_version: "{{ mas_visualinspection_version }}"

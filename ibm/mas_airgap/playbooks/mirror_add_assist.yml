@@ -41,4 +41,5 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_assist
       vars:
-        manifest_name: "ibm-mas-assist_{{ mas_assist_version }}"
+        manifest_name: ibm-mas-assist
+        manifest_version: "{{ mas_assist_version }}"

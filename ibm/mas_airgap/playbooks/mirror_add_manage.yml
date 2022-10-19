@@ -43,7 +43,8 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_db2u
       vars:
-        manifest_name: "ibm-db2uoperator_{{ db2u_version }}"
+        manifest_name: ibm-db2uoperator
+        manifest_version: "{{ db2u_version }}"
 
 
     # 2. IBM Maximo Manage
@@ -58,4 +59,5 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_manage
       vars:
-        manifest_name: "ibm-mas-manage_{{ mas_manage_version }}"
+        manifest_name: ibm-mas-manage
+        manifest_version: "{{ mas_manage_version }}"

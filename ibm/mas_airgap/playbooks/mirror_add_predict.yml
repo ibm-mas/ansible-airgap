@@ -41,4 +41,5 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_predict
       vars:
-        manifest_name: "ibm-mas-predict_{{ mas_predict_version }}"
+        manifest_name: ibm-mas-predict
+        manifest_version: "{{ mas_predict_version }}"

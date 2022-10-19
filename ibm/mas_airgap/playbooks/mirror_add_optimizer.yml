@@ -41,4 +41,5 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_optimizer
       vars:
-        manifest_name: "ibm-mas-optimizer_{{ mas_optimizer_version }}"
+        manifest_name: ibm-mas-optimizer
+        manifest_version: "{{ mas_optimizer_version }}"
