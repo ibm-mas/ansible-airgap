@@ -11,8 +11,8 @@ function copyDoc() {
 }
 
 copyDoc install_digest_cm
-copyDoc mirror_case_preapre
-copyDoc mirror_extras_preapre
+copyDoc mirror_case_prepare
+copyDoc mirror_extras_prepare
 copyDoc mirror_images
 copyDoc ocp_contentsourcepolicy
 copyDoc ocp_operators_mirror
