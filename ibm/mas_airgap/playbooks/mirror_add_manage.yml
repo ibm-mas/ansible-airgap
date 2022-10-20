@@ -34,7 +34,9 @@
     # 1. IBM Db2u
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.mirror_case_prepare
-      when: mirror_db2u
+      when:
+        - mirror_db2u
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-db2uoperator
         case_version: "{{ db2u_version }}"
@@ -50,7 +52,9 @@
     # 2. IBM Maximo Manage
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.mirror_case_prepare
-      when: mirror_mas_manage
+      when:
+        - mirror_mas_manage
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas-manage
         case_version: "{{ mas_manage_version }}"

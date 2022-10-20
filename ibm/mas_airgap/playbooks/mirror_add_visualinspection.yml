@@ -32,7 +32,9 @@
     # 1. IBM Maximo Visual Inspection
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.mirror_case_prepare
-      when: mirror_mas_visualinspection
+      when:
+        - mirror_mas_visualinspection
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas-visualinspection
         case_version: "{{ mas_visualinspection_version }}"

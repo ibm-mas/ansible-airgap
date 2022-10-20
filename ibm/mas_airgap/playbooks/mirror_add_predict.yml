@@ -32,7 +32,9 @@
     # 1. IBM Maximo Predict
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.mirror_case_prepare
-      when: mirror_mas_predict
+      when:
+        - mirror_mas_predict
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas-predict
         case_version: "{{ mas_predict_version }}"

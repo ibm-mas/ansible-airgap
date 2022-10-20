@@ -32,7 +32,9 @@
     # 1. IBM Maximo Monitor
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.mirror_case_prepare
-      when: mirror_mas_monitor
+      when:
+        - mirror_mas_monitor
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas-monitor
         case_version: "{{ mas_monitor_version }}"

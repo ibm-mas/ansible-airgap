@@ -32,7 +32,9 @@
     # 1. IBM Maximo Assist
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.mirror_case_prepare
-      when: mirror_mas_assist
+      when:
+        - mirror_mas_assist
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas-assist
         case_version: "{{ mas_assist_version }}"

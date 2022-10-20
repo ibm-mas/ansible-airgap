@@ -32,7 +32,9 @@
     # 1. IBM Maximo HP Utilities
     # -------------------------------------------------------------------------
     - name: ibm.mas_airgap.mirror_case_prepare
-      when: mirror_mas_hputilities
+      when:
+        - mirror_mas_hputilities
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas-hputilities
         case_version: "{{ mas_hputilities_version }}"
