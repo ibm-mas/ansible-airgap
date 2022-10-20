@@ -5,7 +5,7 @@
 
 ## Change Log
 
-- `2.5` Support IBM Pak and oc mirror for image mirroring ([#79](https://github.com/ibm-mas/ansible-airgap/pull/79))
+- `2.5` Support IBM Pak and Two Phase Mirroring ([#79](https://github.com/ibm-mas/ansible-airgap/pull/79))
 - `2.4` Add support for Sep 2022 catalog ([#76](https://github.com/ibm-mas/ansible-airgap/pull/76))
 - `2.3` Add image mirroring support for remaining applications ([#72](https://github.com/ibm-mas/ansible-airgap/pull/72))
 - `2.2` Catalog update for IoT airgap support fix ([#68](https://github.com/ibm-mas/ansible-airgap/pull/68))
