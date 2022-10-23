@@ -1,35 +1,48 @@
-case_prepare
+mirror_case_prepare
 ===============================================================================
-
-This role uses the specifed CASE bundle to mirror container images to a mirror registry and configure the cluster to pull images from this mirror.
-
-When mirroring is complete, you can view the content of your registry:
-
-```bash
-curl -k https://$REGISTRY_PUBLIC_HOST/v2/_catalog | jq
-```
+This role generates a mirror manifest file suitable for use with the `oc mirror` command (or the `ibm.mas_airgap.mirror_images` role) from an IBM CASE bundle.
 
 Requirements
 -------------------------------------------------------------------------------
-The `ibm-pak` tool must be installed
+The [ibm-pak plugin](https://github.com/IBM/ibm-pak-plugin) must be installed.
 
 
 Role Variables
 -------------------------------------------------------------------------------
 ### case_name
-The name of the CASE bundle to be prepare for mirroring
+The name of the CASE bundle to prepare for mirroring.
+
+- **Required**
+- Environment Variable: `CASE_NAME`
+- Default: None
 
 ### case_version
-The version of the CASE bundle to be prepare for mirroring
+The version of the CASE bundle to prepare for mirroring.
+
+- **Required**
+- Environment Variable: `CASE_VERSION`
+- Default: None
 
 ### registry_public_host
-The public hostname for the target registry
+The public hostname for the target registry.  The images will not be mirrored to the registry at this time, but to prepare the manifest we need to know the target destination.
+
+- **Required**
+- Environment Variable: `REGISTRY_PUBLIC_HOST`
+- Default: None
 
 ### registry_public_port
-The public port for the target registry
+The public port for the target registry.  The images will not be mirrored to the registry at this time, but to prepare the manifest we need to know the target destination.
+
+- **Required**
+- Environment Variable: `REGISTRY_PUBLIC_PORT`
+- Default: None
 
 ### exclude_images
-A list of child CASE bundles to exclude from the mirroring process
+A list of child CASE bundles to exclude from the mirroring process.
+
+- Optional
+- Environment Variable: None
+- Default: None
 
 
 Example Playbook
@@ -48,18 +61,11 @@ Example Playbook
       - ibm-mas-iot
       - ibm-mas-manage
 
-    registry_public_host: myocp-5f1320191125833da1cac8216c06779e-0000.us-south.containers.appdomain.cloud
+    registry_public_host: myregistry.com
     registry_public_port: 32500
 
-    exclude_images:
-      - ibm-truststore-mgr
-      - ibm-sls
-      - ibm-mas-assist
-      - ibm-mas-iot
-      - ibm-mas-manage
-
   roles:
-    - ibm.mas_airgap.case_prepare
+    - ibm.mas_airgap.mirror_case_prepare
 ```
 
 

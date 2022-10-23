@@ -1,35 +1,47 @@
-case_prepare
+mirror_extras_prepare
 ===============================================================================
+This role generates a mirror manifest file suitable for use with the `oc mirror` command (or the `ibm.mas_airgap.mirror_images` role) for a specific set of extra images.
 
-This role uses the specifed CASE bundle to mirror container images to a mirror registry and configure the cluster to pull images from this mirror.
-
-When mirroring is complete, you can view the content of your registry:
-
-```bash
-curl -k https://$REGISTRY_PUBLIC_HOST/v2/_catalog | jq
-```
-
-Requirements
+Available Extras
 -------------------------------------------------------------------------------
-The `ibm-pak` tool must be installed
+
+| Extra        | Versions     | Description                                                                                    |
+| ------------ | ------------ | ---------------------------------------------------------------------------------------------- |
+| catalog      | N/A          | Special extra package for mirroring the IBM Maximo Operator Catalog                            |
+| db2u         | 1.0.0        | Extra container images missing from the ibm-db2operator CASE bundle                            |
+| mongoce      | 4.2.6        | Package containing all images required to use MongoCE Operator in the disconnected environment |
+| uds          | 1.0.0, 1.1.0 | Extra container images missing from the ibm-uds CASE bundle                                    |
 
 
 Role Variables
 -------------------------------------------------------------------------------
-### case_name
-The name of the CASE bundle to be prepare for mirroring
+### extras_name
+The name of the extras package to prepare for mirroring.
 
-### case_version
-The version of the CASE bundle to be prepare for mirroring
+- **Required**
+- Environment Variable: `EXTRAS_NAME`
+- Default: None
+
+### extras_version
+The version of the extras package to prepare for mirroring.
+
+- **Required**
+- Environment Variable: `EXTRAS_VERSION`
+- Default: None
 
 ### registry_public_host
-The public hostname for the target registry
+The public hostname for the target registry.  The images will not be mirrored to the registry at this time, but to prepare the manifest we need to know the target destination.
+
+- **Required**
+- Environment Variable: `REGISTRY_PUBLIC_HOST`
+- Default: None
 
 ### registry_public_port
-The public port for the target registry
+The public port for the target registry.  The images will not be mirrored to the registry at this time, but to prepare the manifest we need to know the target destination.
 
-### exclude_images
-A list of child CASE bundles to exclude from the mirroring process
+- **Required**
+- Environment Variable: `REGISTRY_PUBLIC_PORT`
+- Default: None
 
 
 Example Playbook
@@ -38,32 +50,17 @@ Example Playbook
 ```yaml
 - hosts: localhost
   vars:
-    case_name: ibm-mas
-    case_version: 8.8.1
-
-    exclude_images:
-      - ibm-truststore-mgr
-      - ibm-sls
-      - ibm-mas-assist
-      - ibm-mas-iot
-      - ibm-mas-manage
+    extras_name: mongoce
+    extras_version: 4.2.6
 
     registry_public_host: myocp-5f1320191125833da1cac8216c06779e-0000.us-south.containers.appdomain.cloud
     registry_public_port: 32500
 
-    exclude_images:
-      - ibm-truststore-mgr
-      - ibm-sls
-      - ibm-mas-assist
-      - ibm-mas-iot
-      - ibm-mas-manage
-
   roles:
-    - ibm.mas_airgap.case_prepare
+    - ibm.mas_airgap.mirror_extras_prepare
 ```
 
 
 License
 -------
-
 EPL-2.0

@@ -1,6 +1,4 @@
 ---
-case_work_dir: "{{ lookup('env', 'CASE_WORK_DIR') | default( ansible_env.HOME ~ '/mas_airgap', True) }}"
-
 inventory_names:
   ibm-sls: ibmSlsSetup
   ibm-truststore-mgr: ibmTrustStoreMgrSetup
