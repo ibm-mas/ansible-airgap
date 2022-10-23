@@ -52,13 +52,25 @@
               </ul>
               <p class="caption"><span class="caption-text">Roles</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../case_mirror/">case_mirror</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../case_prepare/">case_prepare</a>
-                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">install_digest_cm</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#role-variables">Role Variables</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#case_name">case_name</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#case_version">case_version</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#digest_image_map_namespace">digest_image_map_namespace</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#license">License</a>
+    </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mirror_case_prepare/">mirror_case_prepare</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mirror_extras_prepare/">mirror_extras_prepare</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../mirror_images/">mirror_images</a>
                   </li>
@@ -99,7 +111,35 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="install_digest_cm">install_digest_cm<a class="headerlink" href="#install_digest_cm" title="Permanent link"></a></h1>
-<p>TODO: Write me!</p>
+<p>This role installs the additional ConfigMaps that enable disconnected install support in early Maximo Application Suite operators.  It is being phased-out in favour of built-in disconnect install support from MAS 8.8 onwards.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is an internal role, you should not need to explicitly call this yourself.  It will automatically be invoked at the appropriate time when using roles in ibm.mas_devops if it detects the environment is running in disconnected mode.</p>
+</div>
+<h2 id="role-variables">Role Variables<a class="headerlink" href="#role-variables" title="Permanent link"></a></h2>
+<h3 id="case_name">case_name<a class="headerlink" href="#case_name" title="Permanent link"></a></h3>
+<p>The name of the IBM CASE bundle that contains the digest ConfigMap.</p>
+<ul>
+<li><strong>Required</strong></li>
+<li>Environment Variable: None</li>
+<li>Default: None</li>
+</ul>
+<h3 id="case_version">case_version<a class="headerlink" href="#case_version" title="Permanent link"></a></h3>
+<p>Version of the IBM CASE bundle from which the digest ConfigMap should be taken.</p>
+<ul>
+<li><strong>Required</strong></li>
+<li>Environment Variable: None</li>
+<li>Default: None</li>
+</ul>
+<h3 id="digest_image_map_namespace">digest_image_map_namespace<a class="headerlink" href="#digest_image_map_namespace" title="Permanent link"></a></h3>
+<p>The namespace where the ConfigMap will be created.</p>
+<ul>
+<li><strong>Required</strong></li>
+<li>Environment Variable: None</li>
+<li>Default: None</li>
+</ul>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link"></a></h2>
+<p>EPL-2.0</p>
               
             </div>
           </div><footer>
@@ -128,10 +168,10 @@
         </span>
     
     
-      <span><a href="../case_prepare/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../changes/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../mirror_images/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../mirror_case_prepare/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
