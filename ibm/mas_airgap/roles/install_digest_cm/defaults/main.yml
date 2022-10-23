@@ -1,4 +1,0 @@
----
-inventory_names:
-  ibm-sls: ibmSlsSetup
-  ibm-truststore-mgr: ibmTrustStoreMgrSetup
