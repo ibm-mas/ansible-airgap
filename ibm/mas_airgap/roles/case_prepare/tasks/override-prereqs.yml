@@ -1,7 +1,0 @@
----
-# Copy an override for prereqs.yaml for assist, predict, and hputilities
-
-- name: Copy override prereqs file into case bundle
-  copy:
-    src: "templates/prereqs-override.yml.j2"
-    dest: "{{ case_bundle_dir }}/case/{{ case_name }}/prereqs.yaml"

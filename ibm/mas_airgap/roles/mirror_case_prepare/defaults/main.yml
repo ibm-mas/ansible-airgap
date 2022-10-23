@@ -9,30 +9,9 @@ registry_public_url: "{{ registry_public_host }}:{{ registry_public_port }}"
 # -----------------------------------------------------------------------------
 case_name: "{{ lookup('env', 'CASE_NAME') }}"
 case_version: "{{ lookup('env', 'CASE_VERSION') }}"
-case_inventory_name: "{{ lookup('env', 'CASE_INV_NAME') }}"
 
-# Working directories
-# -----------------------------------------------------------------------------
-case_work_dir: "{{ lookup('env', 'CASE_WORK_DIR') | default( ansible_env.HOME ~ '/mas_airgap', True) }}"
-case_bundle_dir: "{{ case_work_dir }}/{{ case_name }}/{{ case_version }}"
-case_archive_dir: "{{ case_bundle_dir }}/archive"
-
-# Authentication - IBM
-# -----------------------------------------------------------------------------
-ibm_entitlement_key: "{{ lookup('env', 'IBM_ENTITLEMENT_KEY') }}"
-ibm_auth: "cp:{{ ibm_entitlement_key }}"
-
-# Authentication - RedHat
-# -----------------------------------------------------------------------------
-redhat_connect_username: "{{ lookup('env', 'REDHAT_CONNECT_USERNAME') }}"
-redhat_connect_password: "{{ lookup('env', 'REDHAT_CONNECT_PASSWORD') }}"
-redhat_connect_auth: "{{ redhat_connect_username }}:{{ redhat_connect_password }}"
-
-# Authentication - Target Registry
-# -----------------------------------------------------------------------------
-registry_username: "{{ lookup('env', 'REGISTRY_USERNAME') }}"
-registry_password: "{{ lookup('env', 'REGISTRY_PASSWORD') }}"
-registry_auth: "{{ registry_username }}:{{ registry_password }}"
+# Overrides the settings for direct mirroring if defined
+mirror_working_dir: "{{ lookup('env', 'MIRROR_WORKING_DIR') }}"
 
 # Workarounds for known issues
 # -----------------------------------------------------------------------------

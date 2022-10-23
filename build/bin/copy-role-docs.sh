@@ -10,9 +10,9 @@ function copyDoc() {
   cp $SRC_DIR/$ROLE/README.md $TO_DIR/$ROLE.md
 }
 
-copyDoc case_mirror
-copyDoc case_prepare
 copyDoc install_digest_cm
+copyDoc mirror_case_prepare
+copyDoc mirror_extras_prepare
 copyDoc mirror_images
 copyDoc ocp_contentsourcepolicy
 copyDoc ocp_operators_mirror
