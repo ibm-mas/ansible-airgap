@@ -45,7 +45,8 @@
     - name: ibm.mas_airgap.mirror_images
       when: mirror_db2u
       vars:
-        manifest_name: "ibm-db2uoperator_{{ db2u_version }}"
+        manifest_name: "ibm-db2uoperator"
+        manifest_version: "{{ db2u_version }}"
 
 
     # 2. IBM Maximo IoT
