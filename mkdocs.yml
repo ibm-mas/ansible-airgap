@@ -11,9 +11,9 @@ nav:
   - 'Home': index.md
   - 'Changes': changes.md
   - 'Roles':
-    - 'case_mirror': roles/case_mirror.md
-    - 'case_prepare': roles/case_prepare.md
     - 'install_digest_cm': roles/install_digest_cm.md
+    - 'mirror_case_prepare': roles/mirror_case_prepare.md
+    - 'mirror_extras_prepare': roles/mirror_extras_prepare.md
     - 'mirror_images': roles/mirror_images.md
     - 'ocp_contentsourcepolicy': roles/ocp_contentsourcepolicy.md
     - 'ocp_operators_mirror': roles/ocp_operators_mirror.md
