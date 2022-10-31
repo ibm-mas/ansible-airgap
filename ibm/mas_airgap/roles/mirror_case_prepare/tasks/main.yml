@@ -65,7 +65,16 @@
   register: ibmpak_gen2_result
 
 
-# 7. Collect generated files
+# 7. IBM SLS 3.5.0 Bad Digest Hack
+# -----------------------------------------------------------------------------
+# The SLS CASE bundle foe 3.5.0 has the wrong image digest in it ... not really sure why TBH
+#
+- name: "IBM SLS 3.5.0 workaround"
+  when: case_name == "ibm-sls" and case_version == "3.5.0"
+  include_tasks: "tasks/sls-350-fix.yml"
+
+
+# 8. Collect generated files
 # -----------------------------------------------------------------------------
 - name: "{{ case_name }} : Create target directories (direct)"
   file:
