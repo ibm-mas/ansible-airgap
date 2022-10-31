@@ -53,13 +53,14 @@
         - mirror_db2u
         - mirror_mode != "from-filesystem"
       vars:
-        extras_name: catalog
+        extras_name: db2u
+        extras_version: "{{ db2u_extras_version }}"
 
     - name: ibm.mas_airgap.mirror_images
       when: mirror_db2u
       vars:
         manifest_name: extras_db2u
-        manifest_version: "1.0.0"
+        manifest_version: "{{ db2u_extras_version }}"
 
     # 2. IBM Maximo IoT
     # -------------------------------------------------------------------------
