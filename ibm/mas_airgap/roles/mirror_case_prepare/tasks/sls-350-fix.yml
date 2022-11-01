@@ -2,37 +2,15 @@
 # 5.1 IBM SLS 3.5.0 Bad Digest Hack
 # -----------------------------------------------------------------------------
 # The SLS CASE bundle for 3.5.0 has the wrong image digest in it ... not really sure why TBH
-#
 
-# Direct
-# -----------------------------------------------------------------------------
-# cp.icr.io/cpopen/ibm-sls-operator-bundle@sha256:8ca4f5a4165a99aa6a82d72d9b6917bacf5959fb0851ab4c2447cba630e57f1e={{ registry_public_url }}/cpopen/ibm-sls-operator-bundle:3.5.0
-# cp.icr.io/cpopen/ibm-sls@sha256:e66b36217c1cf34d6f83931fb9f55f57aa2032573db58ea767516879438e552f={{ registry_public_url }}/cpopen/ibm-sls:3.5.0
-# Removed :3.5.0 tag in the lines below so the image is stored by digest only. This is needed since the :3.5.0 tag is already in use.
-- blockinfile:
-    path:  ~/.ibm-pak/data/mirror/ibm-sls/3.5.0/images-mapping.txt
-    block: |
-      cp.icr.io/cpopen/ibm-sls-operator-bundle@sha256:8ca4f5a4165a99aa6a82d72d9b6917bacf5959fb0851ab4c2447cba630e57f1e={{ registry_public_url }}/cpopen/ibm-sls-operator-bundle
-      cp.icr.io/cpopen/ibm-sls@sha256:e66b36217c1cf34d6f83931fb9f55f57aa2032573db58ea767516879438e552f={{ registry_public_url }}/cpopen/ibm-sls
+-  template:
+    src: sls350fix/direct.txt.j2
+    dest: "{{ mirror_working_dir }}/manifests/to-filesystem/{{ case_name }}_{{ case_version }}.txt"
 
+-  template:
+    src: sls350fix/to-filesystem.txt.j2
+    dest: "{{ mirror_working_dir }}/manifests/to-filesystem/{{ case_name }}_{{ case_version }}.txt"
 
-# To Filesysten
-# -----------------------------------------------------------------------------
-# cp.icr.io/cpopen/ibm-sls-operator-bundle@sha256:8ca4f5a4165a99aa6a82d72d9b6917bacf5959fb0851ab4c2447cba630e57f1e=file://cpopen/ibm-sls-operator-bundle:3.5.0
-# cp.icr.io/cpopen/ibm-sls@sha256:e66b36217c1cf34d6f83931fb9f55f57aa2032573db58ea767516879438e552f=file://cpopen/ibm-sls:3.5.0
-- blockinfile:
-    path:  ~/.ibm-pak/data/mirror/ibm-sls/3.5.0/images-mapping-to-filesystem.txt
-    block: |
-      cp.icr.io/cpopen/ibm-sls-operator-bundle@sha256:8ca4f5a4165a99aa6a82d72d9b6917bacf5959fb0851ab4c2447cba630e57f1e=file://cpopen/ibm-sls-operator-bundle:3.5.0
-      cp.icr.io/cpopen/ibm-sls@sha256:e66b36217c1cf34d6f83931fb9f55f57aa2032573db58ea767516879438e552f=file://cpopen/ibm-sls:3.5.0
-
-
-# From Filesystem
-# -----------------------------------------------------------------------------
-# file://cpopen/ibm-sls-operator-bundle@sha256:8ca4f5a4165a99aa6a82d72d9b6917bacf5959fb0851ab4c2447cba630e57f1e={{ registry_public_url }}/cpopen/ibm-sls-operator-bundle:3.5.0
-# file://cpopen/ibm-sls@sha256:e66b36217c1cf34d6f83931fb9f55f57aa2032573db58ea767516879438e552f={{ registry_public_url }}/cpopen/ibm-sls:3.5.0
-- blockinfile:
-    path:  ~/.ibm-pak/data/mirror/ibm-sls/3.5.0/images-mapping-from-filesystem.txt
-    block: |
-      file://cpopen/ibm-sls-operator-bundle@sha256:8ca4f5a4165a99aa6a82d72d9b6917bacf5959fb0851ab4c2447cba630e57f1e={{ registry_public_url }}/cpopen/ibm-sls-operator-bundle:3.5.0
-      file://cpopen/ibm-sls@sha256:e66b36217c1cf34d6f83931fb9f55f57aa2032573db58ea767516879438e552f={{ registry_public_url }}/cpopen/ibm-sls:3.5.0
+-  template:
+    src: sls350fix/from-filesystem.txt.j2
+    dest: "{{ mirror_working_dir }}/manifests/from-filesystem/{{ case_name }}_{{ case_version }}.txt"
