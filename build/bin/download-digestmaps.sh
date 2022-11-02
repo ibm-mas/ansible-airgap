@@ -23,53 +23,58 @@ function download_case() {
 
 # SLS
 # -----------------------------------------------------------------------------
-download_case ibm-sls 3.4.0 ibmSlsSetup
-download_case ibm-sls 3.4.1 ibmSlsSetup
+#download_case ibm-sls 3.4.0 ibmSlsSetup
+#download_case ibm-sls 3.4.1 ibmSlsSetup
+download_case ibm-sls 3.5.0 ibmSlsSetup
 
 # Truststore Manager
 # -----------------------------------------------------------------------------
-download_case ibm-truststore-mgr 1.3.0 ibmTrustStoreMgrSetup
+#download_case ibm-truststore-mgr 1.3.0 ibmTrustStoreMgrSetup
 
 # MAS Core
 # -----------------------------------------------------------------------------
-download_case ibm-mas 8.8.0 ibmMasSetup
-download_case ibm-mas 8.8.1 ibmMasSetup
+#download_case ibm-mas 8.8.0 ibmMasSetup
+#download_case ibm-mas 8.8.1 ibmMasSetup
+download_case ibm-mas 8.8.2 ibmMasSetup
 
 # MAS Assist
 # -----------------------------------------------------------------------------
-download_case ibm-mas-assist 8.4.0 ibmMasAssistSetup
+download_case ibm-mas-assist 8.5.0 ibmMasAssistSetup
+download_case ibm-mas-assist 8.5.1 ibmMasAssistSetup
 
 # MAS HP Utilities
 # -----------------------------------------------------------------------------
-download_case ibm-mas-hputilities 8.4.0 ibmMasHPUtilitiesSetup
+#download_case ibm-mas-hputilities 8.4.0 ibmMasHPUtilitiesSetup
 
 # MAS IoT
 # -----------------------------------------------------------------------------
-download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
-download_case ibm-mas-iot 8.5.1 ibmMasIotSetup
+#download_case ibm-mas-iot 8.5.0 ibmMasIotSetup
+#download_case ibm-mas-iot 8.5.1 ibmMasIotSetup
+download_case ibm-mas-iot 8.5.2 ibmMasIotSetup
 
 # MAS Manage
 # -----------------------------------------------------------------------------
-download_case ibm-mas-manage 8.4.0 ibmMasManageSetup
-download_case ibm-mas-manage 8.4.1 ibmMasManageSetup
+#download_case ibm-mas-manage 8.4.0 ibmMasManageSetup
+#download_case ibm-mas-manage 8.4.1 ibmMasManageSetup
+download_case ibm-mas-manage 8.4.2 ibmMasManageSetup
 
 # MAS Monitor
 # -----------------------------------------------------------------------------
-download_case ibm-mas-monitor 8.8.0 ibmMasMonitorSetup
-download_case ibm-mas-monitor 8.8.1 ibmMasMonitorSetup
+#download_case ibm-mas-monitor 8.8.0 ibmMasMonitorSetup
+#download_case ibm-mas-monitor 8.8.1 ibmMasMonitorSetup
 
 # MAS Predict
 # -----------------------------------------------------------------------------
-download_case ibm-mas-predict 8.6.0 ibmMasPredictSetup
-download_case ibm-mas-predict 8.6.1 ibmMasPredictSetup
+#download_case ibm-mas-predict 8.6.0 ibmMasPredictSetup
+#download_case ibm-mas-predict 8.6.1 ibmMasPredictSetup
 
 # MAS Optimizer
 # -----------------------------------------------------------------------------
-download_case ibm-mas-optimizer 8.2.0 ibmMasOptimizerSetup
-download_case ibm-mas-optimizer 8.2.1 ibmMasOptimizerSetup
+#download_case ibm-mas-optimizer 8.2.0 ibmMasOptimizerSetup
+#download_case ibm-mas-optimizer 8.2.1 ibmMasOptimizerSetup
 
 
 # MAS Visual Inspection
 # -----------------------------------------------------------------------------
-download_case ibm-mas-visualinspection 8.6.0 ibmMasVisualInspectionSetup
-download_case ibm-mas-visualinspection 8.6.1 ibmMasVisualInspectionSetup
+#download_case ibm-mas-visualinspection 8.6.0 ibmMasVisualInspectionSetup
+#download_case ibm-mas-visualinspection 8.6.1 ibmMasVisualInspectionSetup
