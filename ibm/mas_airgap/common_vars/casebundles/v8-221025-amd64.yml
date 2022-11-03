@@ -24,7 +24,7 @@ mas_assist_version: 8.5.1            # Operator version 8.5.1 (Untested, we have
 mas_hputilities_version: 8.4.0       # Operator version 8.4.0 (Untested, we haven't got CP4D mirroring working yet)
 mas_iot_version: 8.5.2               # Operator version 8.5.2
 mas_manage_version: 8.4.2            # Operator version 8.4.2
-mas_monitor_version: 8.8.1           # Operator version 8.8.1 (Untested)
+mas_monitor_version: 8.8.2           # Operator version 8.8.2 (Untested)
 mas_optimizer_version: 8.2.1         # Operator version 8.2.1
 mas_predict_version: 8.6.1           # Operator version 8.6.1 (Untested, we haven't got CP4D mirroring working yet)
 mas_visualinspection_version: 8.6.1+20220908.000000  # Operator version 8.6.1 +20220908.000000(Untested)
