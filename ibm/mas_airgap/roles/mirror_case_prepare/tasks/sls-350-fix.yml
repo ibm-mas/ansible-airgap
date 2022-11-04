@@ -5,7 +5,7 @@
 
 -  template:
     src: sls350fix/direct.txt.j2
-    dest: "{{ mirror_working_dir }}/manifests/to-filesystem/{{ case_name }}_{{ case_version }}.txt"
+    dest: "{{ mirror_working_dir }}/manifests/direct/{{ case_name }}_{{ case_version }}.txt"
 
 -  template:
     src: sls350fix/to-filesystem.txt.j2
