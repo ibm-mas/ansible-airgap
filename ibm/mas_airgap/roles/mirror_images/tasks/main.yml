@@ -115,7 +115,7 @@
     - name: "{{ manifest_name }} : Debug mirror command"
       debug:
         msg:
-          - "Source: {{ mirror_working_dir }}/manifests/from-filesystem/{{ manifest_name }}_{{ manifest_version }}.txt"
+          - "Source: {{ mirror_working_dir }}/manifests/direct/{{ manifest_name }}_{{ manifest_version }}.txt"
           - "Auth: {{ auth_file }}"
           - "{{ (ocimagemirror_result.rc == 0) | ternary(ocimagemirror_result.stdout_lines, ocimagemirror_result.stderr_lines) }}"
 
