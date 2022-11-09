@@ -28,16 +28,17 @@
         additionalTrustedCA:
           name: registry-config
 
+
 # 4. Patch the cluster so it can pull from private registry
 # -----------------------------------------------------------------------------
-#- name: Patch cluster trusted CA
-#  kubernetes.core.k8s:
-#    api_version: config.openshift.io/v1
-#    kind: proxy
-#    name: cluster
-#    apply: yes
-#    definition:
-#      spec:
-#        additionalTrustedCA:
-#          name: registry-config
+- name: Patch cluster trusted CA
+  kubernetes.core.k8s:
+    api_version: config.openshift.io/v1
+    kind: proxy
+    name: cluster
+    apply: yes
+    definition:
+      spec:
+        additionalTrustedCA:
+          name: registry-config
 
