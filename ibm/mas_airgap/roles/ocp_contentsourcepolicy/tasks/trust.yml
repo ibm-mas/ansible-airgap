@@ -31,14 +31,40 @@
 
 # 4. Patch the cluster so it can pull from private registry
 # -----------------------------------------------------------------------------
-- name: Patch cluster trusted CA
+#- name: Patch cluster trusted CA
+#  kubernetes.core.k8s:
+#    api_version: config.openshift.io/v1
+#    kind: proxy
+#    name: cluster
+#    apply: yes
+#    definition:
+#      spec:
+#        trustedCA:
+#          name: registry-config
+
+
+# 4. Add registry ca crt to RHCOS trust bundle
+# -----------------------------------------------------------------------------
+- name: MachineConfig for registry-ca.crt
+  vars:
+    registry_ca_crt_b64: "{{ registry_private_ca_crt | b64encode }}"
   kubernetes.core.k8s:
-    api_version: config.openshift.io/v1
-    kind: proxy
-    name: cluster
     apply: yes
-    definition:
-      spec:
-        trustedCA:
-          name: registry-config
+    template: 'templates/mc.yml.j2'
+  register: result
+
+
+# 4. Add registry ca crt to RHCOS trust bundle
+# -----------------------------------------------------------------------------
+- debug:
+    var: result
+
+
+# 4. Add registry ca crt to RHCOS trust bundle
+# -----------------------------------------------------------------------------
+# Wait until the nodes have applied the updates
+- name: Wait for Machine Configs to update
+  when: result.changed
+  include_tasks: "{{ role_path }}/../../common_tasks/wait-machine-config-update.yml"
+
 
