@@ -39,6 +39,6 @@
     apply: yes
     definition:
       spec:
-        additionalTrustedCA:
+        trustedCA:
           name: registry-config
 
