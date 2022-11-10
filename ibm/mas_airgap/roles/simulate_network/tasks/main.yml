@@ -26,7 +26,7 @@
     name: worker
     patch:
       - op: replace
-        patch: /spec/paused
+        path: /spec/paused
         value: true
 
 # 3. Pause master node reboots
@@ -38,7 +38,7 @@
     name: master
     patch:
       - op: replace
-        patch: /spec/paused
+        path: /spec/paused
         value: true
 
 # 4. Disable Network access to public repositories
@@ -82,7 +82,7 @@
     name: master
     patch:
       - op: replace
-        patch: /spec/paused
+        path: /spec/paused
         value: false
 
 # 7. Enable worker node reboots
@@ -94,7 +94,7 @@
     name: worker
     patch:
       - op: replace
-        patch: /spec/paused
+        path: /spec/paused
         value: false
 
 # 8. Wait until the nodes have applied the updates
