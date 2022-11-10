@@ -2,9 +2,10 @@
 # Disable network access to public image repositories
 # -----------------------------------------------------------------------------
 
-# 1. The hosts file needs to include a line for the registry service, otherwise the
-## file will get out of sync with the version on the file system, and MCO updates will fail.
+# 1. Query curent registry service address
 # -----------------------------------------------------------------------------
+# The hosts file needs to include a line for the registry service, otherwise the
+# file will get out of sync with the version on the file system, and MCO updates will fail.
 - name: Lookup Registry Service
   kubernetes.core.k8s_info:
     api_version: v1
@@ -39,8 +40,8 @@
         value: true
 
 # 4. Disable Network access to public repositories
-## Set the /etc/hosts file on each cluster node to mis-direct any calls to icr.io, cp.icr.io and wiotp-docker-local.artifactory.swg-devops.com
 # -----------------------------------------------------------------------------
+# Set the /etc/hosts file on each cluster node to mis-direct any calls to icr.io, cp.icr.io and wiotp-docker-local.artifactory.swg-devops.com
 - name: Create hosts file
   vars:
     hosts_file_content: |
