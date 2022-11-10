@@ -21,6 +21,7 @@
 # -----------------------------------------------------------------------------
 - name:  Pause MachineConfigPool master node reboots
   kubernetes.core.k8s_json_patch:
+    apiVersion: machineconfiguration.openshift.io/v1
     kind: MachineConfigPool
     name: worker
     patch:
@@ -32,6 +33,7 @@
 # -----------------------------------------------------------------------------
 - name:  Pause MachineConfigPool worker node reboots
   kubernetes.core.k8s_json_patch:
+    apiVersion: machineconfiguration.openshift.io/v1
     kind: MachineConfigPool
     name: master
     patch:
@@ -75,6 +77,7 @@
 # -----------------------------------------------------------------------------
 - name:  Enable MachineConfigPool master node reboots
   kubernetes.core.k8s_json_patch:
+    apiVersion: machineconfiguration.openshift.io/v1
     kind: MachineConfigPool
     name: master
     patch:
@@ -86,6 +89,7 @@
 # -----------------------------------------------------------------------------
 - name:  Enable MachineConfigPool worker node reboots
   kubernetes.core.k8s_json_patch:
+    apiVersion: machineconfiguration.openshift.io/v1
     kind: MachineConfigPool
     name: worker
     patch:
