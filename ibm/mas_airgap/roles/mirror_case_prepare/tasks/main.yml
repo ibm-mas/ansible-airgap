@@ -100,8 +100,15 @@
 
 # 8. IBM SLS 3.5.0 Bad Digest Hack
 # -----------------------------------------------------------------------------
-# The SLS CASE bundle foe 3.5.0 has the wrong image digest in it ... not really sure why TBH
-#
+# The SLS CASE bundle for 3.5.0 has the wrong image digest in it ... not really sure why TBH
 - name: "IBM SLS 3.5.0 workaround"
   when: case_name == "ibm-sls" and case_version == "3.5.0"
   include_tasks: "tasks/sls-350-fix.yml"
+
+
+# 9. IBM UDS 2.0.8 Entitled Image Hack
+# -----------------------------------------------------------------------------
+# The UDS CASE bundle includes one entitled image - cp/uds/uds-submodule:2.0.8
+- name: "IBM UDS 2.0.8 workaround"
+  when: case_name == "ibm-uds" and case_version == "2.0.8"
+  include_tasks: "tasks/uds-280-fix.yml"
