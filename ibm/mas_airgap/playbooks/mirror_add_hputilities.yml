@@ -13,7 +13,8 @@
   any_errors_fatal: true
 
   vars:
-    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
+    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-221025-amd64', True) }}"
+    mirror_mode: "{{ lookup('env', 'MIRROR_MODE') | default ('direct', True) }}"
 
     mirror_appconnect: "{{ lookup('env', 'MIRROR_APPCONNECT') | default ('True', True) | bool }}"
     mirror_cp4d: "{{ lookup('env', 'MIRROR_CP4D') | default ('True', True) | bool }}"
@@ -126,16 +127,17 @@
 
     # 5. IBM Maximo Health and Predict Utilities
     # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_mas_hputilities
+    - name: ibm.mas_airgap.mirror_case_prepare
+      when:
+        - mirror_mas_hputilities
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas-hputilities
         case_version: "{{ mas_hputilities_version }}"
         exclude_images: []
 
-    - name: ibm.mas_airgap.case_mirror
+    - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_hputilities
       vars:
-        case_name: ibm-mas-hputilities
-        case_version: "{{ mas_hputilities_version }}"
-        case_inventory_name: "ibmMasHPUtilitiesSetup"
+        manifest_name: ibm-mas-hputilities
+        manifest_version: "{{ mas_hputilities_version }}"

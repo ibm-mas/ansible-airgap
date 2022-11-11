@@ -14,7 +14,8 @@
   any_errors_fatal: true
 
   vars:
-    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-220805-amd64', True) }}"
+    catalog_tag: "{{ lookup('env', 'MAS_CATALOG_VERSION') | default ('v8-221025-amd64', True) }}"
+    mirror_mode: "{{ lookup('env', 'MIRROR_MODE') | default ('direct', True) }}"
 
     mirror_catalog: "{{ lookup('env', 'MIRROR_CATALOG') | default ('True', True) | bool }}"
     mirror_mongoce: "{{ lookup('env', 'MIRROR_MONGOCE') | default ('True', True) | bool }}"
@@ -34,6 +35,15 @@
           - lookup('env', 'REGISTRY_PUBLIC_PORT') != ""
           - lookup('env', 'IBM_ENTITLEMENT_KEY') != ""
         fail_msg: "One or more required environment variables are not defined"
+
+    - name: Check for required environment variables (UDS)
+      when: mirror_uds
+      assert:
+        that:
+          - lookup('env', 'REDHAT_CONNECT_USERNAME') != ""
+          - lookup('env', 'REDHAT_CONNECT_PASSWORD') != ""
+        fail_msg: "One or more required environment variables are not defined"
+
     - name: Load CASE bundle versions
       include_vars:
         file: "{{ playbook_dir }}/../common_vars/casebundles/{{ catalog_tag }}.yml"
@@ -41,52 +51,43 @@
   roles:
     # 1. IBM Maximo Operator Catalog
     # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.mirror_extras_prepare
+      when:
+        - mirror_catalog
+        - mirror_mode != "from-filesystem"
+      vars:
+        extras_name: catalog
+
     - name: ibm.mas_airgap.mirror_images
       when: mirror_catalog
       vars:
-        images_to_mirror:
-          - name: cpopen/ibm-maximo-operator-catalog
-            registry: icr.io
-            tag: "{{ catalog_tag }}"
-            digest: "{{ catalog_digest }}"
+        manifest_name: catalog
+        manifest_version: "{{ catalog_tag }}"
 
 
     # 2. MongoDb Community Edition
     # -------------------------------------------------------------------------
+    - name: ibm.mas_airgap.mirror_extras_prepare
+      when:
+        - mirror_mongoce
+        - mirror_mode != "from-filesystem"
+      vars:
+        extras_name: mongoce
+        extras_version: "{{ mongo_extras_version }}"
+
     - name: ibm.mas_airgap.mirror_images
       when: mirror_mongoce
       vars:
-        images_to_mirror:
-          - name: mongodb/mongodb-kubernetes-operator
-            registry: quay.io
-            tag: 0.7.0
-            digest: sha256:e19ae43539521f0350fb71684757dc535fc989deb75f3789cd84b782489eda80
-
-          - name: mongodb/mongodb-kubernetes-operator-version-upgrade-post-start-hook
-            registry: quay.io
-            tag: 1.0.2
-            digest: sha256:da347eb74525715a670280545e78ecee1195ec2630037b3821591c87f7a314ee
-
-          - name: mongodb/mongodb-agent
-            registry: quay.io
-            tag: 11.0.5.6963-1
-            digest: sha256:4db6e9c7df3d9421dcc09e98c5b43ba9d95952eae3c2ccbfdb83a49743b3195f
-
-          - name: mongodb/mongodb-kubernetes-readinessprobe
-            registry: quay.io
-            tag: 1.0.4
-            digest: sha256:bf5a4ffc8d2d257d6d9eb45d3e521f30b2e049a9b60ddc8e4865448e035502ca
-
-          - name: ibmmas/mongo
-            registry: quay.io
-            tag: 4.2.6
-            digest: sha256:8c48baa1571469d7f5ae6d603b92b8027ada5eb39826c009cb33a13b46864908
+        manifest_name: extras_mongoce
+        manifest_version: "{{ mongo_extras_version }}"
 
 
     # 3. IBM Cloud Pak Foundation Services
     # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_common_svcs
+    - name: ibm.mas_airgap.mirror_case_prepare
+      when:
+        - mirror_common_svcs
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-cp-common-services
         case_version: "{{ common_svcs_version }}"
@@ -103,89 +104,124 @@
           - ibm-platform-api-operator
           - ibm-zen
 
-    - name: ibm.mas_airgap.case_mirror
+    - name: ibm.mas_airgap.mirror_images
       when: mirror_common_svcs
       vars:
+        manifest_name: ibm-cp-common-services
+        manifest_version: "{{ common_svcs_version }}"
+
+
+    # Mirroring another version for Cloud Pak Foundation Services
+    - name: ibm.mas_airgap.mirror_case_prepare
+      when:
+        - mirror_common_svcs
+        - mirror_mode != "from-filesystem"
+        - common_svcs_version_1 is defined
+        - common_svcs_version_1 != ""
+      vars:
         case_name: ibm-cp-common-services
-        case_version: "{{ common_svcs_version }}"
-        case_inventory_name: "ibmCommonServiceOperatorSetup"
+        case_version: "{{ common_svcs_version_1 }}"
+        exclude_images:
+          - ibm-auditlogging
+          - ibm-cpp
+          - ibm-cs-commonui
+          - ibm-cs-healthcheck
+          - ibm-cs-iam
+          - ibm-cs-mongodb
+          - ibm-cs-monitoring
+          - ibm-events-operator
+          - ibm-management-ingress
+          - ibm-platform-api-operator
+          - ibm-zen
+
+    - name: ibm.mas_airgap.mirror_images
+      when:
+        - mirror_common_svcs
+        - common_svcs_version_1 is defined
+        - common_svcs_version_1 != ""
+      vars:
+        manifest_name: ibm-cp-common-services
+        manifest_version: "{{ common_svcs_version_1 }}"
 
 
     # 4. IBM User Data Services
     # -------------------------------------------------------------------------
     # 4.1 UDS
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_uds
+    - name: ibm.mas_airgap.mirror_case_prepare
+      when:
+        - mirror_uds
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-uds
         case_version: "{{ uds_version }}"
         exclude_images: []
 
-    - name: ibm.mas_airgap.case_mirror
-      when: mirror_uds
-      vars:
-        case_name: ibm-uds
-        case_version: "{{ uds_version }}"
-        case_inventory_name: "operatorSetup"
-
-    # 4.2 IBM Events Operator (Used by UDS)
-    # The CASE bundle for this operator is broken in v4.2.0, so we will manually mirror the images
     - name: ibm.mas_airgap.mirror_images
       when: mirror_uds
       vars:
-        images_to_mirror:
-          - name: cpopen/cpfs/ibm-events-kafka-3.1.0
-            registry: icr.io
-            tag: 4.2.0
-            digest: sha256:359be5faff98968f1d59fc5e07fc50735003730643e81ea0f25dbc1ba6eac164
-          - name: cpopen/cpfs/ibm-events-kafka-3.2.0
-            registry: icr.io
-            tag: 4.2.0
-            digest: sha256:f960eace2e54e368516f5b17c18150ae92d6ef281c888d4c7f1c03a919e31ad2
-          - name: cpopen/ibm-events-operator
-            registry: icr.io
-            tag: 4.2.0
-            digest: sha256:f10d8161e4fae49b2c9663d3fc38087462ed519c1c96a6d7b9e2990ec38afe1b
+        manifest_name: ibm-uds
+        manifest_version: "{{ uds_version }}"
+
+    # 4.2 IBM Events Operator (Used by UDS)
+    # The CASE bundle for this operator is broken, so we will manually mirror the images
+    # Based on UDS version - see catalog version for details
+    - name: ibm.mas_airgap.mirror_extras_prepare
+      when:
+        - mirror_uds
+        - mirror_mode != "from-filesystem"
+      vars:
+        extras_name: uds
+        extras_version: "{{ uds_extras_version }}"
+
+    - name: ibm.mas_airgap.mirror_images
+      when: mirror_uds
+      vars:
+        manifest_name: extras_uds
+        manifest_version: "{{ uds_extras_version }}"
 
 
     # 5. IBM Suite License Service
     # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_sls
+    - name: ibm.mas_airgap.mirror_case_prepare
+      when:
+        - mirror_sls
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-sls
         case_version: "{{ sls_version }}"
         exclude_images: []
 
-    - name: ibm.mas_airgap.case_mirror
+    - name: ibm.mas_airgap.mirror_images
       when: mirror_sls
       vars:
-        case_name: ibm-sls
-        case_version: "{{ sls_version }}"
-        case_inventory_name: "ibmSlsSetup"
+        manifest_name: ibm-sls
+        manifest_version: "{{ sls_version }}"
 
 
     # 6. IBM Truststore Manager
     # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_tsm
+    - name: ibm.mas_airgap.mirror_case_prepare
+      when:
+        - mirror_tsm
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-truststore-mgr
         case_version: "{{ tsm_version }}"
         exclude_images: []
 
-    - name: ibm.mas_airgap.case_mirror
+    - name: ibm.mas_airgap.mirror_images
       when: mirror_tsm
       vars:
-        case_name: ibm-truststore-mgr
-        case_version: "{{ tsm_version }}"
-        case_inventory_name: "ibmTrustStoreMgrSetup"
+        manifest_name: ibm-truststore-mgr
+        manifest_version: "{{ tsm_version }}"
 
 
     # 7. IBM Maximo Application Suite Core
     # -------------------------------------------------------------------------
-    - name: ibm.mas_airgap.case_prepare
-      when: mirror_mas_core
+    - name: ibm.mas_airgap.mirror_case_prepare
+      when:
+        - mirror_mas_core
+        - mirror_mode != "from-filesystem"
       vars:
         case_name: ibm-mas
         case_version: "{{ mas_core_version }}"
@@ -201,9 +237,8 @@
           - ibm-mas-optimizer
           - ibm-sls
 
-    - name: ibm.mas_airgap.case_mirror
+    - name: ibm.mas_airgap.mirror_images
       when: mirror_mas_core
       vars:
-        case_name: ibm-mas
-        case_version: "{{ mas_core_version }}"
-        case_inventory_name: "ibmMasSetup"
+        manifest_name: ibm-mas
+        manifest_version: "{{ mas_core_version }}"
