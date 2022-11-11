@@ -9,19 +9,13 @@ catalog_digest: sha256:012839d2dd801863b5a1f35de3d1e1e39d8e4a3e707f894beee091608
 
 # Dependencies
 # -----------------------------------------------------------------------------
-ae_version: 4.0.9           # Operator version 1.0.9  analytics engine for predict
 appconnect_version: 3.0.0   # Operator version 3.0.0
 common_svcs_version: 1.15.1 # Operator version 3.19.1
-cp4d_version: 2.0.13        # Operator version 4.0.9  cpd platform operator
 db2u_version: 4.0.11        # Operator version 1.1.13
 events_version: 4.2.0       # Operator version 4.2.0
 uds_version: 2.0.8          # Operator version 2.0.8
 sls_version: 3.4.1          # Operator version 3.4.1
 tsm_version: 1.3.0          # Operator version 1.3.0
-wd_version: 4.0.9           # Operator version 4.0.9  watson discovery for assist
-wml_version: 4.0.10         # Operator version 1.1.8  watson studio for predict and hpu
-wsl_version: 2.0.9          # Operator version 2.0.9  watson machine learning for predict
-zen_version: 2.9.0          # Operator version 1.5.4  ibm zen services
 
 # Maximo Application Suite
 # -----------------------------------------------------------------------------
