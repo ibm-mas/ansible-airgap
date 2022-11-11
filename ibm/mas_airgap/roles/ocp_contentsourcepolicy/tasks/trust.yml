@@ -22,7 +22,7 @@
     api_version: config.openshift.io/v1
     kind: Image
     name: cluster
-    apply: true
+    apply: yes
     definition:
       spec:
         additionalTrustedCA:
